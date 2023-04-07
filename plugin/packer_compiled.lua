@@ -317,11 +317,6 @@ _G.packer_plugins = {
     path = "/Users/emericlaberge/.local/share/nvim/site/pack/packer/start/vim-fugitive",
     url = "https://github.com/tpope/vim-fugitive"
   },
-  ["vim-latex-live-preview"] = {
-    loaded = true,
-    path = "/Users/emericlaberge/.local/share/nvim/site/pack/packer/start/vim-latex-live-preview",
-    url = "https://github.com/xuhdev/vim-latex-live-preview"
-  },
   ["vim-maximizer"] = {
     loaded = true,
     path = "/Users/emericlaberge/.local/share/nvim/site/pack/packer/start/vim-maximizer",

@@ -132,12 +132,13 @@ return packer.startup(function(use)
 
   use("folke/zen-mode.nvim")
   use("github/copilot.vim")
-  use("eandrju/cellular-automaton.nvim")
   use("laytan/cloak.nvim")
 
   -- auto closing
   use("windwp/nvim-autopairs") -- autoclose parens, brackets, quotes, etc...
   use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter" }) -- autoclose tags
+
+  use'yamatsum/nvim-cursorline'
 
   -- git integration
   use("lewis6991/gitsigns.nvim") -- show line modifications on left hand side
@@ -177,6 +178,8 @@ use({
   use 'rcarriga/nvim-notify'
   use 'nvim-tree/nvim-web-devicons'
   use {'romgrk/barbar.nvim', requires = 'nvim-web-devicons'}
+  use 'eandrju/cellular-automaton.nvim' 
+
   -- tmux
   use({
     "aserowy/tmux.nvim",
