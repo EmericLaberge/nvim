@@ -1,5 +1,8 @@
 vim.g.vimtex_quickfix_mode = 1 
+vim.g.tex_flavor = 'latex'
 vim.g.vimtex_view_method = 'skim' -- Use Skim as the PDF viewer on macOS
+vim.g.vimtex_view_skim_sync = 1 -- Automatically scroll to the current line in the PDF
+vim.g.vimtex_view_skim_activate = 1 -- Value 1 allows change focus to skim after command `:VimtexView` is given
 vim.g.vimtex_toc_config = {
     mode = 1,
     fold_enable = 0,
