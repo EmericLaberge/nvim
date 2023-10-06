@@ -37,8 +37,7 @@ return packer.startup(function(use)
 
   -- Lua utility libraries
   use("nvim-lua/plenary.nvim")
-
-  -- Notifications and prompts for neovim
+-- Notifications and prompts for neovim
   use("rcarriga/nvim-notify")
   use("VonHeikemen/lsp-zero.nvim")
   use("MunifTanjim/nui.nvim")
@@ -67,9 +66,39 @@ return packer.startup(function(use)
   })
   use("inkarkat/vim-ReplaceWithRegister")
 
-  -- Commenting
-  use("numToStr/Comment.nvim")
 
+  -- Commenting
+  use {
+    'numToStr/Comment.nvim',
+    config = function()
+      require('Comment').setup()
+    end
+  }
+
+  -- Todo Comment
+  use {
+    "folke/todo-comments.nvim",
+    requires = "nvim-lua/plenary.nvim",
+    config = function()
+      require("todo-comments").setup {}
+    end
+  }
+
+  -- gitdiff
+  use "sindrets/diffview.nvim"
+
+  -- git-blame
+  -- use {
+  --   'f-person/git-blame.nvim',
+  --   config = function()
+  --     require('gitblame').setup{
+  --       enable = false,
+  --     }
+  --   end
+  -- }
+
+  -- git sign
+  use "lewis6991/gitsigns.nvim"
   -- File explorer
   -- use("nvim-tree/nvim-tree.lua")
   use 'nvim-tree/nvim-web-devicons'
@@ -122,6 +151,12 @@ return packer.startup(function(use)
   use("nvim-treesitter/nvim-treesitter-context")
   use("lervag/vimtex")
 
+
+-- nvim-dap
+  use 'fussenegger/nvim-dap'
+  use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
+  use 'theHamsta/nvim-dap-virtual-text'
+
   -- Miscellaneous plugins
   use("theprimeagen/harpoon")
   use("theprimeagen/refactoring.nvim")
@@ -133,8 +168,9 @@ return packer.startup(function(use)
   use("windwp/nvim-autopairs")
   use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter" })
   use 'yamatsum/nvim-cursorline'
+  -- indent line
+  use{'lukas-reineke/indent-blankline.nvim'}
   use('xuhdev/vim-latex-live-preview')
-  use("lukas-reineke/indent-blankline.nvim")
   use 'alec-gibson/nvim-tetris'
   use 'kdheepak/lazygit.nvim'
   use("folke/noice.nvim")
@@ -176,6 +212,7 @@ return packer.startup(function(use)
               workspaces = {
                 notes = "~/notes",
               },
+
             },
           },
         },
@@ -189,13 +226,6 @@ return packer.startup(function(use)
     "aserowy/tmux.nvim",
     config = function() return require("tmux").setup() end
   })
-
-
-  use 'mfussenegger/nvim-dap'
-  use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
-  use 'theHamsta/nvim-dap-virtual-text'
-
-
   if packer_bootstrap then
     require("packer").sync()
   end

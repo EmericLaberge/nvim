@@ -41,5 +41,6 @@ dracula.setup({
     -- Nothing = {} -- clear highlight of Nothing
   },
 })
+
 -- Lua:
 vim.cmd[[colorscheme dracula]]
