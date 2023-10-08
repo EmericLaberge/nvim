@@ -37,7 +37,7 @@ return packer.startup(function(use)
 
   -- Lua utility libraries
   use("nvim-lua/plenary.nvim")
--- Notifications and prompts for neovim
+  -- Notifications and prompts for neovim
   use("rcarriga/nvim-notify")
   use("VonHeikemen/lsp-zero.nvim")
   use("MunifTanjim/nui.nvim")
@@ -152,7 +152,7 @@ return packer.startup(function(use)
   use("lervag/vimtex")
 
 
--- nvim-dap
+  -- nvim-dap
   use 'fussenegger/nvim-dap'
   use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
   use 'theHamsta/nvim-dap-virtual-text'
@@ -169,7 +169,11 @@ return packer.startup(function(use)
   use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter" })
   use 'yamatsum/nvim-cursorline'
   -- indent line
-  use{'lukas-reineke/indent-blankline.nvim'}
+  use({
+    'lukas-reineke/indent-blankline.nvim',
+    requires = { 'nvim-treesitter/nvim-treesitter' },
+    require('ibl').setup()
+  })
   use('xuhdev/vim-latex-live-preview')
   use 'alec-gibson/nvim-tetris'
   use 'kdheepak/lazygit.nvim'
