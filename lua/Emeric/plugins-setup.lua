@@ -84,6 +84,9 @@ return packer.startup(function(use)
     end
   }
 
+  -- instant nvim
+  use "jbyuki/instant.nvim"
+
   -- gitdiff
   use "sindrets/diffview.nvim"
 
@@ -152,6 +155,9 @@ return packer.startup(function(use)
   use("lervag/vimtex")
 
 
+  --
+
+
   -- nvim-dap
   use 'fussenegger/nvim-dap'
   use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
@@ -166,8 +172,22 @@ return packer.startup(function(use)
   use("github/copilot.vim")
   use("laytan/cloak.nvim")
   use("windwp/nvim-autopairs")
+
+  -- Haskell plugins
+  use 'neovimhaskell/haskell-vim'
+  use 'ndmitchell/ghcid' -- If you want to use ghcid for automatic builds
+  use({
+    'mrcjkb/haskell-tools.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    },
+    version = '^2', -- Recommended
+    ft = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
+  })
+
   use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter" })
   use 'yamatsum/nvim-cursorline'
+
   -- indent line
   use({
     'lukas-reineke/indent-blankline.nvim',
@@ -203,6 +223,30 @@ return packer.startup(function(use)
       }
     end
   }
+  -- -- This module contains a number of default definitions
+  -- local rainbow_delimiters = require 'rainbow-delimiters'
+  --
+  -- vim.g.rainbow_delimiters = {
+  --     strategy = {
+  --         [''] = rainbow_delimiters.strategy['global'],
+  --         vim = rainbow_delimiters.strategy['local'],
+  --     },
+  --     query = {
+  --         [''] = 'rainbow-delimiters',
+  --         lua = 'rainbow-blocks',
+  --     },
+  --     highlight = {
+  --         'RainbowDelimiterRed',
+  --         'RainbowDelimiterYellow',
+  --         'RainbowDelimiterBlue',
+  --         'RainbowDelimiterOrange',
+  --         'RainbowDelimiterGreen',
+  --         'RainbowDelimiterViolet',
+  --         'RainbowDelimiterCyan',
+  --     },
+  -- }
+  --
+  use("HiPhish/nvim-ts-rainbow2")
   -- neorg for note taking
   use {
     "nvim-neorg/neorg",
