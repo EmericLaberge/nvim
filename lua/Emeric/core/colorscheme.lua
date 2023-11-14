@@ -44,3 +44,4 @@ dracula.setup({
 
 -- Lua:
 vim.cmd[[colorscheme dracula]]
+--vim.cmd[[colorscheme tokyonight]]

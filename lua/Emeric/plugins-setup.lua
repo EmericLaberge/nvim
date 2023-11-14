@@ -89,17 +89,9 @@ return packer.startup(function(use)
 
   -- gitdiff
   use "sindrets/diffview.nvim"
-
-  -- git-blame
-  -- use {
-  --   'f-person/git-blame.nvim',
-  --   config = function()
-  --     require('gitblame').setup{
-  --       enable = false,
-  --     }
-  --   end
-  -- }
-
+  use { 'akinsho/git-conflict.nvim', tag = "*", config = function()
+    require('git-conflict').setup()
+  end }
   -- git sign
   use "lewis6991/gitsigns.nvim"
   -- File explorer
@@ -133,7 +125,9 @@ return packer.startup(function(use)
 
   -- LSP, linting, and formatting
   use("williamboman/mason.nvim")
+  use("jay-babu/mason-nvim-dap.nvim")
   use("williamboman/mason-lspconfig.nvim")
+  use("folke/neodev.nvim")
   use("neovim/nvim-lspconfig")
   use("hrsh7th/cmp-nvim-lsp")
   use("glepnir/lspsaga.nvim")
@@ -141,6 +135,7 @@ return packer.startup(function(use)
   use("onsails/lspkind.nvim")
   use("jose-elias-alvarez/null-ls.nvim")
   use("jayp0521/mason-null-ls.nvim")
+
 
   -- Treesitter
   use({
@@ -159,7 +154,7 @@ return packer.startup(function(use)
 
 
   -- nvim-dap
-  use 'fussenegger/nvim-dap'
+  use 'mfussenegger/nvim-dap'
   use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
   use 'theHamsta/nvim-dap-virtual-text'
 
@@ -168,7 +163,6 @@ return packer.startup(function(use)
   use("theprimeagen/refactoring.nvim")
   use("mbbill/undotree")
   use("tpope/vim-fugitive")
-  use("folke/zen-mode.nvim")
   use("github/copilot.vim")
   use("laytan/cloak.nvim")
   use("windwp/nvim-autopairs")
@@ -192,13 +186,15 @@ return packer.startup(function(use)
   use({
     'lukas-reineke/indent-blankline.nvim',
     requires = { 'nvim-treesitter/nvim-treesitter' },
-    require('ibl').setup()
   })
   use('xuhdev/vim-latex-live-preview')
   use 'alec-gibson/nvim-tetris'
   use 'kdheepak/lazygit.nvim'
   use("folke/noice.nvim")
   use 'eandrju/cellular-automaton.nvim'
+
+  -- JUPYTER NOTEBOOK
+  -- use('luk400/vim-jukit')
   use({
     'phaazon/hop.nvim',
     branch = 'v2',
@@ -207,7 +203,44 @@ return packer.startup(function(use)
     end
   })
   use 'andweeb/presence.nvim'
-  use 'glepnir/dashboard-nvim'
+  use {
+    'nvimdev/dashboard-nvim',
+    event = 'VimEnter',
+    config = function()
+      require('dashboard').setup {
+        theme = 'hyper',
+        config = {
+          week_header = {
+            enable = true,
+          },
+          shortcut = {
+            { desc = '󰊳 Update', group = '@property', action = 'Lazy update', key = 'u' },
+            {
+              icon = ' ',
+              icon_hl = '@variable',
+              desc = 'Files',
+              group = 'Label',
+              action = 'Telescope find_files',
+              key = 'f',
+            },
+            {
+              desc = ' Apps',
+              group = 'DiagnosticHint',
+              action = 'Telescope app',
+              key = 'a',
+            },
+            {
+              desc = ' dotfiles',
+              group = 'Number',
+              action = 'Telescope dotfiles',
+              key = 'd',
+            },
+          },
+        },
+      }
+    end,
+    requires = { 'nvim-tree/nvim-web-devicons' }
+  }
   use 'ThePrimeagen/vim-be-good'
   use {
     "kyazdani42/nvim-tree.lua",
@@ -223,30 +256,7 @@ return packer.startup(function(use)
       }
     end
   }
-  -- -- This module contains a number of default definitions
-  -- local rainbow_delimiters = require 'rainbow-delimiters'
-  --
-  -- vim.g.rainbow_delimiters = {
-  --     strategy = {
-  --         [''] = rainbow_delimiters.strategy['global'],
-  --         vim = rainbow_delimiters.strategy['local'],
-  --     },
-  --     query = {
-  --         [''] = 'rainbow-delimiters',
-  --         lua = 'rainbow-blocks',
-  --     },
-  --     highlight = {
-  --         'RainbowDelimiterRed',
-  --         'RainbowDelimiterYellow',
-  --         'RainbowDelimiterBlue',
-  --         'RainbowDelimiterOrange',
-  --         'RainbowDelimiterGreen',
-  --         'RainbowDelimiterViolet',
-  --         'RainbowDelimiterCyan',
-  --     },
-  -- }
-  --
-  use("HiPhish/nvim-ts-rainbow2")
+
   -- neorg for note taking
   use {
     "nvim-neorg/neorg",
@@ -269,6 +279,13 @@ return packer.startup(function(use)
     run = ":Neorg sync-parsers",
     requires = "nvim-lua/plenary.nvim",
   }
+  use({
+    'norcalli/nvim-colorizer.lua',
+    config = function()
+      require('colorizer').setup()
+    end
+  })
+  use({ 'folke/tokyonight.nvim' })
   -- Tmux
   use({
     "aserowy/tmux.nvim",

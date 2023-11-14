@@ -1,4 +1,4 @@
-require('rose-pine').setup({
+drequire('rose-pine').setup({
     disable_background = true
 })
 
