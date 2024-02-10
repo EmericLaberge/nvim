@@ -1,6 +1,5 @@
 -- set leader key to space
 vim.g.mapleader = " "
-
 local keymap = vim.keymap -- for conciseness
 
 ---------------------
@@ -116,22 +115,13 @@ vim.keymap.set("n", "<leader><leader>", function()
   vim.cmd("so")
 end)
 
-
-vim.g.mapleader = " "
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
-
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
-
-vim.keymap.set("n", "J", "mzJ`z")
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "n", "nzzzv")
-vim.keymap.set("n", "N", "Nzzzv")
-
-vim.keymap.set("n", "<leader>vwm", function()
-  require("vim-with-me").StartVimWithMe()
+vim.keymap.set("n", "<leader>l", function()
+  vim.cmd("lua require('lspsaga.diagnostic').show_line_diagnostics()")
 end)
-vim.keymap.set("n", "<leader>svwm", function()
-  require("vim-with-me").StopVimWithMe()
-end)
+-- Key mapping to toggle lsp_lines
+vim.keymap.set(
+    "n", -- normal mode
+    "<Leader>l", -- replace <Leader>l with your preferred keybinding
+    require("lsp_lines").toggle, -- toggle lsp_lines
+    { desc = "Toggle lsp_lines" }
+)

@@ -9,7 +9,6 @@ local ensure_packer = function()
   end
   return false
 end
-
 local packer_bootstrap = ensure_packer() -- true if packer was just installed
 
 -- autocommand that reloads neovim and installs/updates/removes plugins
@@ -44,14 +43,13 @@ return packer.startup(function(use)
   use("hrsh7th/cmp-nvim-lua")
 
   -- Colorschemes
-  use("bluz71/vim-nightfly-guicolors")
   use 'Mofiqul/dracula.nvim'
 
   -- Tmux and split window navigation
   use("christoomey/vim-tmux-navigator")
 
   -- Window management
-  use("szw/vim-maximizer")
+  -- use("szw/vim-maximizer")
   use("Bekaboo/deadcolumn.nvim")
 
   -- Essential plugins
@@ -74,18 +72,19 @@ return packer.startup(function(use)
       require('Comment').setup()
     end
   }
-
   -- Todo Comment
+  --
   use {
     "folke/todo-comments.nvim",
     requires = "nvim-lua/plenary.nvim",
+
     config = function()
       require("todo-comments").setup {}
     end
   }
 
   -- instant nvim
-  use "jbyuki/instant.nvim"
+  -- use "jbyuki/instant.nvim"
 
   -- gitdiff
   use "sindrets/diffview.nvim"
@@ -106,17 +105,20 @@ return packer.startup(function(use)
   use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
   use({ "nvim-telescope/telescope.nvim", branch = "0.1.x" })
 
+  use("neovim/nvim-lspconfig")
   -- Autocompletion
   use({
     "hrsh7th/nvim-cmp",
     requires = {
-      { "kdheepak/cmp-latex-symbols" },
-    },
+      "hrsh7th/cmp-buffer", "hrsh7th/cmp-nvim-lsp",
+      "kdheepak/cmp-latex-symbols",
+      "quangnguyen30192/cmp-nvim-ultisnips", "hrsh7th/cmp-nvim-lua",
+      "octaltree/cmp-look", "hrsh7th/cmp-path", "hrsh7th/cmp-calc",
+      "f3fora/cmp-spell", "hrsh7th/cmp-cmdline", "hrsh7th/cmp-emoji"
+    }
   })
 
-  use("hrsh7th/cmp-buffer")
-  use("hrsh7th/cmp-path")
-  use("hrsh7th/cmp-cmdline")
+
 
   -- Snippets
   use("L3MON4D3/LuaSnip")
@@ -125,11 +127,9 @@ return packer.startup(function(use)
 
   -- LSP, linting, and formatting
   use("williamboman/mason.nvim")
-  use("jay-babu/mason-nvim-dap.nvim")
+  -- use("jay-babu/mason-nvim-dap.nvim")
   use("williamboman/mason-lspconfig.nvim")
   use("folke/neodev.nvim")
-  use("neovim/nvim-lspconfig")
-  use("hrsh7th/cmp-nvim-lsp")
   use("glepnir/lspsaga.nvim")
   use("jose-elias-alvarez/typescript.nvim")
   use("onsails/lspkind.nvim")
@@ -154,9 +154,9 @@ return packer.startup(function(use)
 
 
   -- nvim-dap
-  use 'mfussenegger/nvim-dap'
-  use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
-  use 'theHamsta/nvim-dap-virtual-text'
+  -- use 'mfussenegger/nvim-dap'
+  -- use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
+  -- use 'theHamsta/nvim-dap-virtual-text'
 
   -- Miscellaneous plugins
   use("theprimeagen/harpoon")
@@ -257,19 +257,27 @@ return packer.startup(function(use)
     end
   }
 
--- which key
-use {
-  "folke/which-key.nvim",
-  config = function()
-    vim.o.timeout = true
-    vim.o.timeoutlen = 300
-    require("which-key").setup {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-    }
-  end
-}
+  -- j
+  use {
+    "folke/which-key.nvim",
+    config = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
+      require("which-key").setup {
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      }
+    end
+  }
+
+  -- lsp lines for rendering diagnostics
+  use({
+    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    config = function()
+      require("lsp_lines").setup()
+    end,
+  })
   -- neorg for note taking
   use {
     "nvim-neorg/neorg",
@@ -297,6 +305,32 @@ use {
     config = function()
       require('colorizer').setup()
     end
+  })
+  use({
+    "epwalsh/obsidian.nvim",
+    tag = "*", -- recommended, use latest release instead of latest commit
+    requires = {
+      -- Required.
+      "nvim-lua/plenary.nvim",
+
+      -- see below for full list of optional dependencies 👇
+    },
+    config = function()
+      require("obsidian").setup({
+        workspaces = {
+          {
+            name = "personal",
+            path = "~/vaults/personal",
+          },
+          {
+            name = "work",
+            path = "~/vaults/work",
+          },
+        },
+
+        -- see below for full list of options 👇
+      })
+    end,
   })
   use({ 'folke/tokyonight.nvim' })
   -- Tmux

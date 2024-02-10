@@ -22,7 +22,6 @@ vim.g.copilot_filetypes = {
 function EnableCopilotForBuffer()
   vim.api.nvim_buf_set_var(0, 'copilot_enabled', true)
 end
-
 -- Function to disable GitHub Copilot for the current buffer
 function DisableCopilotForBuffer()
   vim.api.nvim_buf_set_var(0, 'copilot_enabled', false)
