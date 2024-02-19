@@ -125,3 +125,7 @@ vim.keymap.set(
     require("lsp_lines").toggle, -- toggle lsp_lines
     { desc = "Toggle lsp_lines" }
 )
+
+vim.api.nvim_set_keymap('n', 'fw', ":HopWord<CR>", {noremap = true})
+
+

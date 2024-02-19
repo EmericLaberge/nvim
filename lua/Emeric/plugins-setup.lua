@@ -289,16 +289,14 @@ return packer.startup(function(use)
           ["core.dirman"] = {      -- Manages Neorg workspaces
             config = {
               workspaces = {
-                notes = "~/notes",
-              },
-
-            },
-          },
-        },
+                my_workspace = "~/neorg"
+		}
+	    }
+	  }
+	}
       }
     end,
-    run = ":Neorg sync-parsers",
-    requires = "nvim-lua/plenary.nvim",
+    requires = "nvim-lua/plenary.nvim"
   }
   use({
     'norcalli/nvim-colorizer.lua',
