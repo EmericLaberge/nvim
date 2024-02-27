@@ -1,24 +1,21 @@
 vim.g.vimtex_quickfix_mode = 1
 vim.g.tex_flavor = 'latex'
 vim.g.vimtex_compiler_progname = 'nvr'
-vim.g.vimtex_view_method = 'skim' -- Use Skim as the PDF viewer on macOS
-vim.g.vimtex_view_skim_sync = 1 -- Automatically scroll to the current line in the PDF
-vim.g.vimtex_view_skim_activate = 1 -- Value 1 allows change focus to skim after command `:VimtexView` is given
+vim.g.vimtex_view_method = 'sioyek'
 vim.g.vimtex_toc_config = {
-    mode = 1,
-    fold_enable = 0,
-    hide_line_numbers = 1,
-    resize = 0,
-    refresh_always = 1,
-    show_help = 1,
-    show_numbers = 1,
-    split_pos = 'leftabove',
-    split_width = 30,
-    tocdeth = 3,
-    indent_levels = 1,
-    todo_sorted = 1,
+  mode = 1,
+  fold_enable = 0,
+  hide_line_numbers = 1,
+  resize = 0,
+  refresh_always = 1,
+  show_help = 1,
+  show_numbers = 1,
+  split_pos = 'leftabove',
+  split_width = 30,
+  tocdeth = 3,
+  indent_levels = 1,
+  todo_sorted = 1,
 }
--- vim.g.vimtex_latexmk_options = "-shell-escape -verbose -file-line-error -synctex=1 -interaction=nonstopmode"
 -- vim.g.vimtex_compiler_latexmk = "lualatex"
 -- vim.cmd([[ syntax enable ]])
 -- vim.g.vimtex_compiler_latexmk_engines = {
