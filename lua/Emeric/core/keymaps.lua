@@ -120,12 +120,25 @@ vim.keymap.set("n", "<leader>l", function()
 end)
 -- Key mapping to toggle lsp_lines
 vim.keymap.set(
-    "n", -- normal mode
-    "<Leader>l", -- replace <Leader>l with your preferred keybinding
-    require("lsp_lines").toggle, -- toggle lsp_lines
-    { desc = "Toggle lsp_lines" }
+  "n",                         -- normal mode
+  "<Leader>l",                 -- replace <Leader>l with your preferred keybinding
+  require("lsp_lines").toggle, -- toggle lsp_lines
+  { desc = "Toggle lsp_lines" }
 )
 
-vim.api.nvim_set_keymap('n', 'fw', ":HopWord<CR>", {noremap = true})
+vim.api.nvim_set_keymap('n', 'fw', ":HopWord<CR>", { noremap = true })
+
+
+
+local conceallevel = 0
+vim.keymap.set("n", "<leader>cl", function()
+  print("Conceal level changed ")
+  vim.api.nvim_win_set_option(0, 'conceallevel', conceallevel)
+  if conceallevel == 2 then
+    conceallevel = 0
+  else
+    conceallevel = 2
+  end
+end, { noremap = true }) 
 
 
