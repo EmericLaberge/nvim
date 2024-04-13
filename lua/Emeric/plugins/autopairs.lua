@@ -28,3 +28,7 @@ end
 
 -- make autopairs and completion work together
 cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+
+
+
+

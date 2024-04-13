@@ -11,7 +11,7 @@ local ensure_packer = function()
 end
 local packer_bootstrap = ensure_packer() -- true if packer was just installed
 
--- autocommand that reloads neovim and installs/updates/removes plugins
+-- autocommand that reloads neovim and installs/updates/removes plugins that can
 -- when file is saved
 vim.cmd([[
   augroup packer_user_config
@@ -48,7 +48,7 @@ return packer.startup(function(use)
   use 'Mofiqul/dracula.nvim'
 
   -- Tmux and split window navigation
-  use("christoomey/vim-tmux-navigator")
+  -- use("christoomey/vim-tmux-navigator")
 
   -- Window management
   -- use("szw/vim-maximizer")
@@ -114,7 +114,7 @@ return packer.startup(function(use)
     requires = {
       "hrsh7th/cmp-buffer", "hrsh7th/cmp-nvim-lsp",
       "kdheepak/cmp-latex-symbols",
-      "quangnguyen30192/cmp-nvim-ultisnips", "hrsh7th/cmp-nvim-lua",
+      "hrsh7th/cmp-nvim-lua",
       "octaltree/cmp-look", "hrsh7th/cmp-path", "hrsh7th/cmp-calc",
       "f3fora/cmp-spell", "hrsh7th/cmp-cmdline", "hrsh7th/cmp-emoji"
     }
@@ -159,11 +159,10 @@ return packer.startup(function(use)
   -- use 'theHamsta/nvim-dap-virtual-text'
 
   -- Miscellaneous plugins
-  -- use("theprimeagen/harpoon")
-  -- use("theprimeagen/refactoring.nvim")
+  use("theprimeagen/harpoon")
+  use("theprimeagen/refactoring.nvim")
   use("mbbill/undotree")
   use("tpope/vim-fugitive")
-  use("github/copilot.vim")
   use("laytan/cloak.nvim")
   use("windwp/nvim-autopairs")
   --
@@ -265,6 +264,8 @@ return packer.startup(function(use)
       require('colorizer').setup()
     end
   })
+
+  use('TabbyML/vim-tabby');
   use({
     "epwalsh/obsidian.nvim",
     tag = "*", -- recommended, use latest release instead of latest commit
