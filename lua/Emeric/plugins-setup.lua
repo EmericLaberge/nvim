@@ -250,23 +250,8 @@ return packer.startup(function(use)
   -- }
   use({
     "crnvl96/lazydocker.nvim",
-  -- neorg for note taking
-  use {
-    "nvim-neorg/neorg",
     config = function()
-      require('neorg').setup {
-        load = {
-          ["core.defaults"] = {},  -- Loads default behaviour
-          ["core.concealer"] = {}, -- Adds pretty icons to your documents
-          ["core.dirman"] = {      -- Manages Neorg workspaces
-            config = {
-              workspaces = {
-                my_workspace = "~/neorg"
-		}
-	    }
-	  }
-	}
-      }
+      require("lazydocker").setup()
     end,
     requires = {
       "MunifTanjim/nui.nvim",
