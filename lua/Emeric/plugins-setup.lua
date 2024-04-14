@@ -292,6 +292,8 @@ return packer.startup(function(use)
     -- })
     -- end,
   })
+
+  use('github/copilot.vim')
   -- Tmux
   use({
     "aserowy/tmux.nvim",
