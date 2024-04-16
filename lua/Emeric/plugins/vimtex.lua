@@ -2,6 +2,12 @@ vim.g.vimtex_quickfix_mode = 0
 vim.g.tex_flavor = 'latex'
 vim.g.vimtex_compiler_progname = 'nvr'
 vim.g.vimtex_view_method = 'sioyek'
+
+-- Set the color of concealed text to #50f97b aka the same as 
+-- Dracula
+vim.api.nvim_set_hl(0, 'Conceal', { fg = '#50f97b',bg = 'none' })
+
+
 vim.g.vimtex_toc_config = {
   mode = 1,
   fold_enable = 0,
@@ -16,12 +22,4 @@ vim.g.vimtex_toc_config = {
   indent_levels = 1,
   todo_sorted = 1,
 }
--- vim.g.vimtex_compiler_latexmk = "lualatex"
--- vim.cmd([[ syntax enable ]])
--- vim.g.vimtex_compiler_latexmk_engines = {
--- 	_        = '-lualatex',
--- 	pdflatex = '-pdf',
--- 	dvipdfex = '-pdfdvi',
--- 	lualatex = '-lualatex',
--- 	xelatex  = '-xelatex'
--- }
+
