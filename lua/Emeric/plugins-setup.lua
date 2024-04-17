@@ -139,6 +139,10 @@ return packer.startup(function(use)
   use("jayp0521/mason-null-ls.nvim")
 
 
+  -- DAP plugins
+  use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } }
+  use("theHamsta/nvim-dap-virtual-text")
+
   -- Treesitter
   use({
     "nvim-treesitter/nvim-treesitter",
@@ -294,6 +298,8 @@ return packer.startup(function(use)
   })
 
   use('github/copilot.vim')
+  -- gen.nvim
+  use("David-Kunz/gen.nvim")
   -- Tmux
   use({
     "aserowy/tmux.nvim",
