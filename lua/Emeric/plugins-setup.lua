@@ -297,6 +297,9 @@ return packer.startup(function(use)
     -- end,
   })
 
+  -- Mason 
+  use("williamboman/mason.nvim")
+
   use('github/copilot.vim')
   -- gen.nvim
   use("David-Kunz/gen.nvim")
