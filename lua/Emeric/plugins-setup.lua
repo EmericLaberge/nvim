@@ -3,8 +3,7 @@ local ensure_packer = function()
   local fn = vim.fn
   local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
   if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
-    vim.cmd([[packadd packer.nvim]])
+    fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path }) vim.cmd([[packadd packer.nvim]])
     return true
   end
   return false
@@ -129,7 +128,7 @@ return packer.startup(function(use)
 
   -- LSP, linting, and formatting
   use("williamboman/mason.nvim")
-  -- use("jay-babu/mason-nvim-dap.nvim")
+  use("jay-babu/mason-nvim-dap.nvim")
   use("williamboman/mason-lspconfig.nvim")
   use("folke/neodev.nvim")
   use("glepnir/lspsaga.nvim")
@@ -141,6 +140,8 @@ return packer.startup(function(use)
 
   -- DAP plugins
   use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } }
+
+  use {"mfussenegger/nvim-dap-python", requires = { "mfussenegger/nvim-dap" }}
   use("theHamsta/nvim-dap-virtual-text")
 
   -- Treesitter
