@@ -1,10 +1,10 @@
-require'nvim-treesitter.configs'.setup {
+require 'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all"
   ignore_install = { "help" }, -- List of parsers to ignore installing
-  ensure_installed = { "help", "javascript", "typescript", "c", "lua", "rust", "python", "json", "html", "css", "java","bash","haskell"},
+  ensure_installed = { "help", "javascript", "typescript", "c", "lua", "rust", "python", "json", "html", "css", "java", "bash", "haskell" },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = false,
+  sync_install = true,
 
   -- Automatically install missing parsers when entering buffer
   -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
@@ -18,7 +18,7 @@ require'nvim-treesitter.configs'.setup {
   -- },
   indent = {
     enable = true,
-    disable = {"yaml"},
+    disable = { "yaml" },
   },
   highlight = {
     -- `false` will disable the whole extension
@@ -28,7 +28,6 @@ require'nvim-treesitter.configs'.setup {
     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
     -- Using this option may slow down your editor, and you may see some duplicate highlights.
     -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = {"latex","markdown"},
+    additional_vim_regex_highlighting = { "latex", "markdown" },
   },
 }
-

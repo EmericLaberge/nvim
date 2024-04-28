@@ -29,5 +29,5 @@ function DisableCopilotForBuffer()
 end
 
 -- Set up mappings to enable and disable Copilot for the current buffer
-vim.api.nvim_set_keymap('n', '<Leader>ce', '<cmd>lua EnableCopilotForBuffer()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<Leader>cd', '<cmd>lua DisableCopilotForBuffer()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>ce', '<cmd>lua EnableCopilotForBuffer()<CR>', { noremap = true, silent = true, desc = "Enable Copilot"})
+vim.api.nvim_set_keymap('n', '<Leader>cd', '<cmd>lua DisableCopilotForBuffer()<CR>', { noremap = true, silent = true, desc = "Disable Copilot"})

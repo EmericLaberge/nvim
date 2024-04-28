@@ -303,7 +303,18 @@ return packer.startup(function(use)
 
   use('github/copilot.vim')
   -- gen.nvim
-  use("David-Kunz/gen.nvim")
+  use ({'David-Kunz/gen.nvim', config = function()
+  require('gen').setup({
+    model = 'llama3', -- The model you want to use.
+    show_prompt = false, -- Shows the prompt submitted to Ollama.
+    show_model = false, -- Displays which model you are using at the beginning of your chat session.
+  })
+  end
+  })
+  
+    
+    
+    
   -- Tmux
   use({
     "aserowy/tmux.nvim",
