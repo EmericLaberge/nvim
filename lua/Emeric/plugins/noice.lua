@@ -15,4 +15,20 @@ require("noice").setup({
     inc_rename = false, -- enables an input dialog for inc-rename.nvim
     lsp_doc_border = false, -- add a border to hover docs and signature help
   },
+  hover = {
+    -- To prevent the nvim notify "no information available" message 
+    silent = true,
+  },
+  routes = {
+        {
+          filter = {
+            event = "notify",
+            find = "No information available",
+          },
+          opts = {
+            skip = true,
+          },
+        },
+      },
 })
+
