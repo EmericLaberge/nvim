@@ -3,7 +3,8 @@ local ensure_packer = function()
   local fn = vim.fn
   local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
   if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path }) vim.cmd([[packadd packer.nvim]])
+    fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
+    vim.cmd([[packadd packer.nvim]])
     return true
   end
   return false
@@ -141,7 +142,7 @@ return packer.startup(function(use)
   -- DAP plugins
   use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } }
 
-  use {"mfussenegger/nvim-dap-python", requires = { "mfussenegger/nvim-dap" }}
+  use { "mfussenegger/nvim-dap-python", requires = { "mfussenegger/nvim-dap" } }
   use("theHamsta/nvim-dap-virtual-text")
 
   -- Treesitter
@@ -301,22 +302,35 @@ return packer.startup(function(use)
 
   use('github/copilot.vim')
   -- gen.nvim
-  use ({'David-Kunz/gen.nvim', config = function()
-  require('gen').setup({
-    model = 'llama3', -- The model you want to use.
-    show_prompt = false, -- Shows the prompt submitted to Ollama.
-    show_model = false, -- Displays which model you are using at the beginning of your chat session.
+  use({
+    'David-Kunz/gen.nvim',
+    config = function()
+      require('gen').setup({
+        model = 'llama3', -- The model you want to use.
+        show_prompt = false, -- Shows the prompt submitted to Ollama.
+        show_model = false, -- Displays which model you are using at the beginning of your chat session.
+      })
+    end
   })
-  end
-  })
-  
-    
-    
-    
   -- Tmux
   use({
     "aserowy/tmux.nvim",
     config = function() return require("tmux").setup() end
+  })
+
+  use('folke/tokyonight.nvim')
+
+  use({
+    "utilyre/barbecue.nvim",
+    tag = "*",
+    requires = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons", -- optional dependency
+    },
+    after = "nvim-web-devicons",   -- keep this if you're using NvChad
+    config = function()
+      require("barbecue").setup()
+    end,
   })
   if packer_bootstrap then
     require("packer").sync()
