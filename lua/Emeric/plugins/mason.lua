@@ -1,4 +1,4 @@
- -- Mason setup
+-- Mason setup
 require("mason").setup()
 local status_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
 if not status_ok then
@@ -18,7 +18,7 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  local bufopts = { noremap = true, silent = true, buffer = bufnr }
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
@@ -33,18 +33,15 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
 end
+  vim.keymap.set('n', '<space>f', vim.lsp.buf.format, bufopts)
 mason_lspconfig.setup_handlers {
-    -- This is a default handler that will be called for each installed server (also for new servers that are installed during a session)
-  function (server_name)
+  -- This is a default handler that will be called for each installed server (also for new servers that are installed during a session)
+  function(server_name)
     lspconfig[server_name].setup {
       on_attach = on_attach,
       flags = lsp_flags,
     }
   end
 
- }
-
-
-
+}
