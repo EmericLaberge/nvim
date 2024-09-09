@@ -47,11 +47,8 @@ return packer.startup(function(use)
   -- Colorschemes
   use 'Mofiqul/dracula.nvim'
 
-  -- Tmux and split window navigation
-  -- use("christoomey/vim-tmux-navigator")
 
   -- Window management
-  -- use("szw/vim-maximizer")
   use("Bekaboo/deadcolumn.nvim")
 
   -- Essential plugins
@@ -306,12 +303,13 @@ return packer.startup(function(use)
     'David-Kunz/gen.nvim',
     config = function()
       require('gen').setup({
-        model = 'llama3', -- The model you want to use.
+        model = 'llama3',    -- The model you want to use.
         show_prompt = false, -- Shows the prompt submitted to Ollama.
-        show_model = false, -- Displays which model you are using at the beginning of your chat session.
+        show_model = false,  -- Displays which model you are using at the beginning of your chat session.
       })
     end
   })
+
   -- Tmux
   use({
     "aserowy/tmux.nvim",
@@ -320,18 +318,6 @@ return packer.startup(function(use)
 
   use('folke/tokyonight.nvim')
 
-  use({
-    "utilyre/barbecue.nvim",
-    tag = "*",
-    requires = {
-      "SmiteshP/nvim-navic",
-      "nvim-tree/nvim-web-devicons", -- optional dependency
-    },
-    after = "nvim-web-devicons",   -- keep this if you're using NvChad
-    config = function()
-      require("barbecue").setup()
-    end,
-  })
   if packer_bootstrap then
     require("packer").sync()
   end
