@@ -39,7 +39,7 @@ return packer.startup(function(use)
   -- Lua utility libraries
   use("nvim-lua/plenary.nvim")
   -- Notifications and prompts for neovim
-  use("rcarriga/nvim-notify")
+  -- use("rcarriga/nvim-notify")
   use("VonHeikemen/lsp-zero.nvim")
   use("MunifTanjim/nui.nvim")
   use("hrsh7th/cmp-nvim-lua")
@@ -97,7 +97,15 @@ return packer.startup(function(use)
   use "lewis6991/gitsigns.nvim"
   -- File explorer
   -- use("nvim-tree/nvim-tree.lua")
-  use 'nvim-tree/nvim-web-devicons'
+  use {
+    'kyazdani42/nvim-web-devicons',
+    config = function()
+      require('nvim-web-devicons').setup {
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+      }
+    end
+  }
   use { 'romgrk/barbar.nvim', requires = 'nvim-web-devicons' }
 
   -- Statusline
@@ -306,9 +314,9 @@ return packer.startup(function(use)
     'David-Kunz/gen.nvim',
     config = function()
       require('gen').setup({
-        model = 'llama3', -- The model you want to use.
+        model = 'llama3',    -- The model you want to use.
         show_prompt = false, -- Shows the prompt submitted to Ollama.
-        show_model = false, -- Displays which model you are using at the beginning of your chat session.
+        show_model = false,  -- Displays which model you are using at the beginning of your chat session.
       })
     end
   })
@@ -320,6 +328,25 @@ return packer.startup(function(use)
 
   use('folke/tokyonight.nvim')
 
+  use {
+    "aznhe21/actions-preview.nvim",
+    config = function()
+      vim.keymap.set({ "v", "n" }, "<space>ca", require("actions-preview").code_actions,
+        { noremap = true, silent = true, desc = "Code Actions" })
+    end,
+  }
+  use {
+    "folke/trouble.nvim",
+    requires = "kyazdani42/nvim-web-devicons",
+    config = function()
+      require("trouble").setup {
+        icons = true, -- enable icons
+      }
+    end
+  }
+
+
+  use { 'stevearc/dressing.nvim' }
   use({
     "utilyre/barbecue.nvim",
     tag = "*",
@@ -327,7 +354,7 @@ return packer.startup(function(use)
       "SmiteshP/nvim-navic",
       "nvim-tree/nvim-web-devicons", -- optional dependency
     },
-    after = "nvim-web-devicons",   -- keep this if you're using NvChad
+    after = "nvim-web-devicons",     -- keep this if you're using NvChad
     config = function()
       require("barbecue").setup()
     end,
