@@ -1,0 +1,1469 @@
+
+--- autopairs.lua ---
+-- import nvim-autopairs safely
+local autopairs_setup, autopairs = pcall(require, "nvim-autopairs")
+if not autopairs_setup then
+  return
+end
+
+-- configure autopairs
+autopairs.setup({
+  check_ts = true, -- enable treesitter
+  ts_config = {
+    lua = { "string" }, -- don't add pairs in lua string treesitter nodes
+    javascript = { "template_string" }, -- don't add pairs in javscript template_string treesitter nodes
+    java = false, -- don't check treesitter on java
+  },
+})
+
+-- import nvim-autopairs completion functionality safely
+local cmp_autopairs_setup, cmp_autopairs = pcall(require, "nvim-autopairs.completion.cmp")
+if not cmp_autopairs_setup then
+  return
+end
+
+-- import nvim-cmp plugin safely (completions plugin)
+local cmp_setup, cmp = pcall(require, "cmp")
+if not cmp_setup then
+  return
+end
+
+-- make autopairs and completion work together
+cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+
+
+
+
+
+
+--- barbar.lua ---
+local map = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
+
+-- Move to previous/next
+-- map('n', '<A-,>', '<Cmd>BufferPrevious<CR>', opts)
+-- map('n', '<A-.>', '<Cmd>BufferNext<CR>', opts)
+map('n', '<A-;>', '<Cmd>BufferPrevious<CR>', opts)
+map('n', '<A-\'>', '<Cmd>BufferNext<CR>', opts)
+-- Re-order to previous/next
+map('n', '<A-,>', '<Cmd>BufferMovePrevious<CR>', opts)
+map('n', '<A-.>', '<Cmd>BufferMoveNext<CR>', opts)
+-- Goto buffer in position...
+map('n', '<A-1>', '<Cmd>BufferGoto 1<CR>', opts)
+map('n', '<A-2>', '<Cmd>BufferGoto 2<CR>', opts)
+map('n', '<A-3>', '<Cmd>BufferGoto 3<CR>', opts)
+map('n', '<A-4>', '<Cmd>BufferGoto 4<CR>', opts)
+map('n', '<A-5>', '<Cmd>BufferGoto 5<CR>', opts)
+map('n', '<A-6>', '<Cmd>BufferGoto 6<CR>', opts)
+map('n', '<A-7>', '<Cmd>BufferGoto 7<CR>', opts)
+map('n', '<A-8>', '<Cmd>BufferGoto 8<CR>', opts)
+map('n', '<A-9>', '<Cmd>BufferGoto 9<CR>', opts)
+map('n', '<A-0>', '<Cmd>BufferLast<CR>', opts)
+-- Pin/unpin buffer
+map('n', '<A-p>', '<Cmd>BufferPin<CR>', opts)
+-- Close buffer
+map('n', '<A-c>', '<Cmd>BufferClose<CR>', opts)
+-- Wipeout buffer
+--                 :BufferWipeout
+-- Close commands
+--                 :BufferCloseAllButCurrent
+--                 :BufferCloseAllButPinned
+--                 :BufferCloseAllButCurrentOrPinned
+--                 :BufferCloseBuffersLeft
+--                 :BufferCloseBuffersRight
+-- Magic buffer-picking mode
+map('n', '<C-p>', '<Cmd>BufferPick<CR>', opts)
+-- Sort automatically by...
+map('n', '<Space>bb', '<Cmd>BufferOrderByBufferNumber<CR>', opts)
+map('n', '<Space>bd', '<Cmd>BufferOrderByDirectory<CR>', opts)
+map('n', '<Space>bl', '<Cmd>BufferOrderByLanguage<CR>', opts)
+map('n', '<Space>bw', '<Cmd>BufferOrderByWindowNumber<CR>', opts)
+
+-- Other:
+-- :BarbarEnable - enables barbar (enabled by default)
+-- :BarbarDisable - very bad command, should never be used
+
+
+--- cloak.lua ---
+require("cloak").setup({
+  enabled = true,
+  cloak_character = "*",
+  -- The applied highlight group (colors) on the cloaking, see `:h highlight`.
+  highlight_group = "Comment",
+  patterns = {
+    {
+      -- Match any file starting with ".env".
+      -- This can be a table to match multiple file patterns.
+      file_pattern = {
+          ".env*",
+          "wrangler.toml",
+          ".dev.vars",
+      },
+      -- Match an equals sign and any character after it.
+      -- This can also be a table of patterns to cloak,
+      -- example: cloak_pattern = { ":.+", "-.+" } for yaml files.
+      cloak_pattern = "=.+"
+    },
+  },
+})
+
+
+
+
+--- colors.lua ---
+drequire('rose-pine').setup({
+    disable_background = true
+})
+
+function ColorMyPencils(color) 
+	color = color or "rose-pine"
+	vim.cmd.colorscheme(color)
+
+	vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+end
+
+ColorMyPencils()
+
+
+--- comment.lua ---
+-- import comment plugin safely
+local setup, comment = pcall(require, "Comment")
+if not setup then
+  return
+end
+
+-- enable comment
+comment.setup()
+
+
+--- copilot.lua ---
+vim.g.copilot_filetypes = {
+  --[[['java'] = false,
+  ['python'] = false,
+  ['python3'] = false,
+  ['python2'] = false,
+  ['javascript'] = false,
+  ['javascriptreact'] = false,
+  ['typescript'] = false,
+  ['typescriptreact'] = false,
+  ['c'] = false,
+  ['cpp'] = false,
+  ['c++'] = false,
+  ['c#'] = false,
+  ['go'] = false,
+  ['rust'] = false,
+  ['julia'] = false,
+  ]]--
+  ['*'] = false,
+}
+-- Set up mappings to enable and disable Copilot
+-- Function to enable GitHub Copilot for the current buffer
+function EnableCopilotForBuffer()
+  vim.api.nvim_buf_set_var(0, 'copilot_enabled', true)
+end
+
+-- Function to disable GitHub Copilot for the current buffer
+function DisableCopilotForBuffer()
+  vim.api.nvim_buf_set_var(0, 'copilot_enabled', false)
+end
+
+-- Set up mappings to enable and disable Copilot for the current buffer
+vim.api.nvim_set_keymap('n', '<Leader>ce', '<cmd>lua EnableCopilotForBuffer()<CR>', { noremap = true, silent = true, desc = "Enable Copilot"})
+vim.api.nvim_set_keymap('n', '<Leader>cd', '<cmd>lua DisableCopilotForBuffer()<CR>', { noremap = true, silent = true, desc = "Disable Copilot"})
+
+
+--- dap.lua ---
+		local dap = require('dap')
+		local dapui = require('dapui')
+
+		dap.listeners.after.event_initialized['dapui_config'] = function()
+			dapui.open() end
+		dap.listeners.before.event_terminated['dapui_config'] = function()
+			dapui.close()
+		end
+		dap.listeners.before.event_exited['dapui_config'] = function()
+			dapui.close()
+		end
+
+		dapui.setup({
+			floating = {
+				border = 'rounded',
+			},
+		})
+
+    vim.keymap.set('n','<leader>dc', function()
+      dap.continue()
+    end, { desc = 'Continue' })
+
+    vim.keymap.set('n','<leader>ds', function()
+      dap.step_over()
+    end, { desc = 'Step Over' })
+
+    vim.keymap.set('n','<leader>di', function()
+      dap.step_into()
+    end, { desc = 'Step Into' })
+
+    vim.keymap.set('n','<leader>do', function()
+      dap.step_out()
+    end, { desc = 'Step Out' })
+
+    vim.keymap.set('n','<leader>dt', function()
+      dap.toggle_breakpoint()
+    end, { desc = 'Toggle Breakpoint' })
+
+    vim.keymap.set('n','<leader>dr', function()
+      dap.repl.open()
+    end, { desc = 'Open REPL' })
+
+    vim.keymap.set('n','<leader>dl', function()
+      dap.run_last()
+    end, { desc = 'Run Last' })
+
+
+    vim.keymap.set('n','<leader>db', function()
+      dap.toggle_breakpoint()
+    end, { desc = 'Toggle Breakpoint' })
+
+    vim.keymap.set('n','<leader>dB', function()
+      dap.set_breakpoint(vim.fn.input('Breakpoint condition: '))
+    end, { desc = 'Set Breakpoint' })
+      
+
+		-- Key mappings
+		vim.keymap.set('n', '<leader>du', function()
+			dapui.toggle()
+		end, { desc = 'Dap UI' })
+
+		vim.keymap.set({ 'n', 'v' }, '<leader>de', function()
+			dapui.eval()
+		end, { desc = 'Eval' })
+
+
+--- dapui.lua ---
+		--
+		--
+		local dap = require('dap')
+		local dapui = require('dapui')
+
+		dap.listeners.after.event_initialized['dapui_config'] = function() 
+      dapui.open()
+    end
+		dap.listeners.before.event_terminated['dapui_config'] = function() 
+      dapui.close()
+    end
+		dap.listeners.before.event_exited['dapui_config'] = function()
+      dapui.close
+    end
+
+		dapui.setup({
+			floating = {
+				border = 'rounded',
+			},
+		})
+		--
+		-- Key mappings
+		vim.keymap.set('n', '<leader>du', function()
+			dapui.toggle()
+		end, { desc = 'Dap UI' })
+
+		vim.keymap.set({ 'n', 'v' }, '<leader>de', function()
+			dapui.eval()
+		end, { desc = 'Eval' })
+
+
+--- dashboard-nvim.lua ---
+-- dashboard-config.lua
+vim.g.dashboard_default_executive = 'telescope'
+
+vim.g.dashboard_custom_header = {
+  'Hello, Emeric!'
+}
+
+vim.g.dashboard_custom_section = {
+  a = { description = { '  Find File          ' }, command = 'Telescope find_files' },
+  b = { description = { '  Recently Used Files' }, command = 'Telescope oldfiles' },
+  c = { description = { '  Load Last Session  ' }, command = 'SessionLoad' },
+  d = { description = { '  Find Word          ' }, command = 'Telescope live_grep' },
+  e = { description = { '  Marks              ' }, command = 'Telescope marks' }
+}
+
+vim.cmd([[
+  let g:dashboard_custom_footer = ['Neovim loaded for Emeric!']
+]])
+
+
+--- formatter.lua ---
+
+
+--- fugitive.lua ---
+vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
+
+local ThePrimeagen_Fugitive = vim.api.nvim_create_augroup("ThePrimeagen_Fugitive", {})
+
+local autocmd = vim.api.nvim_create_autocmd
+autocmd("BufWinEnter", {
+    group = ThePrimeagen_Fugitive,
+    pattern = "*",
+    callback = function()
+        if vim.bo.ft ~= "fugitive" then
+            return
+        end
+
+        local bufnr = vim.api.nvim_get_current_buf()
+        local opts = {buffer = bufnr, remap = false}
+        vim.keymap.set("n", "<leader>p", function()
+            vim.cmd.Git('push')
+        end, opts)
+
+        -- rebase always
+        vim.keymap.set("n", "<leader>P", function()
+            vim.cmd.Git({'pull',  '--rebase'})
+        end, opts)
+
+        -- NOTE: It allows me to easily set the branch i am pushing and any tracking
+        -- needed if i did not set the branch up correctly
+        vim.keymap.set("n", "<leader>t", ":Git push -u origin ", opts);
+    end,
+})
+
+
+--- gen_nvim.lua ---
+vim.keymap.set({ 'n', 'v' }, '<leader>]', ':Gen<CR>')
+require('gen').setup {
+    opts = {
+        model = "llama2-uncensored", -- The model you want to use.
+        host = "localhost", -- The host running the Ollama service.
+        port = "11434", -- The port on which the Ollama service is listening.
+        quit_map = "q", -- set keymap for close the response window
+        retry_map = "<c-r>", -- set keymap to re-send the current prompt
+        init = function(options) pcall(io.popen, "ollama serve > /dev/null 2>&1 &") end,
+        -- Function to initialize Ollama
+        command = function(options)
+            local body = {model = options.model, stream = true}
+            return "curl --silent --no-buffer -X POST http://" .. options.host .. ":" .. options.port .. "/api/chat -d $body"
+        end,
+        -- The command for the Ollama service. You can use placeholders $prompt, $model and $body (shellescaped).
+        -- This can also be a command string.
+        -- The executed command must return a JSON object with { response, context }
+        -- (context property is optional).
+        -- list_models = '<omitted lua function>', -- Retrieves a list of model names
+        display_mode = "split", -- The display mode. Can be "float" or "split".
+        show_prompt = false, -- Shows the prompt submitted to Ollama.
+        show_model = true, -- Displays which model you are using at the beginning of your chat session.
+        no_auto_close = false, -- Never closes the window automatically.
+        debug = false -- Prints errors and the command which is run.
+    }
+}
+
+
+--- gitsigns.lua ---
+-- import gitsigns plugin safely
+local setup, gitsigns = pcall(require, "gitsigns")
+if not setup then
+  return
+end
+
+-- configure/enable gitsigns
+gitsigns.setup()
+
+
+--- harpoon.lua ---
+local mark = require("harpoon.mark")
+local ui = require("harpoon.ui")
+
+vim.keymap.set("n", "<leader>a", mark.add_file)
+vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
+
+vim.keymap.set("n", "<C-h>", function() ui.nav_file(1) end)
+vim.keymap.set("n", "<C-t>", function() ui.nav_file(2) end)
+vim.keymap.set("n", "<C-n>", function() ui.nav_file(3) end)
+vim.keymap.set("n", "<C-s>", function() ui.nav_file(4) end)
+
+
+
+
+--- hop.lua ---
+-- place this in one of your configuration file(s)
+local hop = require('hop')
+local directions = require('hop.hint').HintDirection
+vim.keymap.set('', 'f', function()
+  hop.hint_char1({ direction = directions.AFTER_CURSOR, current_line_only = true })
+end, { remap = true })
+vim.keymap.set('', 'F', function()
+  hop.hint_char1({ direction = directions.BEFORE_CURSOR, current_line_only = true })
+end, { remap = true })
+
+
+
+--- indent_blankline.lua ---
+-- local highlight = {
+--     "RainbowRed",
+--     "RainbowYellow",
+--     "RainbowBlue",
+--     "RainbowOrange",
+--     "RainbowGreen",
+--     "RainbowViolet",
+--     "RainbowCyan",
+-- }
+--
+-- local hooks = require "ibl.hooks"
+-- -- create the highlight groups in the highlight setup hook, so they are reset
+-- -- every time the colorscheme changes
+-- hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+--     vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
+--     vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
+--     vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
+--     vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
+--     vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
+--     vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
+--     vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
+-- end)
+--
+-- require("ibl").setup { indent = { highlight = highlight }, scope = { highlight = highlight } }
+--
+local highlight = {
+    "RainbowRed",
+    "RainbowYellow",
+    "RainbowBlue",
+    "RainbowOrange",
+    "RainbowGreen",
+    "RainbowViolet",
+    "RainbowCyan",
+}
+local hooks = require "ibl.hooks"
+-- create the highlight groups in the highlight setup hook, so they are reset
+-- every time the colorscheme changes
+hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+    vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
+    vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
+    vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
+    vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
+    vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
+    vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
+    vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
+end)
+
+vim.g.rainbow_delimiters = { highlight = highlight }
+vim.g.indent_blankline_buftype_exclude = { "terminal" }
+require("ibl").setup { scope = { highlight = highlight } }
+
+hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
+
+
+--- instant.lua ---
+
+-- import nvim-autopairs safely
+local autopairs_setup, autopairs = pcall(require, "nvim-autopairs")
+if not autopairs_setup then
+  return
+end
+
+-- configure autopairs
+autopairs.setup({
+  check_ts = true, -- enable treesitter
+  ts_config = {
+    lua = { "string" }, -- don't add pairs in lua string treesitter nodes
+    javascript = { "template_string" }, -- don't add pairs in javscript template_string treesitter nodes
+    java = false, -- don't check treesitter on java
+  },
+})
+
+-- import nvim-autopairs completion functionality safely
+local cmp_autopairs_setup, cmp_autopairs = pcall(require, "nvim-autopairs.completion.cmp")
+if not cmp_autopairs_setup then
+  return
+end
+
+-- import nvim-cmp plugin safely (completions plugin)
+local cmp_setup, cmp = pcall(require, "cmp")
+if not cmp_setup then
+  return
+end
+
+-- make autopairs and completion work together
+cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+
+
+--- lazydocker.lua ---
+-- Set leader l d to open lazydocker 
+--
+vim.api.nvim_set_keymap('n', '<leader>ld', ':LazyDocker<CR>', { noremap = true, silent = true })
+
+
+--- log.py ---
+import os
+
+def log_all_files(directory, log_file_path):
+    with open(log_file_path, 'w') as log_file:
+        for file_name in sorted(os.listdir(directory)):
+            file_path = os.path.join(directory, file_name)
+            if os.path.isfile(file_path):
+                log_file.write(f"\n--- {file_name} ---\n")
+                with open(file_path, 'r') as current_file:
+                    log_file.write(current_file.read())
+                    log_file.write("\n")
+
+# Example usage:
+log_all_files('.', 'log.txt')
+
+
+
+--- log.txt ---
+
+--- autopairs.lua ---
+-- import nvim-autopairs safely
+local autopairs_setup, autopairs = pcall(require, "nvim-autopairs")
+if not autopairs_setup then
+  return
+end
+
+-- configure autopairs
+autopairs.setup({
+  check_ts = true, -- enable treesitter
+  ts_config = {
+    lua = { "string" }, -- don't add pairs in lua string treesitter nodes
+    javascript = { "template_string" }, -- don't add pairs in javscript template_string treesitter nodes
+    java = false, -- don't check treesitter on java
+  },
+})
+
+-- import nvim-autopairs completion functionality safely
+local cmp_autopairs_setup, cmp_autopairs = pcall(require, "nvim-autopairs.completion.cmp")
+if not cmp_autopairs_setup then
+  return
+end
+
+-- import nvim-cmp plugin safely (completions plugin)
+local cmp_setup, cmp = pcall(require, "cmp")
+if not cmp_setup then
+  return
+end
+
+-- make autopairs and completion work together
+cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+
+
+
+
+
+
+--- barbar.lua ---
+local map = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
+
+-- Move to previous/next
+-- map('n', '<A-,>', '<Cmd>BufferPrevious<CR>', opts)
+-- map('n', '<A-.>', '<Cmd>BufferNext<CR>', opts)
+map('n', '<A-;>', '<Cmd>BufferPrevious<CR>', opts)
+map('n', '<A-\'>', '<Cmd>BufferNext<CR>', opts)
+-- Re-order to previous/next
+map('n', '<A-,>', '<Cmd>BufferMovePrevious<CR>', opts)
+map('n', '<A-.>', '<Cmd>BufferMoveNext<CR>', opts)
+-- Goto buffer in position...
+map('n', '<A-1>', '<Cmd>BufferGoto 1<CR>', opts)
+map('n', '<A-2>', '<Cmd>BufferGoto 2<CR>', opts)
+map('n', '<A-3>', '<Cmd>BufferGoto 3<CR>', opts)
+map('n', '<A-4>', '<Cmd>BufferGoto 4<CR>', opts)
+map('n', '<A-5>', '<Cmd>BufferGoto 5<CR>', opts)
+map('n', '<A-6>', '<Cmd>BufferGoto 6<CR>', opts)
+map('n', '<A-7>', '<Cmd>BufferGoto 7<CR>', opts)
+map('n', '<A-8>', '<Cmd>BufferGoto 8<CR>', opts)
+map('n', '<A-9>', '<Cmd>BufferGoto 9<CR>', opts)
+map('n', '<A-0>', '<Cmd>BufferLast<CR>', opts)
+-- Pin/unpin buffer
+map('n', '<A-p>', '<Cmd>BufferPin<CR>', opts)
+-- Close buffer
+map('n', '<A-c>', '<Cmd>BufferClose<CR>', opts)
+-- Wipeout buffer
+--                 :BufferWipeout
+-- Close commands
+--                 :BufferCloseAllButCurrent
+--                 :BufferCloseAllButPinned
+--                 :BufferCloseAllButCurrentOrPinned
+--                 :BufferCloseBuffersLeft
+--                 :BufferCloseBuffersRight
+-- Magic buffer-picking mode
+map('n', '<C-p>', '<Cmd>BufferPick<CR>', opts)
+-- Sort automatically by...
+map('n', '<Space>bb', '<Cmd>BufferOrderByBufferNumber<CR>', opts)
+map('n', '<Space>bd', '<Cmd>BufferOrderByDirectory<CR>', opts)
+map('n', '<Space>bl', '<Cmd>BufferOrderByLanguage<CR>', opts)
+map('n', '<Space>bw', '<Cmd>BufferOrderByWindowNumber<CR>', opts)
+
+-- Other:
+-- :BarbarEnable - enables barbar (enabled by default)
+-- :BarbarDisable - very bad command, should never be used
+
+
+--- cloak.lua ---
+require("cloak").setup({
+  enabled = true,
+  cloak_character = "*",
+  -- The applied highlight group (colors) on the cloaking, see `:h highlight`.
+  highlight_group = "Comment",
+  patterns = {
+    {
+      -- Match any file starting with ".env".
+      -- This can be a table to match multiple file patterns.
+      file_pattern = {
+          ".env*",
+          "wrangler.toml",
+          ".dev.vars",
+      },
+      -- Match an equals sign and any character after it.
+      -- This can also be a table of patterns to cloak,
+      -- example: cloak_pattern = { ":.+", "-.+" } for yaml files.
+      cloak_pattern = "=.+"
+    },
+  },
+})
+
+
+
+
+--- colors.lua ---
+drequire('rose-pine').setup({
+    disable_background = true
+})
+
+function ColorMyPencils(color) 
+	color = color or "rose-pine"
+	vim.cmd.colorscheme(color)
+
+	vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+end
+
+ColorMyPencils()
+
+
+--- comment.lua ---
+-- import comment plugin safely
+local setup, comment = pcall(require, "Comment")
+if not setup then
+  return
+end
+
+-- enable comment
+comment.setup()
+
+
+--- copilot.lua ---
+vim.g.copilot_filetypes = {
+  --[[['java'] = false,
+  ['python'] = false,
+  ['python3'] = false,
+  ['python2'] = false,
+  ['javascript'] = false,
+  ['javascriptreact'] = false,
+  ['typescript'] = false,
+  ['typescriptreact'] = false,
+  ['c'] = false,
+  ['cpp'] = false,
+  ['c++'] = false,
+  ['c#'] = false,
+  ['go'] = false,
+  ['rust'] = false,
+  ['julia'] = false,
+  ]]--
+  ['*'] = false,
+}
+-- Set up mappings to enable and disable Copilot
+-- Function to enable GitHub Copilot for the current buffer
+function EnableCopilotForBuffer()
+  vim.api.nvim_buf_set_var(0, 'copilot_enabled', true)
+end
+
+-- Function to disable GitHub Copilot for the current buffer
+function DisableCopilotForBuffer()
+  vim.api.nvim_buf_set_var(0, 'copilot_enabled', false)
+end
+
+-- Set up mappings to enable and disable Copilot for the current buffer
+vim.api.nvim_set_keymap('n', '<Leader>ce', '<cmd>lua EnableCopilotForBuffer()<CR>', { noremap = true, silent = true, desc = "Enable Copilot"})
+vim.api.nvim_set_keymap('n', '<Leader>cd', '<cmd>lua DisableCopilotForBuffer()<CR>', { noremap = true, silent = true, desc = "Disable Copilot"})
+
+
+--- dap.lua ---
+		local dap = require('dap')
+		local dapui = require('dapui')
+
+		dap.listeners.after.event_initialized['dapui_config'] = function()
+			dapui.open() end
+		dap.listeners.before.event_terminated['dapui_config'] = function()
+			dapui.close()
+		end
+		dap.listeners.before.event_exited['dapui_config'] = function()
+			dapui.close()
+		end
+
+		dapui.setup({
+			floating = {
+				border = 'rounded',
+			},
+		})
+
+    vim.keymap.set('n','<leader>dc', function()
+      dap.continue()
+    end, { desc = 'Continue' })
+
+    vim.keymap.set('n','<leader>ds', function()
+      dap.step_over()
+    end, { desc = 'Step Over' })
+
+    vim.keymap.set('n','<leader>di', function()
+      dap.step_into()
+    end, { desc = 'Step Into' })
+
+    vim.keymap.set('n','<leader>do', function()
+      dap.step_out()
+    end, { desc = 'Step Out' })
+
+    vim.keymap.set('n','<leader>dt', function()
+      dap.toggle_breakpoint()
+    end, { desc = 'Toggle Breakpoint' })
+
+    vim.keymap.set('n','<leader>dr', function()
+      dap.repl.open()
+    end, { desc = 'Open REPL' })
+
+    vim.keymap.set('n','<leader>dl', function()
+      dap.run_last()
+    end, { desc = 'Run Last' })
+
+
+    vim.keymap.set('n','<leader>db', function()
+      dap.toggle_breakpoint()
+    end, { desc = 'Toggle Breakpoint' })
+
+    vim.keymap.set('n','<leader>dB', function()
+      dap.set_breakpoint(vim.fn.input('Breakpoint condition: '))
+    end, { desc = 'Set Breakpoint' })
+      
+
+		-- Key mappings
+		vim.keymap.set('n', '<leader>du', function()
+			dapui.toggle()
+		end, { desc = 'Dap UI' })
+
+		vim.keymap.set({ 'n', 'v' }, '<leader>de', function()
+			dapui.eval()
+		end, { desc = 'Eval' })
+
+
+--- dapui.lua ---
+		--
+		--
+		local dap = require('dap')
+		local dapui = require('dapui')
+
+		dap.listeners.after.event_initialized['dapui_config'] = function() 
+      dapui.open()
+    end
+		dap.listeners.before.event_terminated['dapui_config'] = function() 
+      dapui.close()
+    end
+		dap.listeners.before.event_exited['dapui_config'] = function()
+      dapui.close
+    end
+
+		dapui.setup({
+			floating = {
+				border = 'rounded',
+			},
+		})
+		--
+		-- Key mappings
+		vim.keymap.set('n', '<leader>du', function()
+			dapui.toggle()
+		end, { desc = 'Dap UI' })
+
+		vim.keymap.set({ 'n', 'v' }, '<leader>de', function()
+			dapui.eval()
+		end, { desc = 'Eval' })
+
+
+--- dashboard-nvim.lua ---
+-- dashboard-config.lua
+vim.g.dashboard_default_executive = 'telescope'
+
+vim.g.dashboard_custom_header = {
+  'Hello, Emeric!'
+}
+
+vim.g.dashboard_custom_section = {
+  a = { description = { '  Find File          ' }, command = 'Telescope find_files' },
+  b = { description = { '  Recently Used Files' }, command = 'Telescope oldfiles' },
+  c = { description = { '  Load Last Session  ' }, command = 'SessionLoad' },
+  d = { description = { '  Find Word          ' }, command = 'Telescope live_grep' },
+  e = { description = { '  Marks              ' }, command = 'Telescope marks' }
+}
+
+vim.cmd([[
+  let g:dashboard_custom_footer = ['Neovim loaded for Emeric!']
+]])
+
+
+--- formatter.lua ---
+
+
+--- fugitive.lua ---
+
+
+--- lsp.lua ---
+-- Setup language servers.
+local lspconfig = require('lspconfig')
+lspconfig.pyright.setup {}
+lspconfig.rust_analyzer.setup {
+  -- Server-specific settings. See `:help lspconfig-setup`
+  settings = {
+    ['rust-analyzer'] = {},
+  },
+}
+
+lspconfig.phpactor.setup {
+  on_attach = on_attach,
+  init_options = {
+    ["language_server_phpstan.enabled"] = false,
+    ["language_server_psalm.enabled"] = false,
+  }
+
+}
+-- Global mappings.
+-- See `:help vim.diagnostic.*` for documentation on any of the below functions
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
+
+-- Use LspAttach autocommand to only map the following keys
+-- after the language server attaches to the current buffer
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+  callback = function(ev)
+    -- Enable completion triggered by <c-x><c-o>
+    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+    -- Buffer local mappings.
+    -- See `:help vim.lsp.*` for documentation on any of the below functions
+    local opts = { buffer = ev.buf }
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+    vim.keymap.set('n', '<space>wl', function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, opts)
+    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
+    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+    vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', '<space>f', function()
+      vim.lsp.buf.format { async = true }
+    end, opts)
+  end,
+})
+
+
+--- lsp_lines.lua ---
+-- Disable virtual_text since it's redundant due to lsp_lines.
+vim.diagnostic.config({
+  virtual_text = false,
+})
+
+
+
+--- lualine.lua ---
+-- import lualine plugin safely
+local status, lualine = pcall(require, "lualine")
+if not status then
+  return
+end
+
+-- get lualine nightfly theme
+local lualine_nightfly = require("lualine.themes.nightfly")
+
+-- new colors for theme
+local new_colors = {
+  blue = "#65D1FF",
+  green = "#3EFFDC",
+  violet = "#FF61EF",
+  yellow = "#FFDA7B",
+  black = "#000000",
+}
+
+-- change nightlfy theme colors
+lualine_nightfly.normal.a.bg = new_colors.blue
+lualine_nightfly.insert.a.bg = new_colors.green
+lualine_nightfly.visual.a.bg = new_colors.violet
+lualine_nightfly.command = {
+  a = {
+    gui = "bold",
+    bg = new_colors.yellow,
+    fg = new_colors.black, -- black
+  },
+}
+
+-- configure lualine with modified theme
+lualine.setup({
+  options = {
+    theme = 'tokyonight'
+  },
+})
+
+
+--- mason-nvim-dap.lua ---
+require ('mason-nvim-dap').setup({
+    ensure_installed = {'stylua', 'jq'},
+    handlers = {
+        function(config)
+          -- all sources with no handler get passed here
+
+          -- Keep original functionality
+          require('mason-nvim-dap').default_setup(config)
+        end,
+        python = function(config)
+            config.adapters = {
+	            type = "executable",
+	            command = "/usr/bin/python3",
+	            args = {
+		            "-m",
+		            "debugpy.adapter",
+	            },
+            }
+            require('mason-nvim-dap').default_setup(config) -- don't forget this!
+        end,
+    },
+})
+
+
+--- mason.lua ---
+-- Mason setup
+require("mason").setup()
+local status_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
+if not status_ok then
+  vim.notify("Problem with mason-lspconfig")
+  return
+end
+mason_lspconfig.setup {
+  automatic_installation = true
+}
+local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
+if not status_ok then
+  vim.notify("Problems with lspconfig")
+  return
+end
+local on_attach = function(client, bufnr)
+  -- Enable completion triggered by <c-x><c-o>
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+  -- Mappings.
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  local bufopts = { noremap = true, silent = true, buffer = bufnr }
+  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+  vim.keymap.set('n', '<space>wl', function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end, bufopts)
+  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+end
+  vim.keymap.set('n', '<space>f', vim.lsp.buf.format, bufopts)
+mason_lspconfig.setup_handlers {
+  -- This is a default handler that will be called for each installed server (also for new servers that are installed during a session)
+  function(server_name)
+    lspconfig[server_name].setup {
+      on_attach = on_attach,
+      flags = lsp_flags,
+    }
+  end
+
+}
+
+
+--- neorg.lua ---
+-- Lua example for Neovim configuration
+vim.cmd[[
+  hi NeorgHeading1 guifg=#FF5733 gui=bold
+  hi NeorgHeading2 guifg=#33FF57 gui=bold
+  hi NeorgHeading3 guifg=#3357FF gui=bold
+  hi NeorgListBullet1 guifg=#F0F033 gui=bold
+  hi NeorgListBullet2 guifg=#33F0F0 gui=bold
+]]
+
+
+--- noice.lua ---
+require("noice").setup({
+  lsp = {
+    -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+    override = {
+      ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+      ["vim.lsp.util.stylize_markdown"] = true,
+      ["cmp.entry.get_documentation"] = true,
+    },
+  },
+  -- you can enable a preset for easier configuration
+  presets = {
+    bottom_search = false, -- use a classic bottom command line for search
+    command_palette = true, -- position the cmdline and popupmenu together
+    long_message_to_split = true, -- long messages will be sent to a split
+    inc_rename = false, -- enables an input dialog for inc-rename.nvim
+    lsp_doc_border = false, -- add a border to hover docs and signature help
+  },
+  hover = {
+    -- To prevent the nvim notify "no information available" message 
+    silent = true,
+  },
+  routes = {
+        {
+          filter = {
+            event = "notify",
+            find = "No information available",
+          },
+          opts = {
+            skip = true,
+          },
+        },
+      },
+})
+
+
+
+--- notify.lua ---
+require("notify").setup({
+  background_colour = "#000000"
+})
+
+
+--- nvim-cmp.lua ---
+-- import nvim-cmp plugin safely
+local cmp_status, cmp = pcall(require, "cmp")
+if not cmp_status then
+  return
+end
+
+-- import luasnip plugin safely
+local luasnip_status, luasnip = pcall(require, "luasnip")
+if not luasnip_status then
+  return
+end
+
+-- import lspkind plugin safely
+local lspkind_status, lspkind = pcall(require, "lspkind")
+if not lspkind_status then
+  return
+end
+
+-- load vs-code like snippets from plugins (e.g. friendly-snippets)
+require("luasnip/loaders/from_vscode").lazy_load()
+
+vim.opt.completeopt = "menu,menuone,noselect"
+
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      luasnip.lsp_expand(args.body)
+    end,
+  },
+  mapping = cmp.mapping.preset.insert({
+    ["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
+    ["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
+    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ["<C-Space>"] = cmp.mapping.complete(),            -- show completion suggestions
+    ["<C-e>"] = cmp.mapping.abort(),                   -- close completion window
+    ["<CR>"] = cmp.mapping.confirm({ select = true }), -- confirm completion
+  }),
+  -- sources for autocompletion
+  sources = cmp.config.sources({
+    { name = "nvim_lsp",  group_index = 1 }, -- LSP
+    { name = "luasnip",   group_index = 1 },
+    { name = "buffer", group_index = 2 }, -- buffer
+    { name = "path", group_index = 3 }, -- file system paths
+  }),
+  -- configure lspkind for vs-code like icons
+  formatting = {
+    format = lspkind.cmp_format({
+      maxwidth = 50,
+      ellipsis_char = "...",
+    }),
+  },
+})
+
+
+--- nvim-cursorline.lua ---
+require('nvim-cursorline').setup {
+  cursorline = {
+    enable = true,
+    timeout = 1000,
+    number = false,
+  },
+  cursorword = {
+    enable = true,
+    min_length = 3,
+    hl = { underline = true },
+  }
+}
+
+
+--- nvim-notify.lua ---
+require("notify").setup({
+  background_colour = "#000000",
+})
+
+
+--- nvim-tree.lua ---
+require("nvim-tree").setup()
+
+
+--- presence.lua ---
+-- The setup config table shows all available config options with their default values:
+require("presence").setup({
+    -- General options
+    auto_update         = true,                       -- Update activity based on autocmd events (if `false`, map or manually execute `:lua package.loaded.presence:update()`)
+    neovim_image_text   = "The One True Text Editor", -- Text displayed when hovered over the Neovim image
+    main_image          = "neovim",                   -- Main image display (either "neovim" or "file")
+    client_id           = "793271441293967371",       -- Use your own Discord application client id (not recommended)
+    log_level           = nil,                        -- Log messages at or above this level (one of the following: "debug", "info", "warn", "error")
+    debounce_timeout    = 10,                         -- Number of seconds to debounce events (or calls to `:lua package.loaded.presence:update(<filename>, true)`)
+    enable_line_number  = false,                      -- Displays the current line number instead of the current project
+    blacklist           = {},                         -- A list of strings or Lua patterns that disable Rich Presence if the current file name, path, or workspace matches
+    buttons             = true,                       -- Configure Rich Presence button(s), either a boolean to enable/disable, a static table (`{{ label = "<label>", url = "<url>" }, ...}`, or a function(buffer: string, repo_url: string|nil): table)
+    file_assets         = {},                         -- Custom file asset definitions keyed by file names and extensions (see default config at `lua/presence/file_assets.lua` for reference)
+    show_time           = true,                       -- Show the timer
+
+    -- Rich Presence text options
+    editing_text        = "Editing %s",               -- Format string rendered when an editable file is loaded in the buffer (either string or function(filename: string): string)
+    file_explorer_text  = "Browsing %s",              -- Format string rendered when browsing a file explorer (either string or function(file_explorer_name: string): string)
+    git_commit_text     = "Committing changes",       -- Format string rendered when committing changes in git (either string or function(filename: string): string)
+    plugin_manager_text = "Managing plugins",         -- Format string rendered when managing plugins (either string or function(plugin_manager_name: string): string)
+    reading_text        = "Reading %s",               -- Format string rendered when a read-only or unmodifiable file is loaded in the buffer (either string or function(filename: string): string)
+    workspace_text      = "Working on %s",            -- Format string rendered when in a git repository (either string or function(project_name: string|nil, filename: string): string)
+    line_number_text    = "Line %s out of %s",        -- Format string rendered when `enable_line_number` is set to true (either string or function(line_number: number, line_count: number): string)
+})
+
+
+--- rainbow-delimiters.lua ---
+-- This module contains a number of default definitions
+local rainbow_delimiters = require 'rainbow-delimiters'
+
+vim.g.rainbow_delimiters = {
+    strategy = {
+        [''] = rainbow_delimiters.strategy['global'],
+        vim = rainbow_delimiters.strategy['local'],
+    },
+    query = {
+        [''] = 'rainbow-delimiters',
+        lua = 'rainbow-blocks',
+    },
+    highlight = {
+        'RainbowDelimiterRed',
+        'RainbowDelimiterYellow',
+        'RainbowDelimiterBlue',
+        'RainbowDelimiterOrange',
+        'RainbowDelimiterGreen',
+        'RainbowDelimiterViolet',
+        'RainbowDelimiterCyan',
+    },
+}
+
+
+--- refactoring.lua ---
+require('refactoring').setup({})
+
+vim.api.nvim_set_keymap("v", "<leader>ri", [[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]], {noremap = true, silent = true, expr = false})
+
+
+
+
+--- tabby.lua ---
+-- Set your leader key
+vim.g.mapleader = " " -- Assuming space is your leader key
+
+
+
+vim.g.tabby_trigger_mode = 'manual';
+-- Enable Tabby completion (set to auto mode)
+vim.api.nvim_set_keymap('n', '<leader>te', ":let g:tabby_trigger_mode='auto'<CR>", { noremap = true , silent = true ,desc = " Enable Tabby " })
+
+-- Disable Tabby completion (set to manual mode)
+vim.api.nvim_set_keymap('n', '<leader>td', ":let g:tabby_trigger_mode='manual'<CR>", { noremap = true, silent = true ,desc = " Disable Tabby " })
+
+-- vim.api.nvim_set_keymap('n','<leader>ce', ":let g:tabby_trigger_mode='auto'<CR>", { noremap = true })
+-- vim.api.nvim_set_keymap('n', '<leader>cd', ":let g:tabby_trigger_mode='manual'<CR>", { noremap = true })
+
+
+--- telescope.lua ---
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
+vim.keymap.set('n', '<C-p>', builtin.git_files, {})
+vim.keymap.set('n', '<leader>ps', function()
+	builtin.grep_string({ search = vim.fn.input("Grep > ") })
+end)
+vim.keymap.set('n', '<leader>vh', builtin.help_tags, {})
+
+
+
+--- tokyo.lua ---
+require("tokyonight").setup({
+  -- your configuration comes here
+  -- or leave it empty to use the default settings
+  style = "storm",            -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
+  light_style = "day",        -- The theme is used when the background is set to light
+  transparent = true,         --
+  terminal_colors = true,     -- Configure the colors used when opening a `:terminal` in [Neovim](https://github.com/neovim/neovim)
+  styles = {
+    -- Style to be applied to different syntax groups
+    -- Value is any valid attr-list value for `:help nvim_set_hl`
+    comments = { italic = true },
+    keywords = { italic = true },
+    functions = {},
+    variables = {},
+    -- Background styles. Can be "dark", "transparent" or "normal"
+    sidebars = "dark",                  -- style for sidebars, see below
+    floats = "dark",                    -- style for floating windows
+  },
+  sidebars = { "qf", "help" },          -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
+  day_brightness = 0.3,                 -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
+  hide_inactive_statusline = false,     -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
+  dim_inactive = false,                 -- dims inactive windows
+  lualine_bold = false,                 -- When `true`, section headers in the lualine theme will be bold
+
+  --- You can override specific color groups to use other groups or a hex color
+  --- function will be called with a ColorScheme table
+  ---@param colors ColorScheme
+  on_colors = function(colors) end,
+
+  --- You can override specific highlights to use other groups or a hex color
+  --- function will be called with a Highlights and ColorScheme table
+  ---@param highlights Highlights
+  ---@param colors ColorScheme
+  on_highlights = function(highlights, colors) end,
+})
+
+
+--- treesitter.lua ---
+require 'nvim-treesitter.configs'.setup {
+  -- A list of parser names, or "all"
+  ignore_install = { "help" }, -- List of parsers to ignore installing
+  ensure_installed = { "help", "javascript", "typescript", "c", "lua", "rust", "python", "json", "html", "css", "java", "bash", "haskell" },
+
+  -- Install parsers synchronously (only applied to `ensure_installed`)
+  sync_install = true,
+
+  -- Automatically install missing parsers when entering buffer
+  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+  -- auto_install = true,
+  -- -- rainbow = {
+  --   -- enable = true,
+  --
+  --   max_file_lines = 3000,
+  -- query = 'rainbow-parens',
+  --   extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
+  -- },
+  indent = {
+    enable = true,
+    disable = { "yaml" },
+  },
+  highlight = {
+    -- `false` will disable the whole extension
+    enable = true,
+    disable = {"latex"},
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = { "latex", "markdown" },
+  },
+}
+
+
+--- trouble.lua ---
+vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
+  {silent = true, noremap = true}
+)
+
+
+--- undotree.lua ---
+vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
+
+
+
+--- vim-latex-live-preview.lua ---
+vim.g.livepreview_previewer = 'skim'
+vim.g.livepreview_engine='latexmk'
+
+
+--- vimtabby.lua ---
+--- lua
+vim.g.tabby_trigger_mode = 'manual'
+
+-- set leader key to space
+vim.g.mapleader = " "
+local keymap = vim.keymap -- for conciseness
+
+
+-- T E to tabby enable 
+
+
+
+--- vimtex.lua ---
+vim.g.vimtex_quickfix_mode = 0
+vim.g.tex_flavor = 'latex'
+vim.g.vimtex_compiler_progname = 'nvr'
+vim.g.vimtex_view_method = 'sioyek'
+
+-- Set the color of concealed text to #50f97b aka the same as 
+-- Dracula
+vim.api.nvim_set_hl(0, 'Conceal', { fg = '#50f97b',bg = 'none' })
+
+
+vim.g.vimtex_toc_config = {
+  mode = 1,
+  fold_enable = 0,
+  hide_line_numbers = 1,
+  resize = 0,
+  refresh_always = 1,
+  show_help = 1,
+  show_numbers = 1,
+  split_pos = 'leftabove',
+  split_width = 30,
+  tocdeth = 3,
+  indent_levels = 1,
+  todo_sorted = 1,
+}
+
+
+
+--- which-key.lua ---
+{
+  plugins = {
+    marks = true, -- shows a list of your marks on ' and `
+    registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
+    -- the presets plugin, adds help for a bunch of default keybindings in Neovim
+    -- No actual key bindings are created
+    spelling = {
+      enabled = true, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
+      suggestions = 20, -- how many suggestions should be shown in the list?
+    },
+    presets = {
+      operators = true, -- adds help for operators like d, y, ...
+      motions = true, -- adds help for motions
+      text_objects = true, -- help for text objects triggered after entering an operator
+      windows = true, -- default bindings on <c-w>
+      nav = true, -- misc bindings to work with windows
+      z = true, -- bindings for folds, spelling and others prefixed with z
+      g = true, -- bindings for prefixed with g
+    },
+  },
+  -- add operators that will trigger motion and text object completion
+  -- to enable all native operators, set the preset / operators plugin above
+  operators = { gc = "Comments" },
+  key_labels = {
+    -- override the label used to display some keys. It doesn't effect WK in any other way.
+    -- For example:
+    -- ["<space>"] = "SPC",
+    -- ["<cr>"] = "RET",
+    -- ["<tab>"] = "TAB",
+  },
+  motions = {
+    count = true,
+  },
+  icons = {
+    breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
+    separator = "➜", -- symbol used between a key and it's label
+    group = "+", -- symbol prepended to a group
+  },
+  popup_mappings = {
+    scroll_down = "<c-d>", -- binding to scroll down inside the popup
+    scroll_up = "<c-u>", -- binding to scroll up inside the popup
+  },
+  window = {
+    border = "none", -- none, single, double, shadow
+    position = "bottom", -- bottom, top
+    margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
+    padding = { 1, 2, 1, 2 }, -- extra window padding [top, right, bottom, left]
+    winblend = 0, -- value between 0-100 0 for fully opaque and 100 for fully transparent
+  },
+  layout = {
+    height = { min = 4, max = 25 }, -- min and max height of the columns
+    width = { min = 20, max = 50 }, -- min and max width of the columns
+    spacing = 3, -- spacing between columns
+    align = "left", -- align columns left, center or right
+  },
+  ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label
+  hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "^:", "^ ", "^call ", "^lua " }, -- hide mapping boilerplate
+  show_help = true, -- show a help message in the command line for using WhichKey
+  show_keys = true, -- show the currently pressed key and its label as a message in the command line
+  triggers = "auto", -- automatically setup triggers
+  -- triggers = {"<leader>"} -- or specifiy a list manually
+  -- list of triggers, where WhichKey should not wait for timeoutlen and show immediately
+  triggers_nowait = {
+    -- marks
+    "`",
+    "'",
+    "g`",
+    "g'",
+    -- registers
+    '"',
+    "<c-r>",
+    -- spelling
+    "z=",
+  },
+  triggers_blacklist = {
+    -- list of mode / prefixes that should never be hooked by WhichKey
+    -- this is mostly relevant for keymaps that start with a native binding
+    i = { "j", "k" },
+    v = { "j", "k" },
+  },
+  -- disable the WhichKey popup for certain buf types and file types.
+  -- Disabled by deafult for Telescope
+  disable = {
+    buftypes = {},
+    filetypes = {},
+  },
+}
+
+
+
+--- zenmode.lua ---
+vim.keymap.set("n", "<leader>zz", function()
+  require("zen-mode").setup {
+    window = {
+      width = 90,
+      options = {}
+    },
+  }
+  require("zen-mode").toggle()
+  vim.wo.wrap = false
+  vim.wo.number = true
+  vim.wo.rnu = true
+  ColorMyPencils()
+end)
+
+
+vim.keymap.set("n", "<leader>zZ", function()
+  require("zen-mode").setup {
+    window = {
+      width = 80,
+      options = {}
+    },
+  }
+  require("zen-mode").toggle()
+  vim.wo.wrap = false
+  vim.wo.number = false
+  vim.wo.rnu = false
+  vim.opt.colorcolumn = "0"
+  ColorMyPencils()
+end)
+

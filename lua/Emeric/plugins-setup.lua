@@ -39,7 +39,7 @@ return packer.startup(function(use)
   -- Lua utility libraries
   use("nvim-lua/plenary.nvim")
   -- Notifications and prompts for neovim
-  use("rcarriga/nvim-notify")
+  -- use("rcarriga/nvim-notify")
   use("VonHeikemen/lsp-zero.nvim")
   use("MunifTanjim/nui.nvim")
   use("hrsh7th/cmp-nvim-lua")
@@ -94,7 +94,15 @@ return packer.startup(function(use)
   use "lewis6991/gitsigns.nvim"
   -- File explorer
   -- use("nvim-tree/nvim-tree.lua")
-  use 'nvim-tree/nvim-web-devicons'
+  use {
+    'kyazdani42/nvim-web-devicons',
+    config = function()
+      require('nvim-web-devicons').setup {
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+      }
+    end
+  }
   use { 'romgrk/barbar.nvim', requires = 'nvim-web-devicons' }
 
   -- Statusline
@@ -318,6 +326,18 @@ return packer.startup(function(use)
 
   use('folke/tokyonight.nvim')
 
+  use({
+    "utilyre/barbecue.nvim",
+    tag = "*",
+    requires = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons", -- optional dependency
+    },
+    after = "nvim-web-devicons",   -- keep this if you're using NvChad
+    config = function()
+      require("barbecue").setup()
+    end,
+  })
   if packer_bootstrap then
     require("packer").sync()
   end
