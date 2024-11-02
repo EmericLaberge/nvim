@@ -286,22 +286,6 @@ return packer.startup(function(use)
 
       -- see below for full list of optional dependencies 👇
     },
-    -- config = function()
-    -- 	require("obsidian").setup({
-    -- 		workspaces = {
-    -- 			{
-    -- 				name = "personal",
-    -- 				path = "~/vaults/personal",
-    -- 			},
-    -- 			{
-    -- 				name = "work",
-    -- 				path = "~/vaults/work",
-    -- 			},
-    -- 		},
-    --
-    -- 		-- see below for full list of options 👇
-    -- })
-    -- end,
   })
 
 
@@ -311,7 +295,7 @@ return packer.startup(function(use)
     'David-Kunz/gen.nvim',
     config = function()
       require('gen').setup({
-        model = 'llama3',    -- The model you want to use.
+        model = 'llama3.1',  -- The model you want to use.
         show_prompt = false, -- Shows the prompt submitted to Ollama.
         show_model = false,  -- Displays which model you are using at the beginning of your chat session.
       })
@@ -326,6 +310,20 @@ return packer.startup(function(use)
 
   use('folke/tokyonight.nvim')
 
+  use {
+    'HakonHarnes/img-clip.nvim',
+    config = function()
+      require('img-clip').setup({
+        -- add options here
+        -- or leave it empty to use the default settings
+      })
+      -- set keymap
+      vim.keymap.set('n', '<leader>p', '<cmd>PasteImage<cr>', { desc = 'Paste image from system clipboard' })
+    end,
+  }
+
+  use"tris203/precognition.nvim"
+
   use({
     "utilyre/barbecue.nvim",
     tag = "*",
@@ -333,7 +331,7 @@ return packer.startup(function(use)
       "SmiteshP/nvim-navic",
       "nvim-tree/nvim-web-devicons", -- optional dependency
     },
-    after = "nvim-web-devicons",   -- keep this if you're using NvChad
+    after = "nvim-web-devicons",     -- keep this if you're using NvChad
     config = function()
       require("barbecue").setup()
     end,
