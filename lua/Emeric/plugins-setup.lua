@@ -1,4 +1,8 @@
 -- auto install packer if not installed
+function name()
+
+end
+
 local ensure_packer = function()
   local fn = vim.fn
   local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
@@ -64,6 +68,7 @@ return packer.startup(function(use)
   use("inkarkat/vim-ReplaceWithRegister")
 
 
+
   -- Commenting
   use {
     'numToStr/Comment.nvim',
@@ -118,11 +123,37 @@ return packer.startup(function(use)
     "hrsh7th/nvim-cmp",
     requires = {
       "hrsh7th/cmp-buffer", "hrsh7th/cmp-nvim-lsp",
-      "kdheepak/cmp-latex-symbols",
-      "hrsh7th/cmp-nvim-lua",
-      "octaltree/cmp-look", "hrsh7th/cmp-path", "hrsh7th/cmp-calc",
-      "f3fora/cmp-spell", "hrsh7th/cmp-cmdline", "hrsh7th/cmp-emoji"
+      'quangnguyen30192/cmp-nvim-ultisnips', 'hrsh7th/cmp-nvim-lua',
+      'octaltree/cmp-look', 'hrsh7th/cmp-path', 'hrsh7th/cmp-calc',
+      'f3fora/cmp-spell', 'hrsh7th/cmp-emoji', 'hrsh7th/cmp-latex-symbols'
     }
+    -- requires = {
+    --   "hrsh7th/cmp-buffer", "hrsh7th/cmp-nvim-lsp",
+    --   "kdheepak/cmp-latex-symbols",
+    --   "hrsh7th/cmp-nvim-lua",
+    --   "octaltree/cmp-look", "hrsh7th/cmp-path", "hrsh7th/cmp-calc",
+    --   "f3fora/cmp-spell", "hrsh7th/cmp-cmdline", "hrsh7th/cmp-emoji"
+    -- }
+  })
+
+  use({
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    config = function()
+      require("copilot").setup({
+        suggestion = { enabled = false },
+        panel = { enabled = false },
+      })
+    end,
+  })
+
+  use({
+    "zbirenbaum/copilot-cmp",
+    after = { "copilot.lua" },
+    config = function()
+      require("copilot_cmp").setup()
+    end,
   })
 
 
@@ -289,7 +320,7 @@ return packer.startup(function(use)
   })
 
 
-  use('github/copilot.vim')
+  -- use('github/copilot.vim')
   -- gen.nvim
   use({
     'David-Kunz/gen.nvim',
@@ -322,7 +353,7 @@ return packer.startup(function(use)
     end,
   }
 
-  use"tris203/precognition.nvim"
+  use "tris203/precognition.nvim"
 
   use({
     "utilyre/barbecue.nvim",
