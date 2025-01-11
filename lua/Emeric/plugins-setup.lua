@@ -341,6 +341,10 @@ return packer.startup(function(use)
 
   use('folke/tokyonight.nvim')
 
+  require('packer').startup(function()
+    use { 'stevearc/dressing.nvim' }
+  end)
+
   use {
     'HakonHarnes/img-clip.nvim',
     config = function()
@@ -358,6 +362,7 @@ return packer.startup(function(use)
   use({
     "utilyre/barbecue.nvim",
     tag = "*",
+
     requires = {
       "SmiteshP/nvim-navic",
       "nvim-tree/nvim-web-devicons", -- optional dependency
