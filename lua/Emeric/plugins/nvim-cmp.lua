@@ -37,11 +37,11 @@ cmp.setup({
     ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Confirm completion
   }),
   sources = cmp.config.sources({
+  { name = "luasnip",  group_index = 1 }, -- Snippets first
     { name = "copilot",  group_index = 2 },
-    { name = "nvim_lsp", group_index = 2 },
-    { name = "luasnip",  group_index = 2 },
-    { name = "buffer",   group_index = 2 },
-    { name = "path",     group_index = 2 },
+    { name = "nvim_lsp", group_index = 3 },
+    { name = "path",     group_index = 4 },
+    { name = "buffer",   group_index = 5 },
   }),
   window = {
     completion = cmp.config.window.bordered(),
