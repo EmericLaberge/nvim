@@ -282,14 +282,14 @@ return packer.startup(function(use)
       require("lsp_lines").setup()
     end,
   })
-  --   use {
-  --   "nvim-neorg/neorg",
-  --   rocks = { "lua-utils.nvim", "nvim-nio", "nui.nvim", "plenary.nvim" },
-  --   tag = "*", -- Pin Neorg to the latest stable release
-  --   config = function()
-  --       require("neorg").setup()
-  --   end,
-  -- }
+  use {
+    "nvim-neorg/neorg",
+    rocks = { "lua-utils.nvim", "nvim-nio", "nui.nvim", "plenary.nvim" },
+    tag = "*", -- Pin Neorg to the latest stable release
+    config = function()
+      require("neorg").setup()
+    end,
+  }
   use({
     "crnvl96/lazydocker.nvim",
     config = function()
@@ -352,9 +352,8 @@ return packer.startup(function(use)
       vim.keymap.set('n', '<leader>p', '<cmd>PasteImage<cr>', { desc = 'Paste image from system clipboard' })
     end,
   }
-
   use "tris203/precognition.nvim"
-
+  use { 'stevearc/dressing.nvim' }
   use({
     "utilyre/barbecue.nvim",
     tag = "*",
