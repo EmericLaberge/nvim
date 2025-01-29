@@ -1,8 +1,3 @@
--- auto install packer if not installed
-function name()
-
-end
-
 local ensure_packer = function()
   local fn = vim.fn
   local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
@@ -43,7 +38,7 @@ return packer.startup(function(use)
   -- Lua utility libraries
   use("nvim-lua/plenary.nvim")
   -- Notifications and prompts for neovim
-  -- use("rcarriga/nvim-notify")
+  use("rcarriga/nvim-notify")
   use("VonHeikemen/lsp-zero.nvim")
   use("MunifTanjim/nui.nvim")
   use("hrsh7th/cmp-nvim-lua")
