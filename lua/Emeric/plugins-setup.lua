@@ -354,6 +354,9 @@ return packer.startup(function(use)
   }
   use "tris203/precognition.nvim"
   use { 'stevearc/dressing.nvim' }
+
+  use "hiphish/rainbow-delimiters.nvim"
+
   use({
     "utilyre/barbecue.nvim",
     tag = "*",
