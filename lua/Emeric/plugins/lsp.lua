@@ -18,6 +18,10 @@ lspconfig.phpactor.setup {
 
 }
 lspconfig.perlpls.setup {}
+-- lspconfig.perlls.setup {}
+
+
+
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
@@ -55,3 +59,25 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end, opts)
   end,
 })
+
+
+
+local function get_active_lsp_client()
+  local clients = vim.lsp.get_active_clients({ bufnr = vim.api.nvim_get_current_buf() })
+  if #clients == 0 then
+    return nil
+  else
+    return clients[1]
+  end
+end
+
+local function print_active_lsp_client()
+  local client = get_active_lsp_client()
+  if client then
+    print("Active LSP client: " .. client.name)
+  else
+    print("No active LSP client")
+  end
+end
+
+vim.keymap.set('n', '<space>lp', print_active_lsp_client)

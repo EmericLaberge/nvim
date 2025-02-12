@@ -36,4 +36,4 @@ require("Emeric.plugins.tokyo")
 require("Emeric.plugins.lspkind")
 require("Emeric.plugins.rock")
 require("Emeric.plugins.neorg")
-
+require("Emeric.plugins.conform")
