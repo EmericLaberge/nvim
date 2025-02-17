@@ -19,7 +19,11 @@ lspconfig.phpactor.setup {
 }
 lspconfig.perlpls.setup {}
 -- lspconfig.perlls.setup {}
-
+lspconfig.scheme_langserver.setup {
+  cmd = { "run", "/tmp/scheme-langserver.log", "enable", "disable" }, -- Use "run" here
+  filetypes = { "scheme", "scm", "sld", "sls", "sps" },
+  root_dir = lspconfig.util.root_pattern(".git", "AKKU.manifest", "."),
+}
 
 
 -- Global mappings.
