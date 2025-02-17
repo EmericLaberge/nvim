@@ -358,6 +358,7 @@ return packer.startup(function(use)
 
   use "hiphish/rainbow-delimiters.nvim"
   use "stevearc/conform.nvim"
+  use "folke/zen-mode.nvim"
 
   use({
     'MeanderingProgrammer/render-markdown.nvim',
