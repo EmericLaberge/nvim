@@ -377,25 +377,26 @@ return packer.startup(function(use)
   })
   use "jake-stewart/multicursor.nvim"
 
-  -- Required plugins
-  use 'nvim-treesitter/nvim-treesitter'
-  use 'stevearc/dressing.nvim'
-  use 'nvim-lua/plenary.nvim'
-  use 'MunifTanjim/nui.nvim'
-  use 'MeanderingProgrammer/render-markdown.nvim'
 
-  -- Optional dependencies
-  use 'hrsh7th/nvim-cmp'
-  use 'nvim-tree/nvim-web-devicons' -- or use 'echasnovski/mini.icons'
-  use 'HakonHarnes/img-clip.nvim'
-  use 'zbirenbaum/copilot.lua'
-
-  -- Avante.nvim with build process
-  use {
-    'yetone/avante.nvim',
-    branch = 'main',
-    run = 'make',
-  }
+use {
+  "yetone/avante.nvim",
+  build = "make BUILD_FROM_SOURCE=true",
+  lazy = false,
+  version = false,
+  BUILD_FROM_SOURCE = true,
+  config = function()
+    require("avante_lib").load()
+  end,
+  requires = {
+    "nvim-treesitter/nvim-treesitter",
+    "stevearc/dressing.nvim",
+    "nvim-lua/plenary.nvim",
+    "MunifTanjim/nui.nvim",
+    --- The below dependencies are optional,
+    "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+    "HakonHarnes/img-clip.nvim",
+  },
+}
   use({
     "utilyre/barbecue.nvim",
     tag = "*",
