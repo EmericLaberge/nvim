@@ -10,7 +10,7 @@ vim.keymap.set("n", "<leader>zz", function()
   vim.wo.number = true
   vim.wo.rnu = true
   ColorMyPencils()
-end)
+end, { desc = "Toggle Zen Mode (Normal)" })
 
 
 vim.keymap.set("n", "<leader>zZ", function()
@@ -26,4 +26,4 @@ vim.keymap.set("n", "<leader>zZ", function()
   vim.wo.rnu = false
   vim.opt.colorcolumn = "0"
   ColorMyPencils()
-end)
+end, { desc = "Toggle Zen Mode (Minimal)" })
