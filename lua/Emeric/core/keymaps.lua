@@ -135,4 +135,31 @@ vim.keymap.set("n", "<leader>cl", function()
   end
 end, { noremap = true, desc = "Toggle Conceal Level" })
 
+-- CopilotChat Keymaps
+local chat_keymap = vim.keymap
+-- Open/Toggle/Close Chat
+chat_keymap.set("n", "<leader>ccc", "<cmd>CopilotChatToggle<CR>", { desc = "CopilotChat - Toggle" })
+chat_keymap.set("v", "<leader>ccc", "<cmd>CopilotChatToggle<CR>", { desc = "CopilotChat - Toggle (Visual)" }) -- Often useful to toggle from visual mode
+chat_keymap.set("n", "<leader>cco", "<cmd>CopilotChatOpen<CR>", { desc = "CopilotChat - Open" })
+chat_keymap.set("n", "<leader>ccx", "<cmd>CopilotChatClose<CR>", { desc = "CopilotChat - Close" })
+
+-- Quick Prompt Shortcuts (Examples - requires defining these prompts in setup or using defaults)
+chat_keymap.set("n", "<leader>cce", "<cmd>CopilotChatExplain<CR>", { desc = "CopilotChat - Explain Code" })
+chat_keymap.set("n", "<leader>cct", "<cmd>CopilotChatTests<CR>", { desc = "CopilotChat - Generate Tests" })
+chat_keymap.set("n", "<leader>ccf", "<cmd>CopilotChatFix<CR>", { desc = "CopilotChat - Fix Code" })
+chat_keymap.set("n", "<leader>ccr", "<cmd>CopilotChatReview<CR>", { desc = "CopilotChat - Review Code" })
+
+-- Visual Mode Prompts (Send selection to chat)
+chat_keymap.set("v", "<leader>cce", ":CopilotChatExplain<CR>", { desc = "CopilotChat - Explain Selection" })
+chat_keymap.set("v", "<leader>cct", ":CopilotChatTests<CR>", { desc = "CopilotChat - Tests for Selection" })
+chat_keymap.set("v", "<leader>ccf", ":CopilotChatFix<CR>", { desc = "CopilotChat - Fix Selection" })
+chat_keymap.set("v", "<leader>ccr", ":CopilotChatReview<CR>", { desc = "CopilotChat - Review Selection" })
+
+-- Other useful commands
+chat_keymap.set("n", "<leader>ccp", "<cmd>CopilotChatPrompts<CR>", { desc = "CopilotChat - Select Prompt" })
+chat_keymap.set("n", "<leader>cca", "<cmd>CopilotChatAgents<CR>", { desc = "CopilotChat - Select Agent" })
+chat_keymap.set("n", "<leader>ccm", "<cmd>CopilotChatModels<CR>", { desc = "CopilotChat - Select Model" })
+chat_keymap.set("n", "<leader>ccs", "<cmd>CopilotChatStop<CR>", { desc = "CopilotChat - Stop Response" })
+chat_keymap.set("n", "<leader>ccz", "<cmd>CopilotChatReset<CR>", { desc = "CopilotChat - Reset Chat" })
+
 
