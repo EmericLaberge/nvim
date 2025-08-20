@@ -273,7 +273,7 @@ return packer.startup(function(use)
       require 'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
     end
   })
-  -- use 'andweeb/presence.nvim'
+  use 'andweeb/presence.nvim'
 
   -- use 'ThePrimeagen/vim-be-good'
   use {
@@ -312,14 +312,14 @@ return packer.startup(function(use)
       require("lsp_lines").setup()
     end,
   })
-  use {
-    "nvim-neorg/neorg",
-    rocks = { "lua-utils.nvim", "nvim-nio", "nui.nvim", "plenary.nvim" },
-    tag = "*", -- Pin Neorg to the latest stable release
-    config = function()
-      require("neorg").setup()
-    end,
-  }
+  -- use {
+  --   "nvim-oeorg/neorg",
+  --   rocks = { "lua-utils.nvim", "nvim-nio", "nui.nvim", "plenary.nvim" },
+  --   tag = "*", -- Pin Neorg to the latest stable release
+  --   config = function()
+  --     require("neorg").setup()
+  --   end,
+  -- }
   use({
     "crnvl96/lazydocker.nvim",
     config = function()
