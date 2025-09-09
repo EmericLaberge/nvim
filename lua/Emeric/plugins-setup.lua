@@ -163,15 +163,15 @@ return packer.startup(function(use)
   })
 
   -- Ensure plenary is loaded before CopilotChat
-  use { "nvim-lua/plenary.nvim" } 
+  use { "nvim-lua/plenary.nvim" }
   -- Ensure copilot.lua is loaded before CopilotChat
-  use { "zbirenbaum/copilot.lua" } 
+  use { "zbirenbaum/copilot.lua" }
 
   use {
     "CopilotC-Nvim/CopilotChat.nvim",
     requires = {
       -- You already have these, but explicitly listing them can help packer resolve order
-      "zbirenbaum/copilot.lua", 
+      "zbirenbaum/copilot.lua",
       "nvim-lua/plenary.nvim",
     },
     run = "make tiktoken", -- Build step for tiktoken (MacOS/Linux)
@@ -179,8 +179,8 @@ return packer.startup(function(use)
       require("CopilotChat").setup({
         -- Add any specific CopilotChat configurations here if needed
         -- Example from the README:
-        -- debug = true, 
-        -- window = { width = 0.8 }, 
+        -- debug = true,
+        -- window = { width = 0.8 },
         -- selection = function(source)
         --   return require("CopilotChat.select").visual(source) or require("CopilotChat.select").buffer(source)
         -- end,
@@ -402,25 +402,29 @@ return packer.startup(function(use)
   use "jake-stewart/multicursor.nvim"
 
 
-use {
-  "yetone/avante.nvim",
-  build = "make BUILD_FROM_SOURCE=true",
-  lazy = false,
-  version = false,
-  BUILD_FROM_SOURCE = true,
-  config = function()
-    require("avante_lib").load()
-  end,
-  requires = {
-    "nvim-treesitter/nvim-treesitter",
-    "stevearc/dressing.nvim",
-    "nvim-lua/plenary.nvim",
-    "MunifTanjim/nui.nvim",
-    --- The below dependencies are optional,
-    "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-    "HakonHarnes/img-clip.nvim",
-  },
-}
+  use {
+    "uga-rosa/cmp-dictionary",
+    requires = { "hrsh7th/nvim-cmp" }
+  }
+  use {
+    "yetone/avante.nvim",
+    build = "make BUILD_FROM_SOURCE=true",
+    lazy = false,
+    version = false,
+    BUILD_FROM_SOURCE = true,
+    config = function()
+      require("avante_lib").load()
+    end,
+    requires = {
+      "nvim-treesitter/nvim-treesitter",
+      "stevearc/dressing.nvim",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      --- The below dependencies are optional,
+      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+      "HakonHarnes/img-clip.nvim",
+    },
+  }
   use({
     "utilyre/barbecue.nvim",
     tag = "*",
