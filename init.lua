@@ -1,5 +1,6 @@
 -- Set leader before plugins / lazy.nvim load so plugin setup can reference it
 vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
 
 vim.opt.termguicolors = true
 
