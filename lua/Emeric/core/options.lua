@@ -36,7 +36,7 @@ opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 
 -- backspace
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
-opt.termguicolors = true
+
 -- clipboard
 opt.clipboard = "unnamedplus" -- use system clipboard for all operations
 -- split windows

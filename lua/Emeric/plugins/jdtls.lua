@@ -67,7 +67,12 @@ return {
       return opts
     end
 
-    local lspconfig = require("lspconfig")
-    lspconfig.jdtls.setup(setup())
+    vim.lsp.start({
+      name = "jdtls",
+      cmd = setup().cmd,
+      root_dir = setup().root_dir,
+      on_attach = setup().on_attach,
+      capabilities = setup().capabilities,
+    })
   end,
 }
