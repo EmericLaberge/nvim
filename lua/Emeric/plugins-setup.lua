@@ -143,50 +143,17 @@ return packer.startup(function(use)
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     -- event = "InsertEnter",
-    config = function()
-      require("copilot").setup({
-        suggestion = { enabled = false },
-        panel = { enabled = false },
-        filetypes = {
-          markdown = true,
-        },
-      })
-    end,
+    -- config is intentionally handled by lazy.nvim config in lua/Emeric/plugins/
   })
 
   use({
     "zbirenbaum/copilot-cmp",
     after = { "copilot.lua" },
-    config = function()
-      require("copilot_cmp").setup()
-    end,
+    -- config is handled by lazy.nvim-managed plugins in lua/Emeric/plugins/
   })
 
-  -- Ensure plenary is loaded before CopilotChat
-  use { "nvim-lua/plenary.nvim" }
-  -- Ensure copilot.lua is loaded before CopilotChat
-  use { "zbirenbaum/copilot.lua" }
-
-  use {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    requires = {
-      -- You already have these, but explicitly listing them can help packer resolve order
-      "zbirenbaum/copilot.lua",
-      "nvim-lua/plenary.nvim",
-    },
-    run = "make tiktoken", -- Build step for tiktoken (MacOS/Linux)
-    config = function()
-      require("CopilotChat").setup({
-        -- Add any specific CopilotChat configurations here if needed
-        -- Example from the README:
-        -- debug = true,
-        -- window = { width = 0.8 },
-        -- selection = function(source)
-        --   return require("CopilotChat.select").visual(source) or require("CopilotChat.select").buffer(source)
-        -- end,
-      })
-    end,
-  }
+  -- Copilot and CopilotChat are intentionally managed by the lazy.nvim setup in lua/Emeric/plugins/
+  -- to avoid loading them eagerly at startup. Removed packer-managed Copilot/CopilotChat entries.
 
   -- Snippets
   use("L3MON4D3/LuaSnip")

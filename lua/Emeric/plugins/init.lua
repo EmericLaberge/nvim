@@ -30,8 +30,7 @@ return {
   require("Emeric.plugins.git-conflict"),
   require("Emeric.plugins.nvim-web-devicons"),
   require("Emeric.plugins.telescope-fzf-native"),
-  require("Emeric.plugins.copilot-cmp"),
-  require("Emeric.plugins.copilot-chat"),
+  -- Copilot-related modules are lazy-managed in lua/Emeric/plugins/
   require("Emeric.plugins.luasnip"),
   require("Emeric.plugins.cmp-luasnip"),
   require("Emeric.plugins.friendly-snippets"),

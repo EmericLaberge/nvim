@@ -6,7 +6,9 @@ return {
   },
   build = "make tiktoken", -- Build step for tiktoken (MacOS/Linux)
   config = function()
-    require("CopilotChat").setup({
-    })
+    local ok, cc = pcall(require, "CopilotChat")
+    if ok and cc and cc.setup then
+      cc.setup({})
+    end
   end,
 }
