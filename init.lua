@@ -1,4 +1,5 @@
--- Bootstrap lazy.nvim
+vim.opt.termguicolors = true
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -12,7 +13,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Setup lazy.nvim
 require("lazy").setup("Emeric.plugins", {
   checker = {
     enabled = true,
@@ -22,7 +22,6 @@ require("lazy").setup("Emeric.plugins", {
   },
 })
 
--- Load other configurations
 require("Emeric.core.options")
 require("Emeric.core.keymaps")
 require("Emeric.core.colorscheme")

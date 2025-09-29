@@ -1,18 +1,17 @@
 return {
-  "neovim/nvim-lspconfig",
-  dependencies = {
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
-    "hrsh7th/cmp-nvim-lsp",
-    "hrsh7th/cmp-buffer",
-    "hrsh7th/cmp-path",
-    "hrsh7th/cmp-cmdline",
-    "hrsh7th/nvim-cmp",
-    "L3MON4D3/LuaSnip",
-    "saadparwaiz1/cmp_luasnip",
-    "j-hui/fidget.nvim",
-  },
-  config = function()
+	"neovim/nvim-lspconfig",
+	dependencies = {
+		"williamboman/mason-lspconfig.nvim",
+		"hrsh7th/cmp-nvim-lsp",
+		"hrsh7th/cmp-buffer",
+		"hrsh7th/cmp-path",
+		"hrsh7th/cmp-cmdline",
+		"hrsh7th/nvim-cmp",
+		"L3MON4D3/LuaSnip",
+		"saadparwaiz1/cmp_luasnip",
+		"j-hui/fidget.nvim",
+	},
+	config = function()
 		local on_attach = function(client, bufnr)
 			local builtin = require("telescope.builtin")
 			vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
@@ -38,18 +37,24 @@ return {
 
 		local servers = {
 			"bashls",
+			"clangd",
+			"csharp_ls",
 			"cssls",
 			"dockerls",
 			"gopls",
 			"html",
 			"jdtls",
 			"jsonls",
+			"julials",
 			"lua_ls",
+			"marksman",
+			"omnisharp",
 			"perlnavigator",
 			"phpactor",
 			"pyright",
 			"rust_analyzer",
-			"scheme_langserver",
+			"sqls",
+			"texlab",
 			"tsserver",
 			"yamlls",
 		}
