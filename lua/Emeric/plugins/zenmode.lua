@@ -1,29 +1,31 @@
-vim.keymap.set("n", "<leader>zz", function()
-  require("zen-mode").setup {
-    window = {
-      width = 90,
-      options = {}
-    },
-  }
-  require("zen-mode").toggle()
-  vim.wo.wrap = false
-  vim.wo.number = true
-  vim.wo.rnu = true
-  ColorMyPencils()
-end, { desc = "Toggle Zen Mode (Normal)" })
+return {
+  "folke/zen-mode.nvim",
+  config = function()
+    vim.keymap.set("n", "<leader>zz", function()
+      require("zen-mode").setup {
+        window = {
+          width = 90,
+          options = {}
+        },
+      }
+      require("zen-mode").toggle()
+      vim.wo.wrap = false
+      vim.wo.number = true
+      vim.wo.rnu = true
+    end, { desc = "Toggle Zen Mode (Normal)" })
 
-
-vim.keymap.set("n", "<leader>zZ", function()
-  require("zen-mode").setup {
-    window = {
-      width = 80,
-      options = {}
-    },
-  }
-  require("zen-mode").toggle()
-  vim.wo.wrap = false
-  vim.wo.number = false
-  vim.wo.rnu = false
-  vim.opt.colorcolumn = "0"
-  ColorMyPencils()
-end, { desc = "Toggle Zen Mode (Minimal)" })
+    vim.keymap.set("n", "<leader>zZ", function()
+      require("zen-mode").setup {
+        window = {
+          width = 80,
+          options = {}
+        },
+      }
+      require("zen-mode").toggle()
+      vim.wo.wrap = false
+      vim.wo.number = false
+      vim.wo.rnu = false
+      vim.opt.colorcolumn = "0"
+    end, { desc = "Toggle Zen Mode (Minimal)" })
+  end,
+}
