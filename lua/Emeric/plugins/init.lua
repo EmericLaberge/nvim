@@ -81,7 +81,7 @@ return {
   -- require("Emeric.plugins.avante"),
 
   -- Other
-  require("Emeric.plugins.harpoon"),
+  -- harpoon removed
   require("Emeric.plugins.cloak"),
   require("Emeric.plugins.presence"),
   require("Emeric.plugins.lazydocker"),

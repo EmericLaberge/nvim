@@ -58,8 +58,20 @@ return {
         end,
       },
       mapping = cmp.mapping.preset.insert({
-        ["<C-k>"] = cmp.mapping.select_prev_item(),
-        ["<C-j>"] = cmp.mapping.select_next_item(),
+        ["<C-k>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
+        ["<C-j>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
         ["<M-k>"] = cmp.mapping.select_prev_item(),
         ["<M-j>"] = cmp.mapping.select_next_item(),
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
@@ -68,7 +80,7 @@ return {
         ["<C-e>"] = cmp.mapping.abort(),
         ["<CR>"] = cmp.mapping.confirm({ select = true }),
         ["<Tab>"] = vim.schedule_wrap(function(fallback)
-          if cmp.visible() and has_words_before() then
+          if cmp.visible() then
             cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
           elseif has_words_before() then
             fallback()
@@ -76,6 +88,13 @@ return {
             fallback()
           end
         end),
+        ["<C-l>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.confirm({ select = true })
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
       }),
       sources = cmp.config.sources({
         { name = "nvim_lsp",        group_index = 2 },

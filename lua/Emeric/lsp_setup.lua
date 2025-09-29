@@ -1,5 +1,10 @@
 local M = {}
 
+-- Make hover popups non-focusable so the cursor stays in the editor when
+-- pressing K (Shift+k). This prevents the floating window from taking
+-- focus and moving the cursor into it.
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded", focusable = false })
+
 M.servers = {
     "bashls",
     "clangd",

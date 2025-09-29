@@ -1,3 +1,6 @@
+-- Set leader before plugins / lazy.nvim load so plugin setup can reference it
+vim.g.mapleader = " "
+
 vim.opt.termguicolors = true
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -25,4 +28,3 @@ require("lazy").setup("Emeric.plugins", {
 require("Emeric.core.options")
 require("Emeric.core.keymaps")
 require("Emeric.core.colorscheme")
-

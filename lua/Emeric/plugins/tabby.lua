@@ -1,7 +1,6 @@
 return {
   "TabbyML/vim-tabby",
   config = function()
-    vim.g.mapleader = " "
     vim.g.tabby_agent_start_command = { "npx", "tabby-agent", "--stdio" }
     vim.g.tabby_inline_completion_trigger = "manual"
     vim.g.tabby_inline_completion_keybinding_accept = "<A-Space>"

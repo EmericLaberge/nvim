@@ -1,5 +1,4 @@
--- set leader key to space
-vim.g.mapleader = " "
+-- Leader is set in init.lua to ensure it's defined before plugins load
 local keymap = vim.keymap -- for conciseness
 
 ---------------------
@@ -62,7 +61,6 @@ keymap.set("n", "<leader>gs", "<cmd>Telescope git_status<cr>", { desc = "Telesco
 keymap.set("n", "<leader>rs", ":LspRestart<CR>", { desc = "Restart LSP" }) -- mapping to restart lsp if necessary
 
 
-vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc = "Netrw Explorer" })
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move Line Down (Visual)" })
@@ -94,8 +92,15 @@ vim.keymap.set("n", "Q", "<nop>", { desc = "Disable Ex Mode" })
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>", { desc = "Tmux Sessionizer" })
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format Code (LSP)" })
 
-vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz", { desc = "Next Quickfix Item" })
-vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz", { desc = "Previous Quickfix Item" })
+-- Window navigation using Ctrl+h/j/k/l (useful and common mapping)
+vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Window Left" })
+vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Window Down" })
+vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Window Up" })
+vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Window Right" })
+
+-- Remap quickfix navigation to avoid colliding with Ctrl-window mappings
+vim.keymap.set("n", "]q", "<cmd>cnext<CR>zz", { desc = "Next Quickfix Item" })
+vim.keymap.set("n", "[q", "<cmd>cprev<CR>zz", { desc = "Previous Quickfix Item" })
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz", { desc = "Next Location List Item" })
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz", { desc = "Previous Location List Item" })
 

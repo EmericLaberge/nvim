@@ -231,7 +231,7 @@ return packer.startup(function(use)
   -- use 'theHamsta/nvim-dap-virtual-text'
 
   -- Miscellaneous plugins
-  use("theprimeagen/harpoon")
+  -- harpoon removed
   use("theprimeagen/refactoring.nvim")
   use("mbbill/undotree")
   use("tpope/vim-fugitive")

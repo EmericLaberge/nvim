@@ -12,7 +12,6 @@ return {
         },
         presets = {
           operators = true,
-          motions = true,
           text_objects = true,
           windows = true,
           nav = true,
@@ -20,26 +19,10 @@ return {
           g = true,
         },
       },
-      operators = { gc = "Comments" },
-      key_labels = {},
-      motions = {
-        count = true,
-      },
       icons = {
         breadcrumb = "»",
         separator = "➜",
         group = "+",
-      },
-      popup_mappings = {
-        scroll_down = "<c-d>",
-        scroll_up = "<c-u>",
-      },
-      window = {
-        border = "none",
-        position = "bottom",
-        margin = { 1, 0, 1, 0 },
-        padding = { 1, 2, 1, 2 },
-        winblend = 0,
       },
       layout = {
         height = { min = 4, max = 25 },
@@ -47,24 +30,12 @@ return {
         spacing = 3,
         align = "left",
       },
-      ignore_missing = false,
-      hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "^:", "^ ", "^call ", "^lua " },
+  -- Set triggers to a minimal safe set. Using only <leader> avoids which-key
+  -- validation errors while still enabling leader-key popups. Add more
+  -- prefixes later if needed (careful with which-key's validation rules).
+  triggers = { "<leader>" },
       show_help = true,
       show_keys = true,
-      triggers = "auto",
-      triggers_nowait = {
-        "`",
-        "'",
-        "g`",
-        "g'",
-        '"',
-        "<c-r>",
-        "z=",
-      },
-      triggers_blacklist = {
-        i = { "j", "k" },
-        v = { "j", "k" },
-      },
       disable = {
         buftypes = {},
         filetypes = {},
