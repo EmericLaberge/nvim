@@ -1,30 +1,29 @@
 return {
   "zbirenbaum/copilot.lua",
-  event = "InsertEnter",
-  dependencies = { "nvim-lua/plenary.nvim" },
-  config = function()
-    -- Use copilot.lua as the backend and enable its cmp integration (copilot-cmp
-    -- registers a cmp source named 'copilot'). We disable inline suggestions
-    -- so cmp is the primary UX surface.
-    local ok, copilot = pcall(require, "copilot")
-    if ok and copilot then
-      copilot.setup({
-        panel = { enabled = false },
-        suggestion = { enabled = false },
-        cmp = { enabled = true, method = "getCompletionsCycling" },
-      })
-    end
+  cmd = "Copilot",
+  -- lazy-load-friendly: only load on Copilot command so mappings that call
+  -- Copilot work even before the plugin is fetched/loaded by lazy.
+  init = function()
+    -- Key mappings (use Vim commands to be safe with lazy-loading)
+    vim.api.nvim_set_keymap('n', '<Leader>ce', '<cmd>Copilot enable<CR>', { noremap = true, silent = true, desc = "Enable Copilot" })
+    vim.api.nvim_set_keymap('n', '<Leader>cd', '<cmd>Copilot disable<CR>', { noremap = true, silent = true, desc = "Disable Copilot" })
 
-    vim.keymap.set('n', '<Leader>ce', '<cmd>Copilot enable<CR>', { noremap = true, silent = true, desc = "Enable Copilot" })
-    vim.keymap.set('n', '<Leader>cd', '<cmd>Copilot disable<CR>', { noremap = true, silent = true, desc = "Disable Copilot" })
-
-    vim.keymap.set('n', '<Leader>ct', function()
+    -- Toggle auto-trigger helper (works once Copilot is loaded)
+    local function toggle_copilot_auto_trigger()
       local success, copilot_suggestion = pcall(require, "copilot.suggestion")
-      if success and copilot_suggestion and copilot_suggestion.toggle_auto_trigger then
+      if success then
         copilot_suggestion.toggle_auto_trigger()
       else
         vim.notify("Copilot plugin not loaded yet.", vim.log.levels.WARN)
       end
-    end, { noremap = true, silent = true, desc = "Toggle Copilot AutoTrigger" })
+    end
+    vim.api.nvim_set_keymap('n', '<Leader>ct', '<cmd>lua toggle_copilot_auto_trigger()<CR>', { noremap = true, silent = true, desc = "Toggle Copilot AutoTrigger" })
+  end,
+  config = function()
+    require("copilot").setup({
+      suggestion = { enabled = false },
+      panel = { enabled = false },
+      filetypes = { markdown = true },
+    })
   end,
 }
