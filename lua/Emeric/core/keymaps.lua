@@ -93,10 +93,47 @@ vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>", { de
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format Code (LSP)" })
 
 -- Window navigation using Ctrl+h/j/k/l (useful and common mapping)
-vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Window Left" })
-vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Window Down" })
-vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Window Up" })
-vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Window Right" })
+local function tmux_nav(dir_cmd, tmux_fn)
+  -- dir_cmd: vim wincmd to try first (e.g. "wincmd h")
+  -- tmux_fn: name of tmux.nvim helper (move_left/move_down/move_up/move_right)
+  return function()
+    local cur = vim.api.nvim_get_current_win()
+    -- Try normal vim window movement first
+    pcall(vim.cmd, dir_cmd)
+    if vim.api.nvim_get_current_win() ~= cur then
+      -- moved inside vim; done
+      return
+    end
+
+    -- Couldn't move inside vim; if inside TMUX, try to move tmux pane
+    if not vim.env.TMUX then
+      return
+    end
+
+    local ok, tmux = pcall(require, "tmux")
+    if ok and tmux and type(tmux[tmux_fn]) == "function" then
+      pcall(tmux[tmux_fn])
+      return
+    end
+
+    -- Fallback to tmux CLI if tmux.nvim isn't available
+    local dir_flag_map = {
+      move_left = "-L",
+      move_down = "-D",
+      move_up = "-U",
+      move_right = "-R",
+    }
+    local flag = dir_flag_map[tmux_fn]
+    if flag then
+      pcall(vim.fn.system, { "tmux", "select-pane", flag })
+    end
+  end
+end
+
+vim.keymap.set("n", "<C-h>", tmux_nav("wincmd h", "move_left"), { desc = "Window Left -> Tmux Pane Left if none" })
+vim.keymap.set("n", "<C-j>", tmux_nav("wincmd j", "move_down"), { desc = "Window Down -> Tmux Pane Down if none" })
+vim.keymap.set("n", "<C-k>", tmux_nav("wincmd k", "move_up"), { desc = "Window Up -> Tmux Pane Up if none" })
+vim.keymap.set("n", "<C-l>", tmux_nav("wincmd l", "move_right"), { desc = "Window Right -> Tmux Pane Right if none" })
 
 -- Remap quickfix navigation to avoid colliding with Ctrl-window mappings
 vim.keymap.set("n", "]q", "<cmd>cnext<CR>zz", { desc = "Next Quickfix Item" })
