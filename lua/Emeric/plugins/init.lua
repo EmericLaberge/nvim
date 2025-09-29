@@ -52,7 +52,7 @@ return {
   require("Emeric.plugins.tmux"),
   require("Emeric.plugins.img-clip"),
   require("Emeric.plugins.precognition"),
-  require("Emeric.plugins.dressing.nvim"),
+  require("Emeric.plugins.dressing"),
   require("Emeric.plugins.render-markdown"),
   require("Emeric.plugins.multicursor"),
   require("Emeric.plugins.cmp-dictionary"),

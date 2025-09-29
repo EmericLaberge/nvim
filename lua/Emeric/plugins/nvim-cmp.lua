@@ -15,7 +15,7 @@ return {
     local cmp = require("cmp")
     local luasnip = require("luasnip")
     local lspkind = require("lspkind")
-    local dict = require("cmp_dictionary")
+    local dict = require("cmp-dictionary")
 
     require("luasnip/loaders/from_vscode").lazy_load()
 
