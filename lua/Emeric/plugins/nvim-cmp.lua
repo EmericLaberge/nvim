@@ -10,13 +10,13 @@ return {
     "saadparwaiz1/cmp_luasnip",
     "rafamadriz/friendly-snippets",
     "onsails/lspkind.nvim",
-    "uga-rosa/cmp-dictionary",
+    -- "uga-rosa/cmp-dictionary",
   },
   config = function()
     local cmp = require("cmp")
     local luasnip = require("luasnip")
     local lspkind = require("lspkind")
-    local dict = require("cmp-dictionary")
+    -- local dict = require("cmp-dictionary")
 
     require("luasnip/loaders/from_vscode").lazy_load()
 
@@ -28,28 +28,28 @@ return {
       return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
     end
 
-    dict.setup({ dic = { ["*"] = {} } })
+    -- dict.setup({ dic = { ["*"] = {} } })
 
-    local function setup_dictionary()
-      local cwd = vim.fn.getcwd()
-      if cwd:find("/oreade_cafe/mobile%-app", 1, true) then
-        local files = vim.fn.glob(cwd .. "/assets/locales/**/*.json", true, true)
-        if #files > 0 then
-          dict.setup({ dic = { ["*"] = files } })
-        else
-          dict.setup({ dic = { ["*"] = {} } })
-          vim.notify("cmp-dictionary: no JSON files found in assets/locales", vim.log.levels.WARN)
-        end
-      else
-        dict.setup({ dic = { ["*"] = {} } })
-      end
-    end
+    -- local function setup_dictionary()
+    --   local cwd = vim.fn.getcwd()
+    --   if cwd:find("/oreade_cafe/mobile%-app", 1, true) then
+    --     local files = vim.fn.glob(cwd .. "/assets/locales/**/*.json", true, true)
+    --     if #files > 0 then
+    --       dict.setup({ dic = { ["*"] = files } })
+    --     else
+    --       dict.setup({ dic = { ["*"] = {} } })
+    --       vim.notify("cmp-dictionary: no JSON files found in assets/locales", vim.log.levels.WARN)
+    --     end
+    --   else
+    --     dict.setup({ dic = { ["*"] = {} } })
+    --   end
+    -- end
+    --
+    -- setup_dictionary()
 
-    setup_dictionary()
-
-    vim.api.nvim_create_autocmd("DirChanged", {
-      callback = setup_dictionary,
-    })
+    -- vim.api.nvim_create_autocmd("DirChanged", {
+    --   callback = setup_dictionary,
+    -- })
 
     cmp.setup({
       snippet = {
@@ -84,7 +84,7 @@ return {
         { name = "path",            group_index = 4 },
         { name = "render-markdown", group_index = 4 },
         { name = "copilot",         group_index = 3 },
-        { name = "dictionary",      keyword_length = 2, group_index = 5 },
+        -- { name = "dictionary",      keyword_length = 2, group_index = 5 },
       }),
       window = {
         completion = cmp.config.window.bordered(),

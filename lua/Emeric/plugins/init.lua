@@ -55,7 +55,7 @@ return {
   require("Emeric.plugins.dressing"),
   require("Emeric.plugins.render-markdown"),
   require("Emeric.plugins.multicursor"),
-  require("Emeric.plugins.cmp-dictionary"),
+  -- require("Emeric.plugins.cmp-dictionary"),
   require("Emeric.plugins.barbecue"),
   require("Emeric.plugins.colorizer"),
 
