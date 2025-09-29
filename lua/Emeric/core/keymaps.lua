@@ -19,15 +19,15 @@ keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment Number" }) -- incremen
 keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement Number" }) -- decrement
 
 -- window management
-keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split Vertically" })        -- split window vertically
-keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split Horizontally" })        -- split window horizontally
-keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make Splits Equal" })        -- make split windows equal width & height
+keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split Vertically" })   -- split window vertically
+keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split Horizontally" }) -- split window horizontally
+keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make Splits Equal" })  -- make split windows equal width & height
 keymap.set("n", "<leader>sx", ":close<CR>", { desc = "Close Split" })    -- close current split window
 
-keymap.set("n", "<leader>to", ":tabnew<CR>", { desc = "New Tab" })   -- open new tab
-keymap.set("n", "<leader>tx", ":tabclose<CR>", { desc = "Close Tab" }) -- close current tab
-keymap.set("n", "<leader>tn", ":tabn<CR>", { desc = "Next Tab" })     --  go to next tab
-keymap.set("n", "<leader>tp", ":tabp<CR>", { desc = "Previous Tab" })     --  go to previous tab
+keymap.set("n", "<leader>to", ":tabnew<CR>", { desc = "New Tab" })       -- open new tab
+keymap.set("n", "<leader>tx", ":tabclose<CR>", { desc = "Close Tab" })   -- close current tab
+keymap.set("n", "<leader>tn", ":tabn<CR>", { desc = "Next Tab" })        --  go to next tab
+keymap.set("n", "<leader>tp", ":tabp<CR>", { desc = "Previous Tab" })    --  go to previous tab
 
 ----------------------
 -- Plugin Keybinds
@@ -38,22 +38,22 @@ keymap.set("n", "<leader>gg", ":LazyGit<CR>", { desc = "Open LazyGit" })
 keymap.set("n", "<leader>sm", ":MaximizerToggle<CR>", { desc = "Toggle Maximizer" }) -- toggle split window maximization
 
 -- nvim-tree
-keymap.set("n", "<leader>tf", ":NvimTreeFocus<CR>", { desc = "Focus NvimTree" })    -- focus file explorer
-keymap.set("n", "<leader>tt", ":NvimTreeToggle<CR>", { desc = "Toggle NvimTree" })   -- toggle file explorer
+keymap.set("n", "<leader>tf", ":NvimTreeFocus<CR>", { desc = "Focus NvimTree" })        -- focus file explorer
+keymap.set("n", "<leader>tt", ":NvimTreeToggle<CR>", { desc = "Toggle NvimTree" })      -- toggle file explorer
 keymap.set("n", "<leader>ts", ":NvimTreeFindFile<CR>", { desc = "NvimTree Find File" }) -- open file explorer to current file
-keymap.set("n", "<leader>tc", ":NvimTreeCollapse<CR>", { desc = "NvimTree Collapse" }) -- collapse file tree
+keymap.set("n", "<leader>tc", ":NvimTreeCollapse<CR>", { desc = "NvimTree Collapse" })  -- collapse file tree
 
 
 -- telescope
-keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Telescope Find Files" })    -- find files within current working directory, respects .gitignore
-keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Telescope Live Grep" })     -- find string in current working directory as you type
-keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "Telescope Grep String" })   -- find string under cursor in current working directory
-keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Telescope Buffers" })       -- list open buffers in current neovim instance
-keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Telescope Help Tags" })     -- list available help tags
-keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>", { desc = "Telescope Git Commits" })   -- list all git commits (use <cr> to checkout) ["gc" for git commits]
+keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Telescope Find Files" })            -- find files within current working directory, respects .gitignore
+keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Telescope Live Grep" })              -- find string in current working directory as you type
+keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "Telescope Grep String" })          -- find string under cursor in current working directory
+keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Telescope Buffers" })                  -- list open buffers in current neovim instance
+keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Telescope Help Tags" })              -- list available help tags
+keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>", { desc = "Telescope Git Commits" })          -- list all git commits (use <cr> to checkout) ["gc" for git commits]
 keymap.set("n", "<leader>gfc", "<cmd>Telescope git_bcommits<cr>", { desc = "Telescope Git Buffer Commits" }) -- list git commits for current file/buffer (use <cr> to checkout) ["gfc" for git file commits]
-keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>", { desc = "Telescope Git Branches" })  -- list git branches (use <cr> to checkout) ["gb" for git branch]
-keymap.set("n", "<leader>gs", "<cmd>Telescope git_status<cr>", { desc = "Telescope Git Status" })    -- list current changes per file with diff preview ["gs" for git status]
+keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>", { desc = "Telescope Git Branches" })        -- list git branches (use <cr> to checkout) ["gb" for git branch]
+keymap.set("n", "<leader>gs", "<cmd>Telescope git_status<cr>", { desc = "Telescope Git Status" })            -- list current changes per file with diff preview ["gs" for git status]
 
 -- telescope git commands (not on youtube nvim video)
 
@@ -104,10 +104,12 @@ vim.keymap.set("n", "[q", "<cmd>cprev<CR>zz", { desc = "Previous Quickfix Item" 
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz", { desc = "Next Location List Item" })
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz", { desc = "Previous Location List Item" })
 
-vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace Word Under Cursor" })
+vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+  { desc = "Replace Word Under Cursor" })
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true, desc = "Make File Executable" })
 
-vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.dotfiles/nvim/.config/nvim/lua/theprimeagen/packer.lua<CR>", { desc = "Edit Packer Config (Old)" }); -- Note: Path seems specific
+vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.dotfiles/nvim/.config/nvim/lua/theprimeagen/packer.lua<CR>",
+  { desc = "Edit Packer Config (Old)" });                                                                                                          -- Note: Path seems specific
 vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>", { desc = "Cellular Automaton Rain" });
 
 vim.keymap.set("n", "<leader><leader>", function()
@@ -168,3 +170,16 @@ chat_keymap.set("n", "<leader>ccs", "<cmd>CopilotChatStop<CR>", { desc = "Copilo
 chat_keymap.set("n", "<leader>ccz", "<cmd>CopilotChatReset<CR>", { desc = "CopilotChat - Reset Chat" })
 
 
+local latex_keymap = vim.keymap
+
+latex_keymap.set("n", "<localleader>ll", "<cmd>VimtexCompile<CR>", { desc = "Vimtex - Compile" })
+latex_keymap.set("n", "<localleader>lv", "<cmd>VimtexView<CR>", { desc = "Vimtex - View PDF" })
+latex_keymap.set("n", "<localleader>le", "<cmd>VimtexErrors<CR>", { desc = "Vimtex - View Errors" })
+latex_keymap.set("n", "<localleader>lk", "<cmd>VimtexStop<CR>", { desc = "Vimtex - Stop Compilation" })
+latex_keymap.set("n", "<localleader>li", "<cmd>VimtexInfo<CR>", { desc = "Vimtex - Show Info" })
+latex_keymap.set("n", "<localleader>ls", "<cmd>VimtexTocOpen<CR>", { desc = "Vimtex - Open TOC" })
+latex_keymap.set("n", "<localleader>lt", "<cmd>VimtexTocToggle<CR>", { desc = "Vimtex - Toggle TOC" })
+latex_keymap.set("n", "<localleader>lc", "<cmd>VimtexClean<CR>", { desc = "Vimtex - Clean Aux Files" })
+latex_keymap.set("n", "<localleader>lC", "<cmd>VimtexClean!<CR>", { desc = "Vimtex - Clean Full" })
+latex_keymap.set("n", "<localleader>lm", "<cmd>VimtexImaps<CR>", { desc = "Vimtex - List Imaps" })
+latex_keymap.set("n", "<localleader>lq", "<cmd>VimtexLog<CR>", { desc = "Vimtex - Show Log" })

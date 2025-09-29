@@ -1,6 +1,6 @@
 return {
   "lervag/vimtex",
-  ft = { "tex", "latex", "bib" }, 
+  ft = { "tex", "latex", "bib" },
   config = function()
     vim.g.vimtex_quickfix_mode = 0
     vim.g.tex_flavor = 'latex'
