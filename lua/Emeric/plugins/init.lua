@@ -78,7 +78,7 @@ return {
   require("Emeric.plugins.copilot"),
   require("Emeric.plugins.tabby"),
   require("Emeric.plugins.gen_nvim"),
-  require("Emeric.plugins.avante"),
+  -- require("Emeric.plugins.avante"),
 
   -- Other
   require("Emeric.plugins.harpoon"),
