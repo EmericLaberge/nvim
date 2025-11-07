@@ -69,3 +69,8 @@ vim.cmd('colorscheme tokyonight-storm')
 -- -- vim.cmd[[colorscheme dracula]]
 -- vim.cmd[[colorscheme tokyonight-storm]]
 -- vim.cmd[[colorscheme cyberdream]]
+
+
+-- Make float border transparent while keeping the theme's foreground color
+local float_border_hl = vim.api.nvim_get_hl_by_name("FloatBorder", true)
+vim.api.nvim_set_hl(0, "FloatBorder", { fg = float_border_hl.foreground, bg = "NONE" })
