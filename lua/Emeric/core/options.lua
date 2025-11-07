@@ -38,6 +38,23 @@ opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or 
 
 -- clipboard
 opt.clipboard = "unnamedplus" -- use system clipboard for all operations
+
+-- Configure clipboard provider for tmux compatibility
+-- When inside tmux, use wl-copy directly (same as tmux-yank plugin)
+if vim.env.TMUX then
+  vim.g.clipboard = {
+    name = 'wl-clipboard-tmux',
+    copy = {
+      ['+'] = {'wl-copy'},
+      ['*'] = {'wl-copy'},
+    },
+    paste = {
+      ['+'] = {'wl-paste'},
+      ['*'] = {'wl-paste'},
+    },
+    cache_enabled = true,
+  }
+end
 -- split windows
 opt.splitright = true -- split vertical window to the right
 opt.splitbelow = true -- split horizontal window to the bottom
