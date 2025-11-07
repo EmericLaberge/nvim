@@ -110,11 +110,45 @@ return {
         documentation = cmp.config.window.bordered(),
       },
       formatting = {
-        format = lspkind.cmp_format({
-          maxwidth = 50,
-          ellipsis_char = "...",
-        }),
+        fields = { "abbr", "kind", "menu" },
+        format = function(entry, vim_item)
+          if entry.source.name == "copilot" then
+            vim_item.kind = ""
+          else
+            vim_item.kind = lspkind.symbolic(vim_item.kind, { with_text = false })
+          end
+
+          vim_item.menu = ({
+            nvim_lsp = "LSP",
+            luasnip = "Snippet",
+            buffer = "Buffer",
+            path = "Path",
+            copilot = "Copilot",
+          })[entry.source.name]
+
+          return vim_item
+        end,
       },
+      sorting = {
+        comparators = {
+          cmp.config.compare.offset,
+          cmp.config.compare.exact,
+          cmp.config.compare.score,
+          cmp.config.compare.recently_used,
+          cmp.config.compare.kind,
+          cmp.config.compare.sort_text,
+          cmp.config.compare.length,
+          cmp.config.compare.order,
+        },
+      },
+    })
+
+    cmp.setup.filetype("gitcommit", {
+      sources = cmp.config.sources({
+        { name = "git" },
+      }, {
+        { name = "buffer" },
+      }),
     })
   end,
 }
