@@ -36,7 +36,6 @@ return {
   require("Emeric.plugins.friendly-snippets"),
   require("Emeric.plugins.neodev"),
   require("Emeric.plugins.lspsaga"),
-  require("Emeric.plugins.typescript"),
   require("Emeric.plugins.null-ls"),
   require("Emeric.plugins.mason-null-ls"),
   require("Emeric.plugins.nvim-dap-python"),

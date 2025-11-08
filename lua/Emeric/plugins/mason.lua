@@ -34,6 +34,21 @@ return {
 			local opts = { automatic_installation = true }
 			if #servers > 0 then opts.ensure_installed = servers end
 			pcall(mlsp.setup, opts)
+
+			local ok_lsp, lspconfig = pcall(require, "lspconfig")
+			for _, srv in ipairs(servers) do
+				local cfg = {}
+				if ok and type(lsp_setup.on_attach) == "function" then
+					cfg.on_attach = lsp_setup.on_attach
+				end
+				if ok and type(lsp_setup.lsp_flags) == "table" then
+					cfg.flags = lsp_setup.lsp_flags
+				end
+
+				if ok_lsp and lspconfig and lspconfig[srv] and type(lspconfig[srv].setup) == "function" then
+					pcall(lspconfig[srv].setup, cfg)
+				end
+			end
 		else
 			vim.notify("mason-lspconfig not available; skipping ensure_installed", vim.log.levels.WARN)
 		end
