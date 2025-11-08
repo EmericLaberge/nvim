@@ -3,7 +3,10 @@ local M = {}
 -- Make hover popups non-focusable so the cursor stays in the editor when
 -- pressing K (Shift+k). This prevents the floating window from taking
 -- focus and moving the cursor into it.
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded", focusable = false })
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+	border = "rounded",
+	focusable = false,
+})
 
 M.servers = {
     "bashls",
@@ -43,7 +46,7 @@ M.on_attach = function(client, bufnr)
     vim.keymap.set("n", "<leader>ds", builtin.lsp_document_symbols, { buffer = bufnr, desc = "Document Symbols" })
     vim.keymap.set("n", "<leader>ws", builtin.lsp_workspace_symbols, { buffer = bufnr, desc = "Workspace Symbols" })
     vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = bufnr, desc = "Go To Declaration" })
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Hover Documentation" })
+    vim.keymap.set("n", "K", require("hover").hover, { buffer = bufnr, desc = "Hover Documentation" })
     vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename Symbol" })
     vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Action" })
     vim.keymap.set("n", "<space>f", function()

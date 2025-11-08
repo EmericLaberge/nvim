@@ -71,6 +71,30 @@ vim.cmd('colorscheme tokyonight-storm')
 -- vim.cmd[[colorscheme cyberdream]]
 
 
--- Make float border transparent while keeping the theme's foreground color
-local float_border_hl = vim.api.nvim_get_hl_by_name("FloatBorder", true)
-vim.api.nvim_set_hl(0, "FloatBorder", { fg = float_border_hl.foreground, bg = "NONE" })
+-- Make all float borders and windows transparent while keeping the theme's foreground color
+local highlights = {
+  "FloatBorder",
+  "NormalFloat",
+  "Pmenu",
+  "PmenuSel",
+  "TelescopeNormal",
+  "TelescopeBorder",
+  "TelescopePromptNormal",
+  "TelescopePromptBorder",
+  "TelescopeResultsNormal",
+  "TelescopeResultsBorder",
+  "TelescopePreviewNormal",
+  "TelescopePreviewBorder",
+  "NoiceNormal",
+  "NoicePopup",
+  "NoiceCompletion",
+  "WhichKeyFloat",
+  "NotifyBackground",
+}
+
+for _, group in ipairs(highlights) do
+  local success, hl = pcall(vim.api.nvim_get_hl_by_name, group, true)
+  if success and hl then
+    vim.api.nvim_set_hl(0, group, { fg = hl.foreground, bg = "NONE" })
+  end
+end

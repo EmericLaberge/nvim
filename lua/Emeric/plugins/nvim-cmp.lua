@@ -106,8 +106,15 @@ return {
         -- { name = "dictionary",      keyword_length = 2, group_index = 5 },
       }),
       window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
+        completion = {
+          border = "rounded",
+          winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder",
+          scrollbar = false,
+        },
+        documentation = {
+          border = "rounded",
+          winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder",
+        },
       },
       formatting = {
         fields = { "abbr", "kind", "menu" },
