@@ -43,7 +43,6 @@ return {
   require("Emeric.plugins.nvim-dap-virtual-text"),
   -- require("Emeric.plugins.treesitter-playground"),
   require("Emeric.plugins.treesitter-context"),
-  require("Emeric.plugins.latex-live-preview"),
   require("Emeric.plugins.lazygit"),
   require("Emeric.plugins.vim-tabby"),
   require("Emeric.plugins.obsidian"),
@@ -85,7 +84,6 @@ return {
   require("Emeric.plugins.lazydocker"),
   require("Emeric.plugins.refactoring"),
   require("Emeric.plugins.vimtex"),
-  require("Emeric.plugins.vim-latex-live-preview"),
   -- require("Emeric.plugins.neorg"),
   require("Emeric.plugins.noice"),
 }
