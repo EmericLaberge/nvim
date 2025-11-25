@@ -21,6 +21,7 @@ return {
   end,
   config = function()
     require("copilot").setup({
+      copilot_node_command = "/Users/emericlaberge/.nvm/versions/node/v22.17.0/bin/node", -- Spécifier le chemin vers Node.js
       suggestion = { enabled = false, auto_trigger = false },
       panel = { enabled = false },
       filetypes = { markdown = true },
