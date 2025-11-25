@@ -145,6 +145,36 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
   { desc = "Replace Word Under Cursor" })
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true, desc = "Make File Executable" })
 
+-- Open current file with system default application (for PDFs, images, etc.)
+vim.keymap.set("n", "<leader>o", function()
+  local file_path = vim.fn.expand("%:p")
+  if file_path == "" then
+    vim.notify("No file to open", vim.log.levels.WARN)
+    return
+  end
+  -- Use xdg-open on Linux, open on macOS, start on Windows
+  -- Check macOS first since it's Unix-based (has("unix") returns 1 on macOS too)
+  local open_cmd
+  if vim.fn.has("mac") == 1 or vim.fn.has("macunix") == 1 then
+    open_cmd = "open"
+  elseif vim.fn.has("unix") == 1 then
+    open_cmd = "xdg-open"
+  elseif vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
+    open_cmd = "start"
+  else
+    vim.notify("Unsupported system for opening files", vim.log.levels.ERROR)
+    return
+  end
+  vim.fn.jobstart({ open_cmd, file_path }, {
+    detach = true,
+    on_exit = function(_, code)
+      if code ~= 0 then
+        vim.notify("Failed to open file with default application", vim.log.levels.ERROR)
+      end
+    end,
+  })
+end, { desc = "Open File with Default Application" })
+
 vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.dotfiles/nvim/.config/nvim/lua/theprimeagen/packer.lua<CR>",
   { desc = "Edit Packer Config (Old)" });                                                                                                          -- Note: Path seems specific
 vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>", { desc = "Cellular Automaton Rain" });
