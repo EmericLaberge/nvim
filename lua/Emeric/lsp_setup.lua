@@ -59,11 +59,27 @@ vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 	group = augroup,
 	pattern = "*",
 	callback = function()
-		vim.lsp.buf.document_highlight()
+		-- Check if any LSP client supports document highlighting
+		local clients = vim.lsp.get_active_clients({ bufnr = vim.api.nvim_get_current_buf() })
+		for _, client in ipairs(clients) do
+			if client.supports_method("textDocument/documentHighlight") then
+				vim.lsp.buf.document_highlight()
+				break
+			end
+		end
 	end,
 })
 
 vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+	group = augroup,
+	pattern = "*",
+	callback = function()
+		vim.lsp.buf.clear_references()
+	end,
+})
+
+-- Clear highlights when leaving the buffer
+vim.api.nvim_create_autocmd({ "BufLeave" }, {
 	group = augroup,
 	pattern = "*",
 	callback = function()

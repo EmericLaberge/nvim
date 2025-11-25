@@ -35,18 +35,39 @@ return {
 			if #servers > 0 then opts.ensure_installed = servers end
 			pcall(mlsp.setup, opts)
 
-			local ok_lsp, lspconfig = pcall(require, "lspconfig")
-			for _, srv in ipairs(servers) do
-				local cfg = {}
-				if ok and type(lsp_setup.on_attach) == "function" then
-					cfg.on_attach = lsp_setup.on_attach
+			-- Use vim.lsp.config instead of require('lspconfig') for Neovim 0.11+
+			-- Fallback to require('lspconfig') for older versions
+			local lspconfig
+			if vim.lsp and vim.lsp.config then
+				lspconfig = vim.lsp.config
+			else
+				local ok_lsp, lspconfig_req = pcall(require, "lspconfig")
+				if ok_lsp then
+					lspconfig = lspconfig_req
 				end
-				if ok and type(lsp_setup.lsp_flags) == "table" then
-					cfg.flags = lsp_setup.lsp_flags
-				end
+			end
 
-				if ok_lsp and lspconfig and lspconfig[srv] and type(lspconfig[srv].setup) == "function" then
-					pcall(lspconfig[srv].setup, cfg)
+			if lspconfig then
+				for _, srv in ipairs(servers) do
+					-- Skip julials if Julia is not available
+					if srv == "julials" and vim.fn.executable("julia") ~= 1 then
+						vim.notify("Skipping julials setup: Julia not found in PATH", vim.log.levels.INFO)
+					else
+						local cfg = {}
+						if ok and type(lsp_setup.on_attach) == "function" then
+							cfg.on_attach = lsp_setup.on_attach
+						end
+						if ok and type(lsp_setup.lsp_flags) == "table" then
+							cfg.flags = lsp_setup.lsp_flags
+						end
+
+						if lspconfig[srv] and type(lspconfig[srv].setup) == "function" then
+							local setup_ok, setup_err = pcall(lspconfig[srv].setup, cfg)
+							if not setup_ok then
+								vim.notify("Failed to setup LSP server: " .. srv .. " - " .. tostring(setup_err), vim.log.levels.WARN)
+							end
+						end
+					end
 				end
 			end
 		else
