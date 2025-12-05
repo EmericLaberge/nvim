@@ -20,8 +20,44 @@ return {
     vim.api.nvim_set_keymap('n', '<Leader>ct', '<cmd>lua toggle_copilot_auto_trigger()<CR>', { noremap = true, silent = true, desc = "Toggle Copilot AutoTrigger" })
   end,
   config = function()
+    -- Auto-detect Node.js path based on OS
+    local node_command = nil
+    local home = vim.fn.expand("$HOME")
+    
+    -- Try to find node using which command first (more reliable for nvm)
+    local which_result = vim.fn.system("which node 2>/dev/null"):gsub("%s+", "")
+    if which_result ~= "" and vim.fn.executable(which_result) == 1 then
+      node_command = which_result
+    else
+      -- Fallback: try common paths based on OS
+      local paths = {}
+      
+      if vim.fn.has("mac") == 1 or vim.fn.has("macunix") == 1 then
+        -- macOS paths
+        paths = {
+          home .. "/.nvm/versions/node/v22.17.0/bin/node",
+          "/usr/local/bin/node",
+          "/opt/homebrew/bin/node",
+        }
+      else
+        -- Linux paths
+        paths = {
+          home .. "/.nvm/versions/node/v24.9.0/bin/node",
+          home .. "/.nvm/versions/node/v22.17.0/bin/node",
+          "/usr/bin/node",
+        }
+      end
+      
+      for _, path in ipairs(paths) do
+        if vim.fn.executable(path) == 1 then
+          node_command = path
+          break
+        end
+      end
+    end
+    
     require("copilot").setup({
-      copilot_node_command = "/Users/emericlaberge/.nvm/versions/node/v22.17.0/bin/node", -- Spécifier le chemin vers Node.js
+      copilot_node_command = node_command or "node", -- Use detected path or fallback to 'node' in PATH
       suggestion = { enabled = false, auto_trigger = false },
       panel = { enabled = false },
       filetypes = { markdown = true },
