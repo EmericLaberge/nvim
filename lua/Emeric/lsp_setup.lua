@@ -1,12 +1,7 @@
 local M = {}
 
--- Make hover popups non-focusable so the cursor stays in the editor when
--- pressing K (Shift+k). This prevents the floating window from taking
--- focus and moving the cursor into it.
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-	border = "rounded",
-	focusable = false,
-})
+-- Noice.nvim gère maintenant le hover, pas besoin de handler personnalisé
+-- Le handler est géré par noice.lua dans la section lsp.hover
 
 M.servers = {
     "bashls",
@@ -45,7 +40,9 @@ M.on_attach = function(client, bufnr)
     vim.keymap.set("n", "<leader>ds", builtin.lsp_document_symbols, { buffer = bufnr, desc = "Document Symbols" })
     vim.keymap.set("n", "<leader>ws", builtin.lsp_workspace_symbols, { buffer = bufnr, desc = "Workspace Symbols" })
     vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = bufnr, desc = "Go To Declaration" })
-    vim.keymap.set("n", "K", require("hover").hover, { buffer = bufnr, desc = "Hover Documentation" })
+    -- Utiliser vim.lsp.buf.hover - Noice.nvim interceptera automatiquement pour un rendu moderne
+    -- Noice affiche uniquement la documentation LSP (pas de diagnostics)
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Hover Documentation" })
     vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename Symbol" })
     vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Action" })
     vim.keymap.set("n", "<space>f", function()
@@ -53,37 +50,7 @@ M.on_attach = function(client, bufnr)
     end, { buffer = bufnr, desc = "Format Code" })
 end
 
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-	group = augroup,
-	pattern = "*",
-	callback = function()
-		-- Check if any LSP client supports document highlighting
-		local clients = vim.lsp.get_active_clients({ bufnr = vim.api.nvim_get_current_buf() })
-		for _, client in ipairs(clients) do
-			if client.supports_method("textDocument/documentHighlight") then
-				vim.lsp.buf.document_highlight()
-				break
-			end
-		end
-	end,
-})
-
-vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-	group = augroup,
-	pattern = "*",
-	callback = function()
-		vim.lsp.buf.clear_references()
-	end,
-})
-
--- Clear highlights when leaving the buffer
-vim.api.nvim_create_autocmd({ "BufLeave" }, {
-	group = augroup,
-	pattern = "*",
-	callback = function()
-		vim.lsp.buf.clear_references()
-	end,
-})
+-- Désactivation du surlignage automatique pour éviter les surlignages indésirables
+-- Les keymaps K, gd, gr utilisent Telescope et n'ont pas besoin de surlignage automatique
 
 return M

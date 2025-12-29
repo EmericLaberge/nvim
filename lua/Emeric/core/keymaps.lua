@@ -90,7 +90,8 @@ vim.keymap.set("i", "<C-c>", "<Esc>", { desc = "Exit Insert Mode (Ctrl+C)" })
 
 vim.keymap.set("n", "Q", "<nop>", { desc = "Disable Ex Mode" })
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>", { desc = "Tmux Sessionizer" })
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format Code (LSP)" })
+-- Formatage géré par Conform dans lua/Emeric/plugins/conform.lua
+-- vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format Code (LSP)" })
 
 -- Window navigation using Ctrl+h/j/k/l (useful and common mapping)
 local function tmux_nav(dir_cmd, tmux_fn)

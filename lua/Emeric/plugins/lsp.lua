@@ -22,6 +22,26 @@ return {
 		local on_attach = lsp_setup.on_attach
 		local lsp_flags = lsp_setup.lsp_flags
 
+		-- Utiliser LspAttach pour s'assurer que on_attach est appelé pour TOUS les clients LSP
+		-- Cela inclut les clients configurés ailleurs (tabby, copilot, ruff, etc.)
+		local lsp_attach_group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true })
+		vim.api.nvim_create_autocmd("LspAttach", {
+			group = lsp_attach_group,
+			callback = function(event)
+				on_attach(event.data.client, event.buf)
+			end,
+		})
+
+		-- Appliquer on_attach aux clients LSP déjà attachés (pour les buffers déjà ouverts)
+		for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+			local clients = vim.lsp.get_clients({ bufnr = buf })
+			if #clients > 0 then
+				for _, client in ipairs(clients) do
+					on_attach(client, buf)
+				end
+			end
+		end
+
 		-- Diagnostics keymaps
 		vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "Open Diagnostics Float" })
 		vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go To Previous Diagnostic" })
@@ -30,7 +50,7 @@ return {
 
 		-- helper to show active client
 		local function get_active_lsp_client()
-			local clients = vim.lsp.get_active_clients({ bufnr = vim.api.nvim_get_current_buf() })
+			local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
 			if #clients == 0 then
 				return nil
 			else

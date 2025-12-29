@@ -1,0 +1,41 @@
+Commandes Mason à exécuter dans Neovim (:MasonInstall <nom>)
+
+=== SERVEURS LSP ===
+:MasonInstall bash-language-server
+:MasonInstall clangd
+:MasonInstall csharp-language-server
+:MasonInstall css-lsp
+:MasonInstall dockerfile-language-server
+:MasonInstall gopls
+:MasonInstall html-lsp
+:MasonInstall jdtls
+:MasonInstall json-lsp
+:MasonInstall lua-language-server
+:MasonInstall marksman
+:MasonInstall omnisharp
+:MasonInstall perlnavigator
+:MasonInstall phpactor
+:MasonInstall pyright
+:MasonInstall rust-analyzer
+:MasonInstall sqls
+:MasonInstall texlab
+:MasonInstall typescript-language-server
+:MasonInstall yaml-language-server
+
+=== FORMATEURS ===
+:MasonInstall stylua
+:MasonInstall isort
+:MasonInstall black
+:MasonInstall prettier
+:MasonInstall sqlfluff
+
+=== LINTERS ===
+:MasonInstall eslint_d
+:MasonInstall pylint
+:MasonInstall ruff
+:MasonInstall luacheck
+:MasonInstall shellcheck
+:MasonInstall yamllint
+:MasonInstall jsonlint
+:MasonInstall markdownlint
+:MasonInstall hadolint
