@@ -18,7 +18,6 @@ M.servers = {
     "html",
     "jdtls",
     "jsonls",
-    "julials",
     "lua_ls",
     "marksman",
     "omnisharp",

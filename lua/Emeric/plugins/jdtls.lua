@@ -25,17 +25,9 @@ return {
           configuration = {
             runtimes = {
               {
-                name = "JavaSE-1.8",
-                path = "/Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home",
-                default = true,
-              },
-              {
                 name = "JavaSE-17",
-                path = "/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home",
-              },
-              {
-                name = "JavaSE-19",
-                path = "/Library/Java/JavaVirtualMachines/jdk-19.jdk/Contents/Home",
+                path = vim.fn.exepath("java") and vim.fn.fnamemodify(vim.fn.exepath("java"), ":h:h") or "/usr/lib/jvm/java-17-openjdk",
+                default = true,
               },
             },
           },
@@ -67,12 +59,23 @@ return {
       return opts
     end
 
-    vim.lsp.start({
-      name = "jdtls",
-      cmd = setup().cmd,
-      root_dir = setup().root_dir,
-      on_attach = setup().on_attach,
-      capabilities = setup().capabilities,
+    local augroup = vim.api.nvim_create_augroup("jdtls", { clear = true })
+    vim.api.nvim_create_autocmd("FileType", {
+      group = augroup,
+      pattern = "java",
+      callback = function()
+        local config = setup()
+        if config.cmd and #config.cmd > 0 then
+          vim.lsp.start({
+            name = "jdtls",
+            cmd = config.cmd,
+            root_dir = config.root_dir,
+            on_attach = config.on_attach,
+            capabilities = config.capabilities,
+            settings = opts.settings,
+          })
+        end
+      end,
     })
   end,
 }

@@ -12,7 +12,6 @@ return {
 			"gopls",
 			"html",
 			"jsonls",
-			"julials",
 			"lua_ls",
 			"marksman",
 			"omnisharp",
@@ -49,23 +48,18 @@ return {
 
 			if lspconfig then
 				for _, srv in ipairs(servers) do
-					-- Skip julials if Julia is not available
-					if srv == "julials" and vim.fn.executable("julia") ~= 1 then
-						vim.notify("Skipping julials setup: Julia not found in PATH", vim.log.levels.INFO)
-					else
-						local cfg = {}
-						if ok and type(lsp_setup.on_attach) == "function" then
-							cfg.on_attach = lsp_setup.on_attach
-						end
-						if ok and type(lsp_setup.lsp_flags) == "table" then
-							cfg.flags = lsp_setup.lsp_flags
-						end
+					local cfg = {}
+					if ok and type(lsp_setup.on_attach) == "function" then
+						cfg.on_attach = lsp_setup.on_attach
+					end
+					if ok and type(lsp_setup.lsp_flags) == "table" then
+						cfg.flags = lsp_setup.lsp_flags
+					end
 
-						if lspconfig[srv] and type(lspconfig[srv].setup) == "function" then
-							local setup_ok, setup_err = pcall(lspconfig[srv].setup, cfg)
-							if not setup_ok then
-								vim.notify("Failed to setup LSP server: " .. srv .. " - " .. tostring(setup_err), vim.log.levels.WARN)
-							end
+					if lspconfig[srv] and type(lspconfig[srv].setup) == "function" then
+						local setup_ok, setup_err = pcall(lspconfig[srv].setup, cfg)
+						if not setup_ok then
+							vim.notify("Failed to setup LSP server: " .. srv .. " - " .. tostring(setup_err), vim.log.levels.WARN)
 						end
 					end
 				end

@@ -48,6 +48,7 @@ return {
   require("Emeric.plugins.obsidian"),
   require("Emeric.plugins.tmux"),
   require("Emeric.plugins.img-clip"),
+  require("Emeric.plugins.csvview"),
   require("Emeric.plugins.precognition"),
   require("Emeric.plugins.dressing"),
   require("Emeric.plugins.render-markdown"),
@@ -76,6 +77,7 @@ return {
   require("Emeric.plugins.tabby"),
   require("Emeric.plugins.gen_nvim"),
   -- require("Emeric.plugins.avante"),
+  require("Emeric.plugins.opencode"),
 
   -- Other
   -- harpoon removed

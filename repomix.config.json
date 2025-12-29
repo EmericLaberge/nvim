@@ -1,0 +1,19 @@
+{
+  "output": {
+    "style": "markdown",
+    "filePath": "repomix-output.md"
+  },
+  "ignore": {
+    "customPatterns": [
+      "assets/**",
+      "pack/**",
+      "lazy-lock.json",
+      "**/package-lock.json",
+      "**/*.log",
+      "**/*.png",
+      "**/*.txt",
+      "**/.git/**"
+    ]
+  }
+}
+
