@@ -11,15 +11,17 @@ return {
       "latex", "bibtex"
     })
 
-    -- 2. Enable Highlighting & Indentation
-    -- The plugin no longer does this for you. You must use an autocommand
-    -- to start the native treesitter engine when opening a file.
     vim.api.nvim_create_autocmd("FileType", {
       callback = function(args)
-        -- Enable native Highlighting
+        -- DISABLE treesitter for latex to let VimTeX handle syntax
+        if vim.bo[args.buf].filetype == "latex" or vim.bo[args.buf].filetype == "tex" then
+            return
+        end
+
+        -- Enable native Highlighting for everything else
         local ok = pcall(vim.treesitter.start, args.buf)
         
-        -- Enable native Indentation (if highlighting worked)
+        -- Enable native Indentation
         if ok then
           vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
         end
