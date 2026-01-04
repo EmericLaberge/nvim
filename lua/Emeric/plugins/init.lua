@@ -40,7 +40,6 @@ return {
   -- require("Emeric.plugins.nvim-dap-python"),
   -- require("Emeric.plugins.nvim-dap-virtual-text"),
   -- require("Emeric.plugins.treesitter-playground"),
-  require("Emeric.plugins.treesitter-context"),
   require("Emeric.plugins.lazygit"),
   require("Emeric.plugins.vim-tabby"),
   require("Emeric.plugins.obsidian"),
@@ -52,7 +51,7 @@ return {
   require("Emeric.plugins.render-markdown"),
   require("Emeric.plugins.multicursor"),
   -- require("Emeric.plugins.cmp-dictionary"),
-  require("Emeric.plugins.barbecue"),
+  require("Emeric.plugins.dropbar"),
   require("Emeric.plugins.colorizer"),
 
 

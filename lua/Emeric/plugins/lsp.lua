@@ -1,72 +1,91 @@
 return {
-	"neovim/nvim-lspconfig",
-	dependencies = {
-		"williamboman/mason.nvim",
-		"williamboman/mason-lspconfig.nvim",
-		"hrsh7th/cmp-nvim-lsp",
-		"hrsh7th/cmp-buffer",
-		"hrsh7th/cmp-path",
-		"hrsh7th/cmp-cmdline",
-		"hrsh7th/nvim-cmp",
-		"L3MON4D3/LuaSnip",
-		"saadparwaiz1/cmp_luasnip",
-		"j-hui/fidget.nvim",
-	},
-	config = function()
-		local ok, lsp_setup = pcall(require, "Emeric.lsp_setup")
-		if not ok then
-			vim.notify("Emeric.lsp_setup not found; LSP keymaps may be incomplete", vim.log.levels.WARN)
-			return
-		end
+    "neovim/nvim-lspconfig",
+    dependencies = {
+        "williamboman/mason.nvim",
+        "williamboman/mason-lspconfig.nvim",
+        "hrsh7th/cmp-nvim-lsp",
+        "hrsh7th/cmp-buffer",
+        "hrsh7th/cmp-path",
+        "hrsh7th/cmp-cmdline",
+        "hrsh7th/nvim-cmp",
+        "L3MON4D3/LuaSnip",
+        "saadparwaiz1/cmp_luasnip",
+        "j-hui/fidget.nvim",
+    },
+    config = function()
+        -- =========================================================
+        -- 1. Configuration moderne des icônes (Neovim 0.10+)
+        -- =========================================================
+        vim.diagnostic.config({
+            signs = {
+                text = {
+                    [vim.diagnostic.severity.ERROR] = " ",
+                    [vim.diagnostic.severity.WARN]  = " ",
+                    [vim.diagnostic.severity.HINT]  = "󰠠 ",
+                    [vim.diagnostic.severity.INFO]  = " ",
+                },
+            },
+            -- On désactive le texte virtuel natif car tu utilises tiny-inline-diagnostic
+            -- Si tu désactives tiny-inline-diagnostic un jour, passe ceci à 'true'
+            virtual_text = false,
+        })
 
-		local on_attach = lsp_setup.on_attach
-		local lsp_flags = lsp_setup.lsp_flags
+        -- =========================================================
+        -- 2. Chargement de la config personnalisée
+        -- =========================================================
+        local ok, lsp_setup = pcall(require, "Emeric.lsp_setup")
+        if not ok then
+            vim.notify("Emeric.lsp_setup not found; LSP keymaps may be incomplete", vim.log.levels.WARN)
+            return
+        end
 
-		-- Utiliser LspAttach pour s'assurer que on_attach est appelé pour TOUS les clients LSP
-		-- Cela inclut les clients configurés ailleurs (tabby, copilot, ruff, etc.)
-		local lsp_attach_group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true })
-		vim.api.nvim_create_autocmd("LspAttach", {
-			group = lsp_attach_group,
-			callback = function(event)
-				on_attach(event.data.client, event.buf)
-			end,
-		})
+        local on_attach = lsp_setup.on_attach
+        local lsp_flags = lsp_setup.lsp_flags
 
-		-- Appliquer on_attach aux clients LSP déjà attachés (pour les buffers déjà ouverts)
-		for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-			local clients = vim.lsp.get_clients({ bufnr = buf })
-			if #clients > 0 then
-				for _, client in ipairs(clients) do
-					on_attach(client, buf)
-				end
-			end
-		end
+        -- Utiliser LspAttach pour s'assurer que on_attach est appelé pour TOUS les clients LSP
+        local lsp_attach_group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true })
+        vim.api.nvim_create_autocmd("LspAttach", {
+            group = lsp_attach_group,
+            callback = function(event)
+                on_attach(event.data.client, event.buf)
+            end,
+        })
 
-		-- Diagnostics keymaps
-		vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "Open Diagnostics Float" })
-		vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go To Previous Diagnostic" })
-		vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go To Next Diagnostic" })
-		vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, { desc = "Set Diagnostics Loclist" })
+        -- Appliquer on_attach aux clients LSP déjà attachés
+        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+            local clients = vim.lsp.get_clients({ bufnr = buf })
+            if #clients > 0 then
+                for _, client in ipairs(clients) do
+                    on_attach(client, buf)
+                end
+            end
+        end
 
-		-- helper to show active client
-		local function get_active_lsp_client()
-			local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
-			if #clients == 0 then
-				return nil
-			else
-				return clients[1]
-			end
-		end
+        -- Diagnostics keymaps
+        vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "Open Diagnostics Float" })
+        vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go To Previous Diagnostic" })
+        vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go To Next Diagnostic" })
+        vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, { desc = "Set Diagnostics Loclist" })
 
-		local function print_active_lsp_client()
-			local client = get_active_lsp_client()
-			if client then
-				print("Active LSP client: " .. client.name)
-			else
-				print("No active LSP client")
-			end
-		end
+        -- Helper to show active client
+        local function get_active_lsp_client()
+            local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
+            if #clients == 0 then
+                return nil
+            else
+                return clients[1]
+            end
+        end
 
-		vim.keymap.set("n", "<space>lp", print_active_lsp_client, { desc = "Print Active LSP Client" })
-	end,
+        local function print_active_lsp_client()
+            local client = get_active_lsp_client()
+            if client then
+                print("Active LSP client: " .. client.name)
+            else
+                print("No active LSP client")
+            end
+        end
+
+        vim.keymap.set("n", "<space>lp", print_active_lsp_client, { desc = "Print Active LSP Client" })
+    end,
 }

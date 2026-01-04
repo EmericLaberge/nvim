@@ -184,16 +184,8 @@ vim.keymap.set("n", "<leader><leader>", function()
   vim.cmd("so")
 end, { desc = "Source Current File" })
 
-vim.keymap.set("n", "<leader>l", function()
-  vim.cmd("lua require('lspsaga.diagnostic').show_line_diagnostics()")
-end, { desc = "Show Line Diagnostics (LSPSaga)" })
--- Key mapping to toggle lsp_lines
-vim.keymap.set(
-  "n",                         -- normal mode
-  "<Leader>l",                 -- replace <Leader>l with your preferred keybinding
-  require("lsp_lines").toggle, -- toggle lsp_lines
-  { desc = "Toggle lsp_lines" }
-)
+-- Key mapping to toggle tiny-inline-diagnostic
+vim.keymap.set("n", "<leader>l", "<cmd>TinyInlineDiag toggle<cr>", { desc = "Toggle Inline Diagnostics" })
 
 vim.api.nvim_set_keymap('n', 'fw', ":HopWord<CR>", { noremap = true, desc = "Hop Word" })
 
