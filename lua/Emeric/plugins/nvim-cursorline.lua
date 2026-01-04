@@ -10,7 +10,7 @@ return {
     cursorline.setup {
       cursorline = {
         enable = true,
-        timeout = 1000,
+        timeout = 0, -- Désactiver le délai pour une réactivité immédiate
         number = false,
       },
       cursorword = {

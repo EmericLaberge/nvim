@@ -3,7 +3,8 @@ return {
   event = "VeryLazy",
   priority = 1000,
   config = function()
-    require("tiny-inline-diagnostic").setup({
+    local diag = require("tiny-inline-diagnostic")
+    diag.setup({
       -- Choose a preset style for diagnostic appearance
       -- Available: "modern", "classic", "minimal", "powerline", "ghost", "simple", "nonerdfont", "amongus"
       preset = "modern",
@@ -138,5 +139,7 @@ return {
     })
     -- Disable Neovim's default virtual text diagnostics
     vim.diagnostic.config({ virtual_text = false })
+    -- Désactiver le plugin par défaut (peut être activé avec <leader>l)
+    diag.disable()
   end,
 }
