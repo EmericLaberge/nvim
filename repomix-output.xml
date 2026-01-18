@@ -1,31 +1,35 @@
 This file is a merged representation of a subset of the codebase, containing specifically included files and files not matching ignore patterns, combined into a single document by Repomix.
 
-# File Summary
+<file_summary>
+This section contains a summary of this file.
 
-## Purpose
+<purpose>
 This file contains a packed representation of a subset of the repository's contents that is considered the most important context.
 It is designed to be easily consumable by AI systems for analysis, code review,
 or other automated processes.
+</purpose>
 
-## File Format
+<file_format>
 The content is organized as follows:
 1. This summary section
 2. Repository information
 3. Directory structure
 4. Repository files (if enabled)
 5. Multiple file entries, each consisting of:
-  a. A header with the file path (## File: path/to/file)
-  b. The full contents of the file in a code block
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
 
-## Usage Guidelines
+<usage_guidelines>
 - This file should be treated as read-only. Any changes should be made to the
   original repository files, not this packed version.
 - When processing this file, use the file path to distinguish
   between different files in the repository.
 - Be aware that this file may contain sensitive information. Handle it with
   the same level of security as you would the original repository.
+</usage_guidelines>
 
-## Notes
+<notes>
 - Some files may have been excluded based on .gitignore rules and Repomix's configuration
 - Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
 - Only files matching these patterns are included: **/*.lua
@@ -33,9 +37,11 @@ The content is organized as follows:
 - Files matching patterns in .gitignore are excluded
 - Files matching default ignore patterns are excluded
 - Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
 
-# Directory Structure
-```
+</file_summary>
+
+<directory_structure>
 lua/
   Emeric/
     core/
@@ -125,12 +131,12 @@ lua/
 diagnose_format.lua
 init.lua
 install_all_tools.lua
-```
+</directory_structure>
 
-# Files
+<files>
+This section contains the contents of the repository's files.
 
-## File: lua/Emeric/plugins/csvview.lua
-```lua
+<file path="lua/Emeric/plugins/csvview.lua">
 return {
   "hat0uma/csvview.nvim",
   cmd = { "CsvViewEnable", "CsvViewDisable", "CsvViewToggle" },
@@ -153,17 +159,15 @@ return {
     })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/dressing.lua
-```lua
+<file path="lua/Emeric/plugins/dressing.lua">
 return {
   'stevearc/dressing.nvim',
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/dropbar.lua
-```lua
+<file path="lua/Emeric/plugins/dropbar.lua">
 return {
   "Bekaboo/dropbar.nvim",
   -- Charge le plugin seulement quand on ouvre un fichier (optimisation)
@@ -186,10 +190,9 @@ return {
     })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/lazydev.lua
-```lua
+<file path="lua/Emeric/plugins/lazydev.lua">
 return {
   "folke/lazydev.nvim",
   ft = "lua", -- only load on lua files
@@ -200,10 +203,9 @@ return {
     },
   },
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/lint.lua
-```lua
+<file path="lua/Emeric/plugins/lint.lua">
 return {
   "mfussenegger/nvim-lint",
   event = { "BufReadPre", "BufNewFile" },
@@ -254,10 +256,9 @@ return {
     end, { desc = "Run linters for current buffer" })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/opencode.lua
-```lua
+<file path="lua/Emeric/plugins/opencode.lua">
 return {
   "NickvanDyke/opencode.nvim",
   dependencies = {
@@ -281,10 +282,9 @@ return {
     end, { desc = "opencode: Toggle" })
   end,
 }
-```
+</file>
 
-## File: diagnose_format.lua
-```lua
+<file path="diagnose_format.lua">
 -- Script de diagnostic pour le formatage
 -- Exécutez : :source diagnose_format.lua
 
@@ -360,10 +360,9 @@ local function diagnose_format()
 end
 
 diagnose_format()
-```
+</file>
 
-## File: install_all_tools.lua
-```lua
+<file path="install_all_tools.lua">
 -- Script pour installer tous les outils Mason
 -- À exécuter dans Neovim: :source install_all_tools.lua
 
@@ -377,7 +376,7 @@ local function install_mason_tools()
     "dockerfile-language-server",
     "gopls",
     "html-lsp",
-    "jdtls",
+    -- "jdtls",
     "json-lsp",
     "lua-language-server",
     "marksman",
@@ -421,73 +420,64 @@ local function install_mason_tools()
 end
 
 install_mason_tools()
-```
+</file>
 
-## File: lua/Emeric/plugins/cmp-dictionary.lua
-```lua
+<file path="lua/Emeric/plugins/cmp-dictionary.lua">
 return {
   "uga-rosa/cmp-dictionary",
   dependencies = { "hrsh7th/nvim-cmp" },
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/cmp-luasnip.lua
-```lua
+<file path="lua/Emeric/plugins/cmp-luasnip.lua">
 return {
   "saadparwaiz1/cmp_luasnip",
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/colorizer.lua
-```lua
+<file path="lua/Emeric/plugins/colorizer.lua">
 return {
   'norcalli/nvim-colorizer.lua',
   config = function()
     require('colorizer').setup()
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/cursorline.lua
-```lua
+<file path="lua/Emeric/plugins/cursorline.lua">
 return {
   "yamatsum/nvim-cursorline",
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/diffview.lua
-```lua
+<file path="lua/Emeric/plugins/diffview.lua">
 return {
   "sindrets/diffview.nvim",
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/dracula.lua
-```lua
+<file path="lua/Emeric/plugins/dracula.lua">
 return {
   "Mofiqul/dracula.nvim",
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/friendly-snippets.lua
-```lua
+<file path="lua/Emeric/plugins/friendly-snippets.lua">
 return {
   "rafamadriz/friendly-snippets",
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/git-conflict.lua
-```lua
+<file path="lua/Emeric/plugins/git-conflict.lua">
 return {
   'akinsho/git-conflict.nvim',
   config = function()
     require('git-conflict').setup()
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/hover.lua
-```lua
+<file path="lua/Emeric/plugins/hover.lua">
 return {
 	"lewis6991/hover.nvim",
 	enabled = false, -- Désactivé, on utilise noice.nvim pour le hover
@@ -526,10 +516,9 @@ return {
 		})
 	end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/img-clip.lua
-```lua
+<file path="lua/Emeric/plugins/img-clip.lua">
 return {
   'HakonHarnes/img-clip.nvim',
   config = function()
@@ -538,46 +527,40 @@ return {
     vim.keymap.set('n', '<leader>p', '<cmd>PasteImage<cr>', { desc = 'Paste image from system clipboard' })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/lazygit.lua
-```lua
+<file path="lua/Emeric/plugins/lazygit.lua">
 return {
   'kdheepak/lazygit.nvim',
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/luasnip.lua
-```lua
+<file path="lua/Emeric/plugins/luasnip.lua">
 return {
   "L3MON4D3/LuaSnip",
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/multicursor.lua
-```lua
+<file path="lua/Emeric/plugins/multicursor.lua">
 return {
   "jake-stewart/multicursor.nvim",
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/nvim-dap-python.lua
-```lua
+<file path="lua/Emeric/plugins/nvim-dap-python.lua">
 return {
   "mfussenegger/nvim-dap-python",
   dependencies = { "mfussenegger/nvim-dap" },
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/nvim-dap-virtual-text.lua
-```lua
+<file path="lua/Emeric/plugins/nvim-dap-virtual-text.lua">
 return {
   "theHamsta/nvim-dap-virtual-text",
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/nvim-web-devicons.lua
-```lua
+<file path="lua/Emeric/plugins/nvim-web-devicons.lua">
 return {
   'kyazdani42/nvim-web-devicons',
   config = function()
@@ -587,27 +570,24 @@ return {
     }
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/obsidian.lua
-```lua
+<file path="lua/Emeric/plugins/obsidian.lua">
 return {
   "epwalsh/obsidian.nvim",
   dependencies = {
     "nvim-lua/plenary.nvim",
   },
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/precognition.lua
-```lua
+<file path="lua/Emeric/plugins/precognition.lua">
 return {
   "tris203/precognition.nvim",
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/render-markdown.lua
-```lua
+<file path="lua/Emeric/plugins/render-markdown.lua">
 return {
   'MeanderingProgrammer/render-markdown.nvim',
   dependencies = { 'echasnovski/mini.nvim', opt = true },
@@ -615,17 +595,15 @@ return {
     require('render-markdown').setup({})
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/replace-with-register.lua
-```lua
+<file path="lua/Emeric/plugins/replace-with-register.lua">
 return {
   "inkarkat/vim-ReplaceWithRegister",
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/surround.lua
-```lua
+<file path="lua/Emeric/plugins/surround.lua">
 return {
   "kylechui/nvim-surround",
   config = function()
@@ -634,26 +612,23 @@ return {
     })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/telescope-fzf-native.lua
-```lua
+<file path="lua/Emeric/plugins/telescope-fzf-native.lua">
 return {
   "nvim-telescope/telescope-fzf-native.nvim",
   build = "make",
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/tmux.lua
-```lua
+<file path="lua/Emeric/plugins/tmux.lua">
 return {
   "aserowy/tmux.nvim",
   config = function() return require("tmux").setup() end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/todo-comments.lua
-```lua
+<file path="lua/Emeric/plugins/todo-comments.lua">
 return {
   "folke/todo-comments.nvim",
   dependencies = { "nvim-lua/plenary.nvim" },
@@ -661,17 +636,15 @@ return {
     require("todo-comments").setup {}
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/vim-tabby.lua
-```lua
+<file path="lua/Emeric/plugins/vim-tabby.lua">
 return {
   'TabbyML/vim-tabby',
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/avante.lua
-```lua
+<file path="lua/Emeric/plugins/avante.lua">
 return {
   "yetone/avante.nvim",
   build = "make BUILD_FROM_SOURCE=true",
@@ -690,20 +663,18 @@ return {
     "HakonHarnes/img-clip.nvim",
   },
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/comment.lua
-```lua
+<file path="lua/Emeric/plugins/comment.lua">
 return {
   "numToStr/Comment.nvim",
   config = function()
     require("Comment").setup()
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/copilot-cmp.lua
-```lua
+<file path="lua/Emeric/plugins/copilot-cmp.lua">
 return {
   "zbirenbaum/copilot-cmp",
   after = { "copilot.lua", "nvim-cmp" },
@@ -717,30 +688,27 @@ return {
     })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/gitsigns.lua
-```lua
+<file path="lua/Emeric/plugins/gitsigns.lua">
 return {
   "lewis6991/gitsigns.nvim",
   config = function()
     require("gitsigns").setup()
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/lazydocker.lua
-```lua
+<file path="lua/Emeric/plugins/lazydocker.lua">
 return {
   "crnvl96/lazydocker.nvim",
   config = function()
     vim.api.nvim_set_keymap('n', '<leader>ld', ':LazyDocker<CR>', { noremap = true, silent = true })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/lspsaga.lua
-```lua
+<file path="lua/Emeric/plugins/lspsaga.lua">
 return {
   "glepnir/lspsaga.nvim",
 	config = function()
@@ -755,10 +723,9 @@ return {
 		})
 	end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/presence.lua
-```lua
+<file path="lua/Emeric/plugins/presence.lua">
 return {
   "andweeb/presence.nvim",
   config = function()
@@ -784,10 +751,9 @@ return {
     })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/rainbow-delimiters.lua
-```lua
+<file path="lua/Emeric/plugins/rainbow-delimiters.lua">
 return {
   "hiphish/rainbow-delimiters.nvim",
   config = function()
@@ -813,10 +779,9 @@ return {
     }
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/refactoring.lua
-```lua
+<file path="lua/Emeric/plugins/refactoring.lua">
 return {
   "ThePrimeagen/refactoring.nvim",
   dependencies = {
@@ -828,18 +793,16 @@ return {
     vim.api.nvim_set_keymap("v", "<leader>ri", [[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]], {noremap = true, silent = true, expr = false})
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/treesitter-playground.lua
-```lua
+<file path="lua/Emeric/plugins/treesitter-playground.lua">
 return {
   "nvim-treesitter/playground",
   enabled = false,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/trouble.lua
-```lua
+<file path="lua/Emeric/plugins/trouble.lua">
 return {
   "folke/trouble.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -849,10 +812,9 @@ return {
     )
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/autopairs.lua
-```lua
+<file path="lua/Emeric/plugins/autopairs.lua">
 return {
   "windwp/nvim-autopairs",
   event = "InsertEnter",
@@ -872,10 +834,9 @@ return {
     cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/cloak.lua
-```lua
+<file path="lua/Emeric/plugins/cloak.lua">
 return {
   "laytan/cloak.nvim",
   config = function()
@@ -896,10 +857,9 @@ return {
     })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/fugitive.lua
-```lua
+<file path="lua/Emeric/plugins/fugitive.lua">
 return {
   "tpope/vim-fugitive",
   config = function()
@@ -930,10 +890,9 @@ return {
     })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/harpoon.lua
-```lua
+<file path="lua/Emeric/plugins/harpoon.lua">
 return {
   "ThePrimeagen/harpoon",
   config = function()
@@ -949,10 +908,9 @@ return {
     vim.keymap.set("n", "<C-s>", function() ui.nav_file(4) end, { desc = "Harpoon Nav File 4" })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/lspkind.lua
-```lua
+<file path="lua/Emeric/plugins/lspkind.lua">
 return {
   "onsails/lspkind.nvim",
   config = function()
@@ -963,10 +921,9 @@ return {
     vim.api.nvim_set_hl(0, "CmpItemKindCopilot", {fg ="#6CC644"})
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/lualine.lua
-```lua
+<file path="lua/Emeric/plugins/lualine.lua">
 return {
   "nvim-lualine/lualine.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -1000,10 +957,9 @@ return {
     })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/mason-nvim-dap.lua
-```lua
+<file path="lua/Emeric/plugins/mason-nvim-dap.lua">
 return {
   "williamboman/mason-nvim-dap.nvim",
   dependencies = { "williamboman/mason.nvim" },
@@ -1029,10 +985,9 @@ return {
     })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/notify.lua
-```lua
+<file path="lua/Emeric/plugins/notify.lua">
 return {
   "rcarriga/nvim-notify",
   config = function()
@@ -1042,20 +997,18 @@ return {
     })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/undotree.lua
-```lua
+<file path="lua/Emeric/plugins/undotree.lua">
 return {
   "mbbill/undotree",
   config = function()
     vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "Toggle Undotree" })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/colors.lua
-```lua
+<file path="lua/Emeric/plugins/colors.lua">
 return {
   "rose-pine/neovim",
   name = "rose-pine",
@@ -1075,10 +1028,9 @@ return {
     ColorMyPencils()
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/dapui.lua
-```lua
+<file path="lua/Emeric/plugins/dapui.lua">
 return {
   "rcarriga/nvim-dap-ui",
   dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
@@ -1097,10 +1049,9 @@ return {
     vim.keymap.set({ 'n', 'v' }, '<leader>de', function() dapui.eval() end, { desc = 'Eval' })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/dashboard-nvim.lua
-```lua
+<file path="lua/Emeric/plugins/dashboard-nvim.lua">
 return {
   "nvimdev/dashboard-nvim",
   event = "VimEnter",
@@ -1150,10 +1101,9 @@ return {
     })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/jdtls.lua
-```lua
+<file path="lua/Emeric/plugins/jdtls.lua">
 return {
   "mfussenegger/nvim-jdtls",
   config = function()
@@ -1235,10 +1185,9 @@ return {
     })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/lsp_lines.lua
-```lua
+<file path="lua/Emeric/plugins/lsp_lines.lua">
 return {
   "rachartier/tiny-inline-diagnostic.nvim",
   event = "VeryLazy",
@@ -1384,10 +1333,9 @@ return {
     diag.disable()
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/neorg.lua
-```lua
+<file path="lua/Emeric/plugins/neorg.lua">
 return {
   "nvim-neorg/neorg",
   enabled = false,
@@ -1415,10 +1363,9 @@ return {
     ]]
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/nvim-cursorline.lua
-```lua
+<file path="lua/Emeric/plugins/nvim-cursorline.lua">
 return {
   "yamatsum/nvim-cursorline",
   config = function()
@@ -1456,10 +1403,9 @@ return {
     })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/nvim-tree.lua
-```lua
+<file path="lua/Emeric/plugins/nvim-tree.lua">
 return {
   "nvim-tree/nvim-tree.lua",
   dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -1467,10 +1413,9 @@ return {
     require("nvim-tree").setup()
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/telescope.lua
-```lua
+<file path="lua/Emeric/plugins/telescope.lua">
 return {
   "nvim-telescope/telescope.nvim",
   dependencies = {
@@ -1505,10 +1450,9 @@ return {
     vim.keymap.set('n', '<leader>vh', builtin.help_tags, { desc = "Telescope Help Tags" })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/zenmode.lua
-```lua
+<file path="lua/Emeric/plugins/zenmode.lua">
 return {
   "folke/zen-mode.nvim",
   config = function()
@@ -1540,10 +1484,9 @@ return {
     end, { desc = "Toggle Zen Mode (Minimal)" })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/barbar.lua
-```lua
+<file path="lua/Emeric/plugins/barbar.lua">
 return {
   "romgrk/barbar.nvim",
   dependencies = {
@@ -1605,10 +1548,9 @@ return {
       { noremap = true, silent = true, desc = "Buffer Order By Window" })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/conform.lua
-```lua
+<file path="lua/Emeric/plugins/conform.lua">
 return {
   "stevearc/conform.nvim",
   dependencies = { "mason.nvim" },
@@ -1666,10 +1608,9 @@ return {
     })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/dap.lua
-```lua
+<file path="lua/Emeric/plugins/dap.lua">
 return {
   "mfussenegger/nvim-dap",
   dependencies = {
@@ -1701,10 +1642,9 @@ return {
     vim.keymap.set('n','<leader>dB', function() dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, { desc = 'Set Breakpoint' })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/gen_nvim.lua
-```lua
+<file path="lua/Emeric/plugins/gen_nvim.lua">
 return {
   "David-Kunz/gen.nvim",
   config = function()
@@ -1730,10 +1670,9 @@ return {
     }
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/hop.lua
-```lua
+<file path="lua/Emeric/plugins/hop.lua">
 return {
   "phaazon/hop.nvim",
   branch = "v2",
@@ -1751,10 +1690,9 @@ return {
     end, { remap = true, desc = "Hop Char1 Before Cursor" })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/indent_blankline.lua
-```lua
+<file path="lua/Emeric/plugins/indent_blankline.lua">
 return {
   "lukas-reineke/indent-blankline.nvim",
   main = "ibl",
@@ -1786,10 +1724,9 @@ return {
     hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/noice.lua
-```lua
+<file path="lua/Emeric/plugins/noice.lua">
 return {
   "folke/noice.nvim",
   dependencies = {
@@ -1836,10 +1773,9 @@ return {
     })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/tokyo.lua
-```lua
+<file path="lua/Emeric/plugins/tokyo.lua">
 return {
   "folke/tokyonight.nvim",
   lazy = false,
@@ -1896,10 +1832,9 @@ return {
     vim.cmd.colorscheme("tokyonight")
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/core/colorscheme.lua
-```lua
+<file path="lua/Emeric/core/colorscheme.lua">
 local dracula = require("dracula")
 dracula.setup({
   -- customize dracula color palette
@@ -2005,10 +1940,9 @@ vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#ff9e64", bold = true })
 -- vim.api.nvim_set_hl(0, "LineNr", { fg = "#7aa2f7" })
 -- vim.api.nvim_set_hl(0, "LineNrAbove", { fg = "#7aa2f7" })
 -- vim.api.nvim_set_hl(0, "LineNrBelow", { fg = "#7aa2f7" })
-```
+</file>
 
-## File: lua/Emeric/plugins/which-key.lua
-```lua
+<file path="lua/Emeric/plugins/which-key.lua">
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",
@@ -2060,10 +1994,9 @@ return {
     )
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/lsp_setup.lua
-```lua
+<file path="lua/Emeric/lsp_setup.lua">
 local M = {}
 
 -- Noice.nvim gère maintenant le hover, pas besoin de handler personnalisé
@@ -2120,10 +2053,9 @@ end
 -- Les keymaps K, gd, gr utilisent Telescope et n'ont pas besoin de surlignage automatique
 
 return M
-```
+</file>
 
-## File: lua/Emeric/core/options.lua
-```lua
+<file path="lua/Emeric/core/options.lua">
 local opt = vim.opt -- for conciseness
 -- line numbers
 opt.relativenumber = true -- show relative line numbers
@@ -2204,10 +2136,9 @@ end
 opt.splitright = true -- split vertical window to the right
 opt.splitbelow = true -- split horizontal window to the bottom
 opt.iskeyword:append("-") -- consider string-string as whole word
-```
+</file>
 
-## File: lua/Emeric/plugins/tabby.lua
-```lua
+<file path="lua/Emeric/plugins/tabby.lua">
 return {
   "TabbyML/vim-tabby",
   config = function()
@@ -2220,10 +2151,9 @@ return {
       { noremap = true, silent = true, desc = " Disable Tabby " })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/treesitter.lua
-```lua
+<file path="lua/Emeric/plugins/treesitter.lua">
 return {
   "nvim-treesitter/nvim-treesitter",
   branch = "main", -- Use the new rewrite
@@ -2256,10 +2186,9 @@ return {
     })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/vimtex.lua
-```lua
+<file path="lua/Emeric/plugins/vimtex.lua">
 return {
   "lervag/vimtex",
   ft = { "tex", "latex", "bib" },
@@ -2288,10 +2217,9 @@ return {
     }
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/core/keymaps.lua
-```lua
+<file path="lua/Emeric/core/keymaps.lua">
 -- Leader is set in init.lua to ensure it's defined before plugins load
 local keymap = vim.keymap -- for conciseness
 
@@ -2544,10 +2472,9 @@ latex_keymap.set("n", "<localleader>lc", "<cmd>VimtexClean<CR>", { desc = "Vimte
 latex_keymap.set("n", "<localleader>lC", "<cmd>VimtexClean!<CR>", { desc = "Vimtex - Clean Full" })
 latex_keymap.set("n", "<localleader>lm", "<cmd>VimtexImaps<CR>", { desc = "Vimtex - List Imaps" })
 latex_keymap.set("n", "<localleader>lq", "<cmd>VimtexLog<CR>", { desc = "Vimtex - Show Log" })
-```
+</file>
 
-## File: lua/Emeric/plugins/init.lua
-```lua
+<file path="lua/Emeric/plugins/init.lua">
 return {
   -- Colorschemes
   require("Emeric.plugins.tokyo"),
@@ -2591,7 +2518,7 @@ return {
   -- require("Emeric.plugins.nvim-dap-virtual-text"),
   -- require("Emeric.plugins.treesitter-playground"),
   require("Emeric.plugins.lazygit"),
-  require("Emeric.plugins.vim-tabby"),
+  -- require("Emeric.plugins.vim-tabby"),
   require("Emeric.plugins.obsidian"),
   require("Emeric.plugins.tmux"),
   require("Emeric.plugins.img-clip"),
@@ -2613,7 +2540,7 @@ return {
   require("Emeric.plugins.conform"),
   require("Emeric.plugins.lint"),
   require("Emeric.plugins.lsp_lines"),
-  require("Emeric.plugins.jdtls"),
+  -- require("Emeric.plugins.jdtls"),
 
   -- DAP
   -- require("Emeric.plugins.dap"),
@@ -2622,10 +2549,10 @@ return {
 
   -- AI
   require("Emeric.plugins.copilot"),
-  require("Emeric.plugins.tabby"),
-  require("Emeric.plugins.gen_nvim"),
+  -- require("Emeric.plugins.tabby"),
+  -- require("Emeric.plugins.gen_nvim"),
   -- require("Emeric.plugins.avante"),
-  require("Emeric.plugins.opencode"),
+  -- require("Emeric.plugins.opencode"),
 
   -- Other
   -- harpoon removed
@@ -2637,93 +2564,157 @@ return {
   -- require("Emeric.plugins.neorg"),
   require("Emeric.plugins.noice"),
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/mason.lua
-```lua
+<file path="lua/Emeric/plugins/mason.lua">
+-- return {
+--     "williamboman/mason.nvim",
+--     dependencies = { "williamboman/mason-lspconfig.nvim" },
+--     config = function()
+--         -- !!! ADD THIS SECTION !!!
+--         -- This ensures nvim-lint, conform, and other plugins can find tools installed by Mason
+--         local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
+--         vim.env.PATH = mason_bin .. ":" .. vim.env.PATH
+--         -- !!! END ADDITION !!!
+--
+--         local capabilities = require('cmp_nvim_lsp').default_capabilities()
+--
+--         -- Simple, robust mason + mason-lspconfig setup.
+--         local ok, lsp_setup = pcall(require, "Emeric.lsp_setup")
+--         local servers = {
+--             "bashls",
+--             "clangd",
+--             "cssls",
+--             "dockerls",
+--             "gopls",
+--             "html",
+--             "jsonls",
+--             "lua_ls",
+--             "marksman",
+--             "omnisharp",
+--             "perlnavigator",
+--             "phpactor",
+--             "pyright",
+--             "rust_analyzer",
+--             "sqls",
+--             "texlab",
+--             "ts_ls",
+--             "yamlls",
+--         }
+--         if ok and type(lsp_setup.servers) == "table" then servers = lsp_setup.servers end
+--
+--         require("mason").setup()
+--
+--         local ok_mlsp, mlsp = pcall(require, "mason-lspconfig")
+--         if ok_mlsp and mlsp and type(mlsp.setup) == "function" then
+--             local opts = { automatic_installation = true }
+--             if #servers > 0 then opts.ensure_installed = servers end
+--             pcall(mlsp.setup, opts)
+--
+--             local has_lspconfig, lspconfig_plugin = pcall(require, "lspconfig")
+--
+--             for _, srv in ipairs(servers) do
+--                 local cfg = {
+--                     capabilities = capabilities,
+--                 }
+--                 if ok and type(lsp_setup.on_attach) == "function" then
+--                     cfg.on_attach = lsp_setup.on_attach
+--                 end
+--                 if ok and type(lsp_setup.lsp_flags) == "table" then
+--                     cfg.flags = lsp_setup.lsp_flags
+--                 end
+--
+--                 -- Neovim 0.11+ support
+--                 if vim.lsp.config and type(vim.lsp.config) == "function" then
+--                     local setup_ok, setup_err = pcall(function()
+--                         vim.lsp.config(srv, cfg)
+--                         vim.lsp.enable(srv)
+--                     end)
+--                     if not setup_ok then
+--                         vim.notify("Failed to setup LSP server (v0.11): " .. srv .. " - " .. tostring(setup_err), vim.log.levels.WARN)
+--                     end
+--                 -- Fallback to nvim-lspconfig
+--                 elseif has_lspconfig and lspconfig_plugin[srv] then
+--                     local setup_ok, setup_err = pcall(lspconfig_plugin[srv].setup, cfg)
+--                     if not setup_ok then
+--                         vim.notify("Failed to setup LSP server: " .. srv .. " - " .. tostring(setup_err), vim.log.levels.WARN)
+--                     end
+--                 end
+--             end
+--         else
+--             vim.notify("mason-lspconfig not available; skipping ensure_installed", vim.log.levels.WARN)
+--         end
+--     end,
+-- }
 return {
-    "williamboman/mason.nvim",
-    dependencies = { "williamboman/mason-lspconfig.nvim" },
-    config = function()
-        -- !!! ADD THIS SECTION !!!
-        -- This ensures nvim-lint, conform, and other plugins can find tools installed by Mason
-        local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
-        vim.env.PATH = mason_bin .. ":" .. vim.env.PATH
-        -- !!! END ADDITION !!!
+  "williamboman/mason.nvim",
+  dependencies = { "williamboman/mason-lspconfig.nvim" },
+  config = function()
+    -- 1. Ajout au PATH pour que les outils Mason soient visibles (linters, formatters)
+    local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
+    vim.env.PATH = mason_bin .. ":" .. vim.env.PATH
 
-        local capabilities = require('cmp_nvim_lsp').default_capabilities()
+    -- 2. Configuration des capacités (autocomplétion)
+    local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-        -- Simple, robust mason + mason-lspconfig setup.
-        local ok, lsp_setup = pcall(require, "Emeric.lsp_setup")
-        local servers = {
-            "bashls",
-            "clangd",
-            "cssls",
-            "dockerls",
-            "gopls",
-            "html",
-            "jsonls",
-            "lua_ls",
-            "marksman",
-            "omnisharp",
-            "perlnavigator",
-            "phpactor",
-            "pyright",
-            "rust_analyzer",
-            "sqls",
-            "texlab",
-            "ts_ls",
-            "yamlls",
-        }
-        if ok and type(lsp_setup.servers) == "table" then servers = lsp_setup.servers end
+    -- 3. Chargement de tes préférences (on_attach, flags) depuis lsp_setup.lua
+    local ok, lsp_setup = pcall(require, "Emeric.lsp_setup")
+    if not ok then
+      lsp_setup = { on_attach = nil, lsp_flags = {} }
+    end
 
-        require("mason").setup()
+    -- 4. Liste des serveurs (J'ai retiré jdtls comme demandé)
+    local servers = {
+      "bashls",
+      "clangd",
+      "cssls",
+      "dockerls",
+      "gopls",
+      "html",
+      "jsonls",
+      "lua_ls",
+      "marksman",
+      "omnisharp",
+      "perlnavigator",
+      "phpactor",
+      "pyright",
+      "rust_analyzer",
+      "sqls",
+      "texlab",
+      "ts_ls",
+      "yamlls",
+    }
+    
+    -- Si tu as défini une liste dans lsp_setup, on l'utilise
+    if ok and lsp_setup.servers then
+      servers = lsp_setup.servers
+    end
 
-        local ok_mlsp, mlsp = pcall(require, "mason-lspconfig")
-        if ok_mlsp and mlsp and type(mlsp.setup) == "function" then
-            local opts = { automatic_installation = true }
-            if #servers > 0 then opts.ensure_installed = servers end
-            pcall(mlsp.setup, opts)
+    -- 5. Setup de Mason
+    require("mason").setup()
 
-            local has_lspconfig, lspconfig_plugin = pcall(require, "lspconfig")
-
-            for _, srv in ipairs(servers) do
-                local cfg = {
-                    capabilities = capabilities,
-                }
-                if ok and type(lsp_setup.on_attach) == "function" then
-                    cfg.on_attach = lsp_setup.on_attach
-                end
-                if ok and type(lsp_setup.lsp_flags) == "table" then
-                    cfg.flags = lsp_setup.lsp_flags
-                end
-
-                -- Neovim 0.11+ support
-                if vim.lsp.config and type(vim.lsp.config) == "function" then
-                    local setup_ok, setup_err = pcall(function()
-                        vim.lsp.config(srv, cfg)
-                        vim.lsp.enable(srv)
-                    end)
-                    if not setup_ok then
-                        vim.notify("Failed to setup LSP server (v0.11): " .. srv .. " - " .. tostring(setup_err), vim.log.levels.WARN)
-                    end
-                -- Fallback to nvim-lspconfig
-                elseif has_lspconfig and lspconfig_plugin[srv] then
-                    local setup_ok, setup_err = pcall(lspconfig_plugin[srv].setup, cfg)
-                    if not setup_ok then
-                        vim.notify("Failed to setup LSP server: " .. srv .. " - " .. tostring(setup_err), vim.log.levels.WARN)
-                    end
-                end
-            end
-        else
-            vim.notify("mason-lspconfig not available; skipping ensure_installed", vim.log.levels.WARN)
-        end
-    end,
+    -- 6. Setup de Mason-LSPConfig avec les HANDLERS (La correction est ici)
+    require("mason-lspconfig").setup({
+      ensure_installed = servers,
+      automatic_installation = true,
+      handlers = {
+        -- Handler par défaut : s'applique à tous les serveurs installés
+        function(server_name)
+          require("lspconfig")[server_name].setup({
+            capabilities = capabilities,
+            on_attach = lsp_setup.on_attach,
+            flags = lsp_setup.lsp_flags,
+          })
+        end,
+        -- Tu peux ajouter des exceptions ici si nécessaire, par exemple :
+        -- ["lua_ls"] = function() ... end
+      }
+    })
+  end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/copilot.lua
-```lua
+<file path="lua/Emeric/plugins/copilot.lua">
 return {
   "zbirenbaum/copilot.lua",
   cmd = "Copilot",
@@ -2795,10 +2786,9 @@ return {
     })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/nvim-cmp.lua
-```lua
+<file path="lua/Emeric/plugins/nvim-cmp.lua">
 return {
   "hrsh7th/nvim-cmp",
   event = "InsertEnter",
@@ -2960,10 +2950,9 @@ return {
     })
   end,
 }
-```
+</file>
 
-## File: lua/Emeric/plugins/lsp.lua
-```lua
+<file path="lua/Emeric/plugins/lsp.lua">
 return {
     "neovim/nvim-lspconfig",
     dependencies = {
@@ -3055,10 +3044,9 @@ return {
         vim.keymap.set("n", "<space>lp", print_active_lsp_client, { desc = "Print Active LSP Client" })
     end,
 }
-```
+</file>
 
-## File: init.lua
-```lua
+<file path="init.lua">
 -- Set leader before plugins / lazy.nvim load so plugin setup can reference it
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
@@ -3089,4 +3077,6 @@ require("lazy").setup("Emeric.plugins", {
 require("Emeric.core.options")
 require("Emeric.core.keymaps")
 require("Emeric.core.colorscheme")
-```
+</file>
+
+</files>

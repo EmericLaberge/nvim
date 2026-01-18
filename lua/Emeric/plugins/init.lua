@@ -41,7 +41,7 @@ return {
   -- require("Emeric.plugins.nvim-dap-virtual-text"),
   -- require("Emeric.plugins.treesitter-playground"),
   require("Emeric.plugins.lazygit"),
-  require("Emeric.plugins.vim-tabby"),
+  -- require("Emeric.plugins.vim-tabby"),
   require("Emeric.plugins.obsidian"),
   require("Emeric.plugins.tmux"),
   require("Emeric.plugins.img-clip"),
@@ -63,7 +63,7 @@ return {
   require("Emeric.plugins.conform"),
   require("Emeric.plugins.lint"),
   require("Emeric.plugins.lsp_lines"),
-  require("Emeric.plugins.jdtls"),
+  -- require("Emeric.plugins.jdtls"),
 
   -- DAP
   -- require("Emeric.plugins.dap"),
@@ -72,10 +72,10 @@ return {
 
   -- AI
   require("Emeric.plugins.copilot"),
-  require("Emeric.plugins.tabby"),
-  require("Emeric.plugins.gen_nvim"),
+  -- require("Emeric.plugins.tabby"),
+  -- require("Emeric.plugins.gen_nvim"),
   -- require("Emeric.plugins.avante"),
-  require("Emeric.plugins.opencode"),
+  -- require("Emeric.plugins.opencode"),
 
   -- Other
   -- harpoon removed

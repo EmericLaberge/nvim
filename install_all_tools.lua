@@ -11,7 +11,7 @@ local function install_mason_tools()
     "dockerfile-language-server",
     "gopls",
     "html-lsp",
-    "jdtls",
+    -- "jdtls",
     "json-lsp",
     "lua-language-server",
     "marksman",

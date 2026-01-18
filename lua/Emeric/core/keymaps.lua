@@ -90,8 +90,15 @@ vim.keymap.set("i", "<C-c>", "<Esc>", { desc = "Exit Insert Mode (Ctrl+C)" })
 
 vim.keymap.set("n", "Q", "<nop>", { desc = "Disable Ex Mode" })
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>", { desc = "Tmux Sessionizer" })
--- Formatage géré par Conform dans lua/Emeric/plugins/conform.lua
--- vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format Code (LSP)" })
+
+-- Formatting with conform.nvim
+vim.keymap.set({ "n", "v" }, "<leader>f", function()
+  require("conform").format({
+    lsp_fallback = true,
+    async = false,
+    timeout_ms = 1000,
+  })
+end, { desc = "Format file or range (in visual mode)" })
 
 -- Window navigation using Ctrl+h/j/k/l (useful and common mapping)
 local function tmux_nav(dir_cmd, tmux_fn)
@@ -177,7 +184,7 @@ vim.keymap.set("n", "<leader>o", function()
 end, { desc = "Open File with Default Application" })
 
 vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.dotfiles/nvim/.config/nvim/lua/theprimeagen/packer.lua<CR>",
-  { desc = "Edit Packer Config (Old)" });                                                                                                          -- Note: Path seems specific
+  { desc = "Edit Packer Config (Old)" }); -- Note: Path seems specific
 vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>", { desc = "Cellular Automaton Rain" });
 
 vim.keymap.set("n", "<leader><leader>", function()

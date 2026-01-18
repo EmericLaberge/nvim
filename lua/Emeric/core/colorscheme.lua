@@ -98,3 +98,8 @@ for _, group in ipairs(highlights) do
     vim.api.nvim_set_hl(0, group, { fg = hl.foreground, bg = "NONE" })
   end
 end
+
+vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#ff9e64", bold = true })
+-- vim.api.nvim_set_hl(0, "LineNr", { fg = "#7aa2f7" })
+-- vim.api.nvim_set_hl(0, "LineNrAbove", { fg = "#7aa2f7" })
+-- vim.api.nvim_set_hl(0, "LineNrBelow", { fg = "#7aa2f7" })

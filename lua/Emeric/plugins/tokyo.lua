@@ -14,6 +14,7 @@ return {
         floats = "dark",
       },
       on_highlights = function(hl, c)
+        hl.CursorLineNr = { fg = c.orange }
         -- INFO TECHNIQUE :
         -- BG Storm normal = #24283b
         -- Notre BG subtil = #222639 (C'est vraiment une différence infime)
