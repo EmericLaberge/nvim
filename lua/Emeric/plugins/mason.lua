@@ -73,17 +73,9 @@ return {
           }
         end
 
-        local setup_ok, setup_err = pcall(vim.lsp.config, srv, cfg)
-        if not setup_ok then
-          vim.notify(
-            "Failed to configure LSP server: " .. srv .. " - " .. tostring(setup_err),
-            vim.log.levels.WARN
-          )
-        end
+        -- Use vim.lsp.config table (nvim 0.11+ API)
+        vim.lsp.config[srv] = cfg
       end
-
-      -- Start LSP servers
-      vim.lsp.start()
     else
       vim.notify("mason-lspconfig not available; skipping ensure_installed", vim.log.levels.WARN)
     end
