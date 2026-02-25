@@ -1,40 +1,40 @@
+-- Load .env file if present
+local env_file = vim.fn.stdpath("config") .. "/.env"
+local env = vim.fn.filereadable(env_file) == 1 and vim.fn.readfile(env_file) or {}
+for _, line in ipairs(env) do
+  local key, value = line:match("^([^=]+)=(.*)$")
+  if key and value then
+    vim.env[key] = value
+  end
+end
+
+-- Set leader before plugins / lazy.nvim load so plugin setup can reference it
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
+
+vim.opt.termguicolors = true
+
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
+end
+vim.opt.rtp:prepend(lazypath)
+require("lazy").setup("Emeric.plugins", {
+	checker = {
+		enabled = true,
+	},
+	change_detection = {
+		notify = false,
+	},
+})
+
+require("Emeric.core.options")
 require("Emeric.core.keymaps")
 require("Emeric.core.colorscheme")
-require("Emeric.core.options")
-require("Emeric.plugins.refactoring")
-require("Emeric.plugins.comment")
-require("Emeric.plugins.lualine")
-require("Emeric.plugins.telescope")
-require("Emeric.plugins.nvim-cmp")
-require("Emeric.plugins.indent_blankline")
-require("Emeric.plugins.autopairs")
-require("Emeric.plugins.treesitter")
-require("Emeric.plugins.gitsigns")
-require("Emeric.plugins.cloak")
-require("Emeric.plugins.fugitive")
-require("Emeric.plugins.harpoon")
-require("Emeric.plugins.lsp")
-require("Emeric.plugins.trouble")
-require("Emeric.plugins.undotree")
-require("Emeric.plugins.vimtex")
-require("Emeric.plugins.noice")
-require("Emeric.plugins.presence")
-require("Emeric.plugins.notify")
-require("Emeric.plugins.vim-latex-live-preview")
-require("Emeric.plugins.barbar")
-require("Emeric.plugins.nvim-tree")
-require("Emeric.plugins.lsp_lines")
-require("Emeric.plugins.hop")
-require("Emeric.plugins.lazydocker")
-require("Emeric.plugins.tabby")
-require("Emeric.plugins.copilot")
-require("Emeric.plugins.gen_nvim")
-require("Emeric.plugins.mason")
-require("Emeric.plugins.dap")
-require("Emeric.plugins.mason-nvim-dap")
-require("Emeric.plugins.tokyo")
-require("Emeric.plugins.lspkind")
--- require("Emeric.plugins.rock")
--- require("Emeric.plugins.neorg")
-require("Emeric.plugins.conform")
--- require("Emeric.plugins.avante")

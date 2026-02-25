@@ -1,4 +1,3 @@
-
 local opt = vim.opt -- for conciseness
 -- line numbers
 opt.relativenumber = true -- show relative line numbers
@@ -24,6 +23,9 @@ opt.smartcase = true -- if you include mixed case in your search, assumes you wa
 -- cursor line
 opt.cursorline = true -- highlight the current cursor line
 
+-- Cursor line underline gris pâle subtil
+vim.api.nvim_set_hl(0, "CursorLine", { sp = "#444444", underline = true, blend = 20 })
+
 
 -- appearance
 
@@ -36,9 +38,45 @@ opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 
 -- backspace
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
-opt.termguicolors = true
+
 -- clipboard
 opt.clipboard = "unnamedplus" -- use system clipboard for all operations
+
+-- Configure clipboard provider for tmux compatibility on macOS
+if vim.env.TMUX then
+  -- Detect macOS
+  local is_macos = vim.fn.has('mac') == 1 or vim.fn.has('macunix') == 1
+  
+  if is_macos then
+    -- Use pbcopy/pbpaste on macOS
+    vim.g.clipboard = {
+      name = 'macOS-clipboard',
+      copy = {
+        ['+'] = 'pbcopy',
+        ['*'] = 'pbcopy',
+      },
+      paste = {
+        ['+'] = 'pbpaste',
+        ['*'] = 'pbpaste',
+      },
+      cache_enabled = 0,
+    }
+  else
+    -- Use wl-clipboard on Linux/Wayland
+    vim.g.clipboard = {
+      name = 'wl-clipboard-tmux',
+      copy = {
+        ['+'] = {'wl-copy'},
+        ['*'] = {'wl-copy'},
+      },
+      paste = {
+        ['+'] = {'wl-paste'},
+        ['*'] = {'wl-paste'},
+      },
+      cache_enabled = true,
+    }
+  end
+end
 -- split windows
 opt.splitright = true -- split vertical window to the right
 opt.splitbelow = true -- split horizontal window to the bottom

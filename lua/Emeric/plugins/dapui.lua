@@ -1,29 +1,18 @@
-		--
-		--
-		local dap = require('dap')
-		local dapui = require('dapui')
-
-		dap.listeners.after.event_initialized['dapui_config'] = function() 
-      dapui.open()
+ 		return {
+  "rcarriga/nvim-dap-ui",
+  dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
+  config = function()
+    local ok_dapui, dapui = pcall(require, "dapui")
+    if not ok_dapui then
+      vim.notify("dapui not available; ensure nvim-nio is installed and loaded before dap-ui", vim.log.levels.WARN)
+      return
     end
-		dap.listeners.before.event_terminated['dapui_config'] = function() 
-      dapui.close()
-    end
-		dap.listeners.before.event_exited['dapui_config'] = function()
-      dapui.close
-    end
-
-		dapui.setup({
-			floating = {
-				border = 'rounded',
-			},
-		})
-		--
-		-- Key mappings
-		vim.keymap.set('n', '<leader>du', function()
-			dapui.toggle()
-		end, { desc = 'Dap UI' })
-
-		vim.keymap.set({ 'n', 'v' }, '<leader>de', function()
-			dapui.eval()
-		end, { desc = 'Eval' })
+    dapui.setup({
+      floating = {
+        border = 'rounded',
+      },
+    })
+    vim.keymap.set('n', '<leader>du', function() dapui.toggle() end, { desc = 'Dap UI' })
+    vim.keymap.set({ 'n', 'v' }, '<leader>de', function() dapui.eval() end, { desc = 'Eval' })
+  end,
+}

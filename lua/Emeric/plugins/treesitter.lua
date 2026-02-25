@@ -1,33 +1,32 @@
-require 'nvim-treesitter.configs'.setup {
-  -- A list of parser names, or "all"
-  ignore_install = { "help" }, -- List of parsers to ignore installing
-  ensure_installed = { "help", "javascript", "typescript", "c", "lua", "rust", "python", "json", "html", "css", "java", "bash", "haskell" },
+return {
+  "nvim-treesitter/nvim-treesitter",
+  branch = "main", -- Use the new rewrite
+  lazy = false,
+  config = function()
+    require('nvim-treesitter.install').compilers = { "gcc-15", "cc", "clang" }
+    -- 1. Install Parsers Manually
+    -- The "ensure_installed" option is gone. You must explicitly call install.
+    require("nvim-treesitter").install({
+      "c", "lua", "vim", "vimdoc", "query",
+      "markdown", "markdown_inline", "python",
+      "latex", "bibtex"
+    })
 
-  -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = true,
+    vim.api.nvim_create_autocmd("FileType", {
+      callback = function(args)
+        -- DISABLE treesitter for latex to let VimTeX handle syntax
+        if vim.bo[args.buf].filetype == "latex" or vim.bo[args.buf].filetype == "tex" then
+          return
+        end
 
-  -- Automatically install missing parsers when entering buffer
-  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-  -- auto_install = true,
-  -- -- rainbow = {
-  --   -- enable = true,
-  --
-  --   max_file_lines = 3000,
-  -- query = 'rainbow-parens',
-  --   extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
-  -- },
-  indent = {
-    enable = true,
-    disable = { "yaml" },
-  },
-  highlight = {
-    -- `false` will disable the whole extension
-    enable = true,
-    disable = {"latex"},
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = { "latex", "markdown" },
-  },
+        -- Enable native Highlighting for everything else
+        local ok = pcall(vim.treesitter.start, args.buf)
+
+        -- Enable native Indentation
+        if ok then
+          vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end
+      end,
+    })
+  end,
 }

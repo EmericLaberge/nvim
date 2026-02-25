@@ -1,119 +1,104 @@
--- Setup language servers.
-local lspconfig = require('lspconfig')
-lspconfig.pyright.setup {}
-lspconfig.rust_analyzer.setup {
+return {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+        "williamboman/mason.nvim",
+        "williamboman/mason-lspconfig.nvim",
+        "hrsh7th/cmp-nvim-lsp",
+        "hrsh7th/cmp-buffer",
+        "hrsh7th/cmp-path",
+        "hrsh7th/cmp-cmdline",
+        "hrsh7th/nvim-cmp",
+        "L3MON4D3/LuaSnip",
+        "saadparwaiz1/cmp_luasnip",
+        "j-hui/fidget.nvim",
+        "rachartier/tiny-code-action.nvim",
+    },
+    config = function()
+        -- =========================================================
+        -- 1. Configuration des diagnostics (virtual text seulement)
+        -- =========================================================
 
-  -- Server-specific settings. See `:help lspconfig-setup`
-  settings = {
-    ['rust-analyzer'] = {},
-  },
+        -- =========================================================
+        -- 1. Configuration des diagnostics (signs seulement)
+        -- =========================================================
+
+        -- Cercles remplis de couleur pour les diagnostics
+        vim.api.nvim_set_hl(0, "DiagnosticSignError", { fg = "#F7768E", bg = "none" })   -- rouge rempli
+        vim.api.nvim_set_hl(0, "DiagnosticSignWarn", { fg = "#E0AF68", bg = "none" })    -- orange
+        vim.api.nvim_set_hl(0, "DiagnosticSignHint", { fg = "#7AA2F7", bg = "none" })    -- bleu
+        vim.api.nvim_set_hl(0, "DiagnosticSignInfo", { fg = "#9ECE6A", bg = "none" })    -- vert
+
+        vim.diagnostic.config({
+            signs = {
+                text = {
+                    [vim.diagnostic.severity.ERROR] = "󰍵",
+                    [vim.diagnostic.severity.WARN] = "󰀦",
+                    [vim.diagnostic.severity.HINT] = "󰌶",
+                    [vim.diagnostic.severity.INFO] = "󰋼",
+                },
+            },
+            underline = false,
+            virtual_text = false,
+            severity_sort = true,
+            update_in_insert = false,
+        })
+
+        -- =========================================================
+        -- 2. Chargement de la config personnalisée
+        -- =========================================================
+        local ok, lsp_setup = pcall(require, "Emeric.lsp_setup")
+        if not ok then
+            vim.notify("Emeric.lsp_setup not found; LSP keymaps may be incomplete", vim.log.levels.WARN)
+            return
+        end
+
+        local on_attach = lsp_setup.on_attach
+        local lsp_flags = lsp_setup.lsp_flags
+
+        -- Utiliser LspAttach pour s'assurer que on_attach est appelé pour TOUS les clients LSP
+        local lsp_attach_group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true })
+        vim.api.nvim_create_autocmd("LspAttach", {
+            group = lsp_attach_group,
+            callback = function(event)
+                on_attach(event.data.client, event.buf)
+            end,
+        })
+
+        -- Appliquer on_attach aux clients LSP déjà attachés
+        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+            local clients = vim.lsp.get_clients({ bufnr = buf })
+            if #clients > 0 then
+                for _, client in ipairs(clients) do
+                    on_attach(client, buf)
+                end
+            end
+        end
+
+        -- Diagnostics keymaps
+        vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "Open Diagnostics Float" })
+        vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go To Previous Diagnostic" })
+        vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go To Next Diagnostic" })
+        vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, { desc = "Set Diagnostics Loclist" })
+
+        -- Helper to show active client
+        local function get_active_lsp_client()
+            local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
+            if #clients == 0 then
+                return nil
+            else
+                return clients[1]
+            end
+        end
+
+        local function print_active_lsp_client()
+            local client = get_active_lsp_client()
+            if client then
+                print("Active LSP client: " .. client.name)
+            else
+                print("No active LSP client")
+            end
+        end
+
+        vim.keymap.set("n", "<space>lp", print_active_lsp_client, { desc = "Print Active LSP Client" })
+    end,
 }
-
-lspconfig.phpactor.setup {
-  on_attach = on_attach,
-  init_options = {
-    ["language_server_phpstan.enabled"] = false,
-    ["language_server_psalm.enabled"] = false,
-  }
-
-}
-lspconfig.perlpls.setup {}
--- lspconfig.perlls.setup {}
-lspconfig.scheme_langserver.setup {
-  cmd = { "run", "/tmp/scheme-langserver.log", "enable", "disable" }, -- Use "run" here
-  filetypes = { "scheme", "scm", "sld", "sls", "sps" },
-  root_dir = lspconfig.util.root_pattern(".git", "AKKU.manifest", "."),
-}
-
-
--- Global mappings.
--- See `:help vim.diagnostic.*` for documentation on any of the below functions
-vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, { desc = "Open Diagnostics Float" })
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Go To Previous Diagnostic" })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Go To Next Diagnostic" })
-vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, { desc = "Set Diagnostics Loclist" })
-
--- Use LspAttach autocommand to only map the following keys
--- after the language server attaches to the current buffer
-vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-  callback = function(ev)
-    -- This is the only part that needs to change.
-    -- We'll call the telescope built-in functions instead.
-    local builtin = require('telescope.builtin')
-
-    -- Enable completion triggered by <c-x><c-o>
-    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
-    -- Keymaps using Telescope
-    vim.keymap.set('n', 'gd', builtin.lsp_definitions, { buffer = ev.buf, desc = "Go To Definition" })
-    vim.keymap.set('n', 'gr', builtin.lsp_references, { buffer = ev.buf, desc = "Go To References" })
-    vim.keymap.set('n', 'gi', builtin.lsp_implementations, { buffer = ev.buf, desc = "Go To Implementation" })
-    vim.keymap.set('n', '<space>D', builtin.lsp_type_definitions, { buffer = ev.buf, desc = "Go To Type Definition" })
-
-    -- You can also add these for fuzzy finding symbols
-    vim.keymap.set('n', '<leader>ds', builtin.lsp_document_symbols, { buffer = ev.buf, desc = "Document Symbols" })
-    vim.keymap.set('n', '<leader>ws', builtin.lsp_workspace_symbols, { buffer = ev.buf, desc = "Workspace Symbols" })
-
-    -- Keymaps that don't use Telescope can remain as they are
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = ev.buf, desc = "Go To Declaration" })
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = ev.buf, desc = "Hover Documentation" })
-    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, { buffer = ev.buf, desc = "Rename Symbol" })
-    vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, { buffer = ev.buf, desc = "Code Action" })
-    vim.keymap.set('n', '<space>f', function()
-      vim.lsp.buf.format { async = true }
-    end, { buffer = ev.buf, desc = "Format Code" })
-  end,
-})
--- -- Use LspAttach autocommand to only map the following keys
--- -- after the language server attaches to the current buffer
--- vim.api.nvim_create_autocmd('LspAttach', {
---   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
---   callback = function(ev)
---     -- Enable completion triggered by <c-x><c-o>
---     vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
---
---     -- Buffer local mappings.
---     -- See `:help vim.lsp.*` for documentation on any of the below functions
---     local opts = { buffer = ev.buf }
---     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = ev.buf, desc = "Go To Declaration" })
---     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = ev.buf, desc = "Go To Definition baby" })
---     vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = ev.buf, desc = "Hover Documentation" })
---     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { buffer = ev.buf, desc = "Go To Implementation" })
---     vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, { buffer = ev.buf, desc = "Signature Help" })
---     vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, { buffer = ev.buf, desc = "Add Workspace Folder" })
---     vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, { buffer = ev.buf, desc = "Remove Workspace Folder" })
---     vim.keymap.set('n', '<space>wl', function()
---       print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
---     end, { buffer = ev.buf, desc = "List Workspace Folders" })
---     vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, { buffer = ev.buf, desc = "Go To Type Definition" })
---     vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, { buffer = ev.buf, desc = "Rename Symbol" })
---     vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, { buffer = ev.buf, desc = "Code Action" })
---     vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = ev.buf, desc = "Go To References" })
---     vim.keymap.set('n', '<space>f', function()
---       vim.lsp.buf.format { async = true }
---     end, { buffer = ev.buf, desc = "Format Code" })
---   end,
--- })
---
-
-
-local function get_active_lsp_client()
-  local clients = vim.lsp.get_active_clients({ bufnr = vim.api.nvim_get_current_buf() })
-  if #clients == 0 then
-    return nil
-  else
-    return clients[1]
-  end
-end
-
-local function print_active_lsp_client()
-  local client = get_active_lsp_client()
-  if client then
-    print("Active LSP client: " .. client.name)
-  else
-    print("No active LSP client")
-  end
-end
-
-vim.keymap.set('n', '<space>lp', print_active_lsp_client, { desc = "Print Active LSP Client" })

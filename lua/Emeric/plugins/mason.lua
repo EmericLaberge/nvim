@@ -1,85 +1,93 @@
--- Mason setup
+return {
+  "williamboman/mason.nvim",
+  dependencies = {
+    "williamboman/mason-lspconfig.nvim",
+    "neovim/nvim-lspconfig",
+  },
+  config = function()
+    -- Mason bin dans le PATH (linters, formatters, etc.)
+    local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
+    vim.env.PATH = mason_bin .. ":" .. vim.env.PATH
 
-require("mason").setup()
+    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+    local ok, lsp_setup = pcall(require, "Emeric.lsp_setup")
+    local servers = {
+      "bashls",
+      "clangd",
+      "cssls",
+      "dockerls",
+      "gopls",
+      "html",
+      "jsonls",
+      "lua_ls",
+      "marksman",
+      "omnisharp",
+      "perlnavigator",
+      "phpactor",
+      "basedpyright",
+      -- "ruff",
+      "rust_analyzer",
+      "sqls",
+      "texlab",
+      "ts_ls",
+      "yamlls",
+    }
+    if ok and type(lsp_setup.servers) == "table" then
+      servers = lsp_setup.servers
+    end
 
-local status_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
+    require("mason").setup()
 
-if not status_ok then
-  vim.notify("Problem with mason-lspconfig")
+    local ok_mlsp, mlsp = pcall(require, "mason-lspconfig")
+    if ok_mlsp and mlsp and type(mlsp.setup) == "function" then
+      require("mason-lspconfig").setup({
+        ensure_installed = servers,
+        automatic_installation = true,
+        automatic_enable = false, -- on configure nous‑mêmes via vim.lsp.config
+      })
 
-  return
-end
+      -- Use vim.lsp.config (nvim 0.11+ API)
+      for _, srv in ipairs(servers) do
+        local cfg = {
+          capabilities = capabilities,
+        }
+        if ok and type(lsp_setup.on_attach) == "function" then
+          cfg.on_attach = lsp_setup.on_attach
+        end
+        if ok and type(lsp_setup.lsp_flags) == "table" then
+          cfg.flags = lsp_setup.lsp_flags
+        end
 
-mason_lspconfig.setup {
+        -- BasedPyright specific settings - auto-detect venv
+        if srv == "basedpyright" then
+          local venv_path = os.getenv("VIRTUAL_ENV") or (vim.fn.getcwd() .. "/.venv")
+          local python_path = venv_path .. "/bin/python"
+          if vim.fn.executable(python_path) == 0 then
+            python_path = "python3"
+          end
+          cfg.settings = {
+            python = {
+              pythonPath = python_path,
+              stubPath = vim.fn.getcwd() .. "/typings",
+            },
+            basedpyright = {
+              analysis = {
+                autoSearchPaths = true,
+                diagnosticMode = "workspace", -- Analyser tout le projet
+                useLibraryCodeForTypes = true,
+              },
+            },
+          }
+        end
 
-  automatic_installation = true
+        -- Use vim.lsp.config table (nvim 0.11+ API)
+        vim.lsp.config[srv] = cfg
+      end
 
+      -- Enable all configured LSP servers (nvim 0.11+)
+      vim.lsp.enable(servers)
+    else
+      vim.notify("mason-lspconfig not available; skipping ensure_installed", vim.log.levels.WARN)
+    end
+  end,
 }
-
-local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
-
-if not status_ok then
-  vim.notify("Problems with lspconfig")
-
-  return
-end
-
-local on_attach = function(client, bufnr)
-  -- Enable completion triggered by <c-x><c-o>
-
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings.
-
-  -- See `:help vim.lsp.*` for documentation on mappings
-
-  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { desc = "Go To Declaration" })
-
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = "Go To Definition" })
-
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = "Hover Documentation" })
-
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { desc = "Go To Implementation" })
-
-  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, { desc = "Signature Help" })
-
-  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, { desc = "Add Workspace Folder" })
-
-  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, { desc = "Remove Workspace Folder" })
-
-  vim.keymap.set('n', '<space>wl', function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, { desc = "List Workspace Folders" })
-
-  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, { desc = "Go To Type Definition" })
-
-  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, { desc = "Rename Symbol" })
-
-  vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, { desc = "Code Action" })
-
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, { desc = "Go To References" })
-
-  vim.keymap.set('n', '<space>f', function()
-    vim.lsp.buf.format { async = true }
-  end, { desc = "Format Code" })
-end
-
--- mason_lspconfig.setup_handlers {
-
---   -- This is a default handler that will be called for each installed server (also for new servers that are installed during a session)
-
---   function(server_name)
-
---     lspconfig[server_name].setup {
-
---       on_attach = on_attach,
-
---       flags = lsp_flags,
-
---     }
-
---   end
-
---
-
--- }

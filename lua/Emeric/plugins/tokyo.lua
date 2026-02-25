@@ -1,35 +1,56 @@
-require("tokyonight").setup({
-  -- your configuration comes here
-  -- or leave it empty to use the default settings
-  style = "storm",            -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
-  light_style = "day",        -- The theme is used when the background is set to light
-  transparent = true,         --
-  terminal_colors = true,     -- Configure the colors used when opening a `:terminal` in [Neovim](https://github.com/neovim/neovim)
-  styles = {
-    -- Style to be applied to different syntax groups
-    -- Value is any valid attr-list value for `:help nvim_set_hl`
-    comments = { italic = true },
-    keywords = { italic = true },
-    functions = {},
-    variables = {},
-    -- Background styles. Can be "dark", "transparent" or "normal"
-    sidebars = "dark",                  -- style for sidebars, see below
-    floats = "dark",                    -- style for floating windows
-  },
-  sidebars = { "qf", "help" },          -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
-  day_brightness = 0.3,                 -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
-  hide_inactive_statusline = false,     -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
-  dim_inactive = false,                 -- dims inactive windows
-  lualine_bold = false,                 -- When `true`, section headers in the lualine theme will be bold
+return {
+  "folke/tokyonight.nvim",
+  lazy = false,
+  priority = 1000,
+  config = function()
+    require("tokyonight").setup({
+      style = "storm",
+      transparent = false, -- Important : mettre false pour voir les fonds distincts
+      terminal_colors = true,
+      styles = {
+        comments = { italic = true },
+        keywords = { italic = true },
+        sidebars = "dark",
+        floats = "dark",
+      },
+      on_highlights = function(hl, c)
+        hl.CursorLineNr = { fg = c.orange }
+        -- INFO TECHNIQUE :
+        -- BG Storm normal = #24283b
+        -- Notre BG subtil = #222639 (C'est vraiment une différence infime)
+        local subtle_bg = "#222639"
+        -- Couleur de fond de l'onglet actif (plus clair ou coloré)
+        local active_bg = c.bg -- ou met une couleur ex: "#2e3c64" pour plus de contraste
 
-  --- You can override specific color groups to use other groups or a hex color
-  --- function will be called with a ColorScheme table
-  ---@param colors ColorScheme
-  on_colors = function(colors) end,
+        -- 1. Fond de la barre vide
+        hl.BufferTabpageFill = { bg = subtle_bg }
+        hl.BufferOffset = { bg = subtle_bg }
 
-  --- You can override specific highlights to use other groups or a hex color
-  --- function will be called with a Highlights and ColorScheme table
-  ---@param highlights Highlights
-  ---@param colors ColorScheme
-  on_highlights = function(highlights, colors) end,
-})
+        -- 2. Onglet ACTIF (Coins arrondis)
+        -- On met le texte en gras et blanc brillant, ou coloré (ex: c.blue)
+        hl.BufferCurrent = { bg = active_bg, fg = c.info, bold = true }
+        hl.BufferCurrentIcon = { bg = active_bg, fg = c.info }
+        hl.BufferCurrentMod = { bg = active_bg, fg = c.warning }
+        hl.BufferCurrentSign = { bg = active_bg, fg = c.info }
+
+        -- 3. Onglets INACTIFS (Coins arrondis)
+        hl.BufferInactive = { bg = subtle_bg, fg = c.comment }
+        hl.BufferInactiveIcon = { bg = subtle_bg, fg = c.comment }
+        hl.BufferInactiveMod = { bg = subtle_bg, fg = c.warning }
+        hl.BufferInactiveSign = { bg = subtle_bg, fg = c.comment }
+
+        -- 4. Onglets VISIBLES (mais pas actifs)
+        hl.BufferVisible = { bg = subtle_bg, fg = c.fg }
+        hl.BufferVisibleIcon = { bg = subtle_bg, fg = c.fg }
+        hl.BufferVisibleMod = { bg = subtle_bg, fg = c.warning }
+        hl.BufferVisibleSign = { bg = subtle_bg, fg = c.info }
+
+        -- 5. DROPBAR
+        hl.WinBar = { bg = subtle_bg, fg = c.fg }
+        hl.WinBarNC = { bg = subtle_bg, fg = c.comment }
+      end,
+    })
+
+    vim.cmd.colorscheme("tokyonight")
+  end,
+}
