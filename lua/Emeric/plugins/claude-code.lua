@@ -1,8 +1,8 @@
 local PROVIDER_SCRIPTS = {
-  anthropic = "/home/emeric/.local/bin/claude-providers/claude-anthropic",
-  minimax = "/home/emeric/.local/bin/claude-providers/claude-minimax",
-  anthropic_yolo = "/home/emeric/.local/bin/claude-providers/claude-anthropic-yolo",
-  minimax_yolo = "/home/emeric/.local/bin/claude-providers/claude-minimax-yolo",
+  anthropic = os.getenv("CLAUDE_PROVIDER_ANTHROPIC"),
+  minimax = os.getenv("CLAUDE_PROVIDER_MINIMAX"),
+  anthropic_yolo = os.getenv("CLAUDE_PROVIDER_ANTHROPIC_YOLO"),
+  minimax_yolo = os.getenv("CLAUDE_PROVIDER_MINIMAX_YOLO"),
 }
 
 local choices = {
