@@ -19,6 +19,7 @@ M.servers = {
   "perlnavigator",
   "phpactor",
   "pyright",
+  "ruff",
   "rust_analyzer",
   "sqls",
   "texlab",
@@ -39,6 +40,10 @@ M.on_attach = function(client, bufnr)
   vim.keymap.set("n", "<space>D", builtin.lsp_type_definitions, { buffer = bufnr, desc = "Go To Type Definition" })
   vim.keymap.set("n", "<leader>ds", builtin.lsp_document_symbols, { buffer = bufnr, desc = "Document Symbols" })
   vim.keymap.set("n", "<leader>ws", builtin.lsp_workspace_symbols, { buffer = bufnr, desc = "Workspace Symbols" })
+  vim.keymap.set("n", "<leader>dg", builtin.diagnostics, { buffer = bufnr, desc = "Telescope Diagnostics (All)" })
+  vim.keymap.set("n", "<leader>dG", function()
+    builtin.diagnostics({ bufnr = 0 })
+  end, { buffer = bufnr, desc = "Telescope Diagnostics (Buffer)" })
   vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = bufnr, desc = "Go To Declaration" })
   -- Utiliser vim.lsp.buf.hover - Noice.nvim interceptera automatiquement pour un rendu moderne
   -- Noice affiche uniquement la documentation LSP (pas de diagnostics)
