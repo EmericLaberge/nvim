@@ -58,6 +58,16 @@ return {
         end
 
         if lspconfig[srv] and type(lspconfig[srv].setup) == "function" then
+          -- Pyright specific settings for venv
+          if srv == "pyright" then
+            cfg.settings = {
+              python = {
+                pythonPath = vim.fn.getcwd() .. "/.venv/bin/python",
+                stubPath = vim.fn.getcwd() .. "/typings",
+              },
+            }
+          end
+
           local setup_ok, setup_err = pcall(lspconfig[srv].setup, cfg)
           if not setup_ok then
             vim.notify(

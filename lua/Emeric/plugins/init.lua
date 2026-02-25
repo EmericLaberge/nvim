@@ -72,10 +72,14 @@ return {
 
   -- AI
   require("Emeric.plugins.copilot"),
+  require("Emeric.plugins.claude-code"),
   -- require("Emeric.plugins.tabby"),
   -- require("Emeric.plugins.gen_nvim"),
   -- require("Emeric.plugins.avante"),
   -- require("Emeric.plugins.opencode"),
+
+  -- Testing
+  require("Emeric.plugins.neotest"),
 
   -- Other
   -- harpoon removed

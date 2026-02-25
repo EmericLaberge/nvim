@@ -9,6 +9,7 @@ return {
     -- Désactiver la synchronisation inverse (inverse sync) pour éviter que sioyek suive le curseur
     vim.g.vimtex_view_general_viewer = 'sioyek'
     vim.g.vimtex_view_general_options = '--reuse-window --forward-search-file @tex --forward-search-line @line @pdf'
+    vim.g.vimtex_view_sioyek_options = '--reuse-window > /dev/null 2>&1'
     vim.api.nvim_set_hl(0, 'Conceal', { fg = '#50f97b', bg = 'none' })
     vim.g.vimtex_toc_config = {
       mode = 1,
