@@ -76,6 +76,9 @@ return {
         -- Use vim.lsp.config table (nvim 0.11+ API)
         vim.lsp.config[srv] = cfg
       end
+
+      -- Enable all configured LSP servers (nvim 0.11+)
+      vim.lsp.enable(servers)
     else
       vim.notify("mason-lspconfig not available; skipping ensure_installed", vim.log.levels.WARN)
     end
