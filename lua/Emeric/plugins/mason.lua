@@ -25,6 +25,7 @@ return {
       "perlnavigator",
       "phpactor",
       "pyright",
+      "ruff",
       "rust_analyzer",
       "sqls",
       "texlab",
@@ -42,10 +43,10 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = servers,
         automatic_installation = true,
-        automatic_enable = false, -- on configure nous‑mêmes via lspconfig ci‑dessous
+        automatic_enable = false, -- on configure nous‑mêmes via vim.lsp.config
       })
 
-      local lspconfig = require("lspconfig")
+      -- Use vim.lsp.config (nvim 0.11+ API)
       for _, srv in ipairs(servers) do
         local cfg = {
           capabilities = capabilities,
@@ -57,26 +58,32 @@ return {
           cfg.flags = lsp_setup.lsp_flags
         end
 
-        if lspconfig[srv] and type(lspconfig[srv].setup) == "function" then
-          -- Pyright specific settings for venv
-          if srv == "pyright" then
-            cfg.settings = {
-              python = {
-                pythonPath = vim.fn.getcwd() .. "/.venv/bin/python",
-                stubPath = vim.fn.getcwd() .. "/typings",
-              },
-            }
+        -- Pyright specific settings - auto-detect venv
+        if srv == "pyright" then
+          local venv_path = os.getenv("VIRTUAL_ENV") or (vim.fn.getcwd() .. "/.venv")
+          local python_path = venv_path .. "/bin/python"
+          if vim.fn.executable(python_path) == 0 then
+            python_path = "python3"
           end
+          cfg.settings = {
+            python = {
+              pythonPath = python_path,
+              stubPath = vim.fn.getcwd() .. "/typings",
+            },
+          }
+        end
 
-          local setup_ok, setup_err = pcall(lspconfig[srv].setup, cfg)
-          if not setup_ok then
-            vim.notify(
-              "Failed to setup LSP server: " .. srv .. " - " .. tostring(setup_err),
-              vim.log.levels.WARN
-            )
-          end
+        local setup_ok, setup_err = pcall(vim.lsp.config, srv, cfg)
+        if not setup_ok then
+          vim.notify(
+            "Failed to configure LSP server: " .. srv .. " - " .. tostring(setup_err),
+            vim.log.levels.WARN
+          )
         end
       end
+
+      -- Start LSP servers
+      vim.lsp.start()
     else
       vim.notify("mason-lspconfig not available; skipping ensure_installed", vim.log.levels.WARN)
     end
