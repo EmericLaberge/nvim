@@ -10,15 +10,12 @@ return {
   },
   opts = {
     -- Auto-activate when entering a Python project
-    cached_venv_automatic_activation = true,
-    -- Enable logging for debugging
-    -- log_level = "DEBUG",
-    search = {
-      -- Search for venv in these locations
-      { "venv", ".venv" },
-      { ".envs", ".venvs" },
-      { "env", ".env" },
+    automatic_activation = {
+      enabled = true,
+      reload_on_activate = true,
     },
+    -- Search for venv in these locations
+    search = true,
     search_venv_managers = {
       "poetry",    -- Poetry
       "pipenv",     -- Pipenv
