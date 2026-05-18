@@ -1,0 +1,1 @@
+/home/emeric/.config/omarchy/current/theme/neovim.lua

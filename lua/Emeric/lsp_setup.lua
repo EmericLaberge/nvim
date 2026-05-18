@@ -32,6 +32,12 @@ M.lsp_flags = {
 }
 
 M.on_attach = function(client, bufnr)
+  -- Skip LSP attachment for terminal buffers to prevent slow input
+  local buftype = vim.bo[bufnr].buftype
+  if buftype == "terminal" or buftype == "prompt" then
+    return
+  end
+
   local builtin = require("telescope.builtin")
   vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
   vim.keymap.set("n", "gd", builtin.lsp_definitions, { buffer = bufnr, desc = "Go To Definition" })

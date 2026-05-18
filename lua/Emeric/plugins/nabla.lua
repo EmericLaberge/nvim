@@ -8,10 +8,12 @@ return {
       end,
       desc = "Nabla preview equation",
     },
+    {
+      "<leader>vl",
+      function()
+        require("nabla").toggle_virt()
+      end,
+      desc = "Toggle Nabla virtual lines",
+    },
   },
-  config = function()
-    require("nabla").setup({
-      border = "rounded",
-    })
-  end,
 }

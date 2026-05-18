@@ -100,6 +100,96 @@ vim.keymap.set({ "n", "v" }, "<leader>f", function()
   })
 end, { desc = "Format file or range (in visual mode)" })
 
+vim.keymap.set("n", "<leader>ft", function()
+  local tools = {
+    python = {
+      { name = "ruff check", cmd = { "ruff", "check", "." } },
+      { name = "mypy",       cmd = { "python3", "-m", "mypy" } },
+      { name = "pylint",     cmd = { "pylint" } },
+      { name = "black",      cmd = { "black", "-" } },
+    },
+    lua = {
+      { name = "lua-language-server", cmd = { "lua-language-server" } },
+    },
+  }
+
+  local ft = vim.bo.filetype
+  local choices = tools[ft] or {}
+
+  if #choices == 0 then
+    vim.notify("No tools for " .. ft, vim.log.levels.WARN)
+    return
+  end
+
+  vim.ui.select(choices, { prompt = "Tool:", format_item = function(t) return t.name end }, function(choice)
+    if choice then
+      local cmd = vim.deepcopy(choice.cmd)
+      local name = choice.name
+      if name == "black" then
+        cmd[#cmd + 1] = vim.fn.expand("%")
+      elseif name == "mypy" or name == "pylint" then
+        cmd[#cmd + 1] = vim.fn.expand("%")
+      elseif name == "ruff check" then
+        cmd[#cmd + 1] = vim.fn.expand("%")
+      end
+      local output = vim.fn.systemlist(cmd)
+      if vim.v.shell_error ~= 0 and #output > 0 then
+        vim.fn.setqflist({}, " ", { title = name, items = {} })
+        local qf_list = vim.fn.getqflist({ items = 0 }).items
+        for _, line in ipairs(output) do
+          local file, lnum, col, text = string.match(line, "^(.-):(%d+):?(%d*):?%s*(.*)")
+          if file and lnum then
+            table.insert(qf_list, {
+              filename = file,
+              lnum = tonumber(lnum),
+              col = col and col ~= "" and tonumber(col) or 0,
+              text = text or line,
+            })
+          else
+            table.insert(qf_list, { text = line })
+          end
+        end
+        vim.fn.setqflist({}, " ", { items = qf_list })
+        vim.cmd("Trouble qflist open")
+      else
+        vim.notify(name .. ": OK", vim.log.levels.INFO)
+      end
+    end
+  end)
+end, { desc = "Run tool" })
+
+vim.keymap.set("n", "<leader>fp", function()
+  local ft = vim.bo.filetype
+  local conform = require("conform")
+  local default_formatters = conform.list_formatters_for_buffer(0)
+  local extras = {
+    python = { "yapf", "ruff_format" },
+  }
+  local seen = {}
+  local choices = {}
+  local function add(c)
+    if not seen[c] then
+      seen[c] = true
+      table.insert(choices, c)
+    end
+  end
+  for _, f in ipairs(default_formatters) do
+    add(type(f) == "string" and f or f.name)
+  end
+  for _, f in ipairs(extras[ft] or {}) do
+    add(f)
+  end
+  if #choices == 0 then
+    vim.notify("No formatters for this filetype", vim.log.levels.WARN)
+    return
+  end
+  vim.ui.select(choices, { prompt = "Formatter:" }, function(choice)
+    if choice then
+      require("conform").format({ formatters = { choice }, async = false, timeout_ms = 1000 })
+    end
+  end)
+end, { desc = "Pick formatter" })
+
 -- Window navigation using Ctrl+h/j/k/l (useful and common mapping)
 local function tmux_nav(dir_cmd, tmux_fn)
   -- dir_cmd: vim wincmd to try first (e.g. "wincmd h")

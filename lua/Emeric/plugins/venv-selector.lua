@@ -15,7 +15,7 @@ return {
       reload_on_activate = true,
     },
     -- Search for venv in these locations
-    search = true,
+    search = {},
     search_venv_managers = {
       "poetry",    -- Poetry
       "pipenv",     -- Pipenv

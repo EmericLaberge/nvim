@@ -11,6 +11,7 @@ return {
   require("Emeric.plugins.gitsigns"),
   require("Emeric.plugins.indent_blankline"),
   require("Emeric.plugins.nvim-tree"),
+  require("Emeric.plugins.neo-tree"),
   require("Emeric.plugins.which-key"),
   require("Emeric.plugins.trouble"),
   require("Emeric.plugins.barbar"),
@@ -41,6 +42,7 @@ return {
 
   -- LSP
   require("Emeric.plugins.mason"),
+  require("Emeric.plugins.mason-null-ls"),
   require("Emeric.plugins.lsp"),
   require("Emeric.plugins.nvim-cmp"),
   require("Emeric.plugins.lspkind"),

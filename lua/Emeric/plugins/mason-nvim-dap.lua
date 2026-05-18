@@ -3,7 +3,7 @@ return {
   dependencies = { "williamboman/mason.nvim" },
   config = function()
     require ('mason-nvim-dap').setup({
-        ensure_installed = {'stylua', 'jq'},
+        ensure_installed = {'stylua', 'jq', 'debugpy'},
         handlers = {
             function(config)
               require('mason-nvim-dap').default_setup(config)

@@ -52,6 +52,9 @@ return {
   config = function()
     require("claude-code").setup({
       command = PROVIDER_SCRIPTS.anthropic,
+      window = {
+        position = "vertical botright", -- Open on the right instead of bottom
+      },
     })
   end,
 }
