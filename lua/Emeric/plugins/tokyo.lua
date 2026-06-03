@@ -5,7 +5,7 @@ return {
   config = function()
     require("tokyonight").setup({
       style = "storm",
-      transparent = false, -- Important : mettre false pour voir les fonds distincts
+      transparent = false,
       terminal_colors = true,
       styles = {
         comments = { italic = true },
@@ -18,16 +18,15 @@ return {
         -- INFO TECHNIQUE :
         -- BG Storm normal = #24283b
         -- Notre BG subtil = #222639 (C'est vraiment une différence infime)
-        local subtle_bg = "#222639"
+        local subtle_bg = "none"
         -- Couleur de fond de l'onglet actif (plus clair ou coloré)
-        local active_bg = c.bg -- ou met une couleur ex: "#2e3c64" pour plus de contraste
+        local active_bg = "none"
 
         -- 1. Fond de la barre vide
         hl.BufferTabpageFill = { bg = subtle_bg }
         hl.BufferOffset = { bg = subtle_bg }
 
         -- 2. Onglet ACTIF (Coins arrondis)
-        -- On met le texte en gras et blanc brillant, ou coloré (ex: c.blue)
         hl.BufferCurrent = { bg = active_bg, fg = c.info, bold = true }
         hl.BufferCurrentIcon = { bg = active_bg, fg = c.info }
         hl.BufferCurrentMod = { bg = active_bg, fg = c.warning }

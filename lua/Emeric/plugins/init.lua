@@ -1,6 +1,7 @@
 return {
   -- Colorschemes
   require("Emeric.plugins.tokyo"),
+  require("Emeric.plugins.snacks-config"),
 
   -- Core
   require("Emeric.plugins.telescope"),
@@ -10,13 +11,11 @@ return {
   require("Emeric.plugins.comment"),
   require("Emeric.plugins.gitsigns"),
   require("Emeric.plugins.indent_blankline"),
-  require("Emeric.plugins.nvim-tree"),
   require("Emeric.plugins.neo-tree"),
   require("Emeric.plugins.which-key"),
   require("Emeric.plugins.trouble"),
   require("Emeric.plugins.barbar"),
   require("Emeric.plugins.nvim-cursorline"),
-  require("Emeric.plugins.rainbow-delimiters"),
   require("Emeric.plugins.surround"),
   require("Emeric.plugins.todo-comments"),
   require("Emeric.plugins.git-conflict"),
@@ -32,7 +31,7 @@ return {
   -- UI
   require("Emeric.plugins.dressing"),
   require("Emeric.plugins.dropbar"),
-  require("Emeric.plugins.render-markdown"),
+	require("Emeric.plugins.markview"),
 
   -- Tools
   require("Emeric.plugins.lazygit"),
@@ -42,12 +41,11 @@ return {
 
   -- LSP
   require("Emeric.plugins.mason"),
-  require("Emeric.plugins.mason-null-ls"),
   require("Emeric.plugins.lsp"),
   require("Emeric.plugins.nvim-cmp"),
   require("Emeric.plugins.lspkind"),
   require("Emeric.plugins.conform"),
-  require("Emeric.plugins.lsp_lines"),
+	require("Emeric.plugins.tiny-inline-diagnostic"),
   require("Emeric.plugins.tiny-code-action"),
 
   -- DAP
@@ -60,7 +58,6 @@ return {
   -- AI
   require("Emeric.plugins.copilot"),
   require("Emeric.plugins.copilot-cmp"),
-  require("Emeric.plugins.claude-code"),
   require("Emeric.plugins.opencode"),
 
   -- Testing
@@ -78,4 +75,6 @@ return {
   -- New plugins
   require("Emeric.plugins.legendary"),
   require("Emeric.plugins.highlight-colors"),
+  require("Emeric.plugins.all-themes"),
+  require("Emeric.plugins.omarchy-theme-hotreload"),
 }

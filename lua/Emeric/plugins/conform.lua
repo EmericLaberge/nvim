@@ -8,9 +8,7 @@ return {
     conform.setup({
       formatters_by_ft = {
         lua = { "stylua" },
-        -- Utilisez "isort" puis "black" pour Python
         python = { "isort", "black" },
-        -- Web (JS/TS/HTML/CSS) avec Prettier
         javascript = { "prettier" },
         typescript = { "prettier" },
         javascriptreact = { "prettier" },
@@ -21,12 +19,18 @@ return {
         yaml = { "prettier" },
         markdown = { "prettier" },
         graphql = { "prettier" },
-        -- Formateurs personnalisés existants
         perl = { "perltidy" },
         sql = { "sqlfluff" },
-        -- LaTeX avec latexindent
         tex = { "latexindent" },
         latex = { "latexindent" },
+      },
+      default_format_opts = {
+        lsp_format = "fallback",
+        timeout_ms = 1000,
+      },
+      format_on_save = {
+        lsp_format = "fallback",
+        timeout_ms = 1000,
       },
       formatters = {
         sqlfluff = {
@@ -46,12 +50,6 @@ return {
           end,
         },
       },
-    -- Formatage lors de la sauvegarde (optionnel, commentez si vous ne voulez que le manuel)
-      -- format_on_save = {
-      --   lsp_fallback = true,
-      --   async = false,
-      --   timeout_ms = 1000,
-      -- },
     })
   end,
 }

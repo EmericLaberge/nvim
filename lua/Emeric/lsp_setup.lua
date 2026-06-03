@@ -6,12 +6,10 @@ local M = {}
 M.servers = {
   "bashls",
   "clangd",
-  "csharp_ls",
   "cssls",
   "dockerls",
   "gopls",
   "html",
-  "jdtls",
   "jsonls",
   "lua_ls",
   "marksman",

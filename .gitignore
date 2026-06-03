@@ -1,1 +1,25 @@
+# Secrets
 .env
+.env.*
+
+# Lazy.nvim lock file (plugin versions — machine-specific)
+lazy-lock.json
+
+# Diagnostics / one-off scripts
+diagnose_format.lua
+install_all_tools.lua
+install_mason_commands.txt
+image.py
+
+# Stray logs
+*.log
+log.txt
+
+# Empty assets / screenshots (regenerate if needed)
+assets/
+
+# Node artifacts (package-lock inside lua/)
+lua/Emeric/package-lock.json
+
+# Audit / generated reports
+AUDIT_REPORT.md

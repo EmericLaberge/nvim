@@ -6,8 +6,8 @@ return {
   config = function()
     ---@type opencode.Opts
 
-    -- Set environment variables for MiniMax before loading opencode
-    -- These will be used by the opencode CLI when making API calls
+    -- Configure MiniMax provider for opencode
+    -- WARNING: These set global ANTHROPIC_* env vars which may affect other plugins
     local minimax_key = os.getenv("MINIMAX_KEY")
     if minimax_key and minimax_key ~= "" then
       vim.env.ANTHROPIC_AUTH_TOKEN = minimax_key

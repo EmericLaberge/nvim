@@ -34,50 +34,6 @@ return {
     vim.api.nvim_set_hl(0, 'DapStoppedLine', { bg = '#2E3D28' })         -- fond vert foncé pour la ligne courante
     vim.api.nvim_set_hl(0, 'DapBreakpointRejected', { fg = '#565F89' })  -- gris
 
-    -- Python adapter (debugpy)
-    dap.adapters.python = {
-      type = 'executable',
-      command = vim.fn.stdpath('data') .. '/mason/packages/debugpy/venv/bin/python',
-      args = { '-m', 'debugpy.adapter' },
-    }
-
-    dap.configurations.python = {
-      {
-        type = 'python',
-        request = 'launch',
-        name = 'Launch file',
-        program = '${file}',
-        pythonPath = function()
-          local venv = os.getenv('VIRTUAL_ENV')
-          if venv then
-            return venv .. '/bin/python'
-          end
-          local cwd_venv = vim.fn.getcwd() .. '/.venv/bin/python'
-          if vim.fn.executable(cwd_venv) == 1 then
-            return cwd_venv
-          end
-          return 'python3'
-        end,
-      },
-      {
-        type = 'python',
-        request = 'launch',
-        name = 'Launch file with arguments',
-        program = '${file}',
-        args = function()
-          local input = vim.fn.input('Arguments: ')
-          return vim.split(input, ' ', { trimempty = true })
-        end,
-        pythonPath = function()
-          local venv = os.getenv('VIRTUAL_ENV')
-          if venv then
-            return venv .. '/bin/python'
-          end
-          return 'python3'
-        end,
-      },
-    }
-
     vim.keymap.set('n', '<leader>dc', function() dap.continue() end, { desc = 'Continue' })
     vim.keymap.set('n', '<leader>ds', function() dap.step_over() end, { desc = 'Step Over' })
     vim.keymap.set('n', '<leader>di', function() dap.step_into() end, { desc = 'Step Into' })

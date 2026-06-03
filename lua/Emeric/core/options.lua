@@ -82,3 +82,29 @@ opt.splitright = true -- split vertical window to the right
 opt.splitbelow = true -- split horizontal window to the bottom
 opt.iskeyword:append("-") -- consider string-string as whole word
 
+-- persistent undo across sessions
+opt.undofile = true
+
+-- no swap files (undo file replaces this)
+opt.swapfile = false
+
+-- faster CursorHold and diagnostics
+opt.updatetime = 250
+
+-- required for which-key
+opt.timeout = true
+opt.timeoutlen = 300
+
+-- keep lines visible around cursor
+opt.scrolloff = 8
+opt.sidescrolloff = 8
+
+-- show invisible characters
+opt.list = true
+opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
+
+-- global statusline (one bar for all windows)
+opt.laststatus = 3
+
+-- smoother scrolling
+opt.smoothscroll = true

@@ -34,34 +34,12 @@ keymap.set("n", "<leader>tp", ":tabp<CR>", { desc = "Previous Tab" })    --  go 
 ----------------------
 -- setup mapping to call :LazyGit
 keymap.set("n", "<leader>gg", ":LazyGit<CR>", { desc = "Open LazyGit" })
--- vim-maximizer
-keymap.set("n", "<leader>sm", ":MaximizerToggle<CR>", { desc = "Toggle Maximizer" }) -- toggle split window maximization
-
--- nvim-tree
-keymap.set("n", "<leader>tf", ":NvimTreeFocus<CR>", { desc = "Focus NvimTree" })        -- focus file explorer
-keymap.set("n", "<leader>tt", ":NvimTreeToggle<CR>", { desc = "Toggle NvimTree" })      -- toggle file explorer
-keymap.set("n", "<leader>ts", ":NvimTreeFindFile<CR>", { desc = "NvimTree Find File" }) -- open file explorer to current file
-keymap.set("n", "<leader>tc", ":NvimTreeCollapse<CR>", { desc = "NvimTree Collapse" })  -- collapse file tree
 
 
--- telescope
-keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Telescope Find Files" })            -- find files within current working directory, respects .gitignore
-keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Telescope Live Grep" })              -- find string in current working directory as you type
-keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "Telescope Grep String" })          -- find string under cursor in current working directory
-keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Telescope Buffers" })                  -- list open buffers in current neovim instance
-keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Telescope Help Tags" })              -- list available help tags
-keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>", { desc = "Telescope Git Commits" })          -- list all git commits (use <cr> to checkout) ["gc" for git commits]
-keymap.set("n", "<leader>gfc", "<cmd>Telescope git_bcommits<cr>", { desc = "Telescope Git Buffer Commits" }) -- list git commits for current file/buffer (use <cr> to checkout) ["gfc" for git file commits]
-keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>", { desc = "Telescope Git Branches" })        -- list git branches (use <cr> to checkout) ["gb" for git branch]
-keymap.set("n", "<leader>gs", "<cmd>Telescope git_status<cr>", { desc = "Telescope Git Status" })            -- list current changes per file with diff preview ["gs" for git status]
-
--- telescope git commands (not on youtube nvim video)
 
 -- restart lsp server (not on youtube nvim video)
 keymap.set("n", "<leader>rs", ":LspRestart<CR>", { desc = "Restart LSP" }) -- mapping to restart lsp if necessary
 
-
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc = "Netrw Explorer" })
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move Line Down (Visual)" })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move Line Up (Visual)" })
@@ -93,10 +71,10 @@ vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>", { de
 
 -- Formatting with conform.nvim
 vim.keymap.set({ "n", "v" }, "<leader>f", function()
-  require("conform").format({
-    lsp_fallback = true,
-    async = false,
-    timeout_ms = 1000,
+require("conform").format({
+  lsp_format = "fallback",
+  async = false,
+  timeout_ms = 1000,
   })
 end, { desc = "Format file or range (in visual mode)" })
 
@@ -161,7 +139,7 @@ end, { desc = "Run tool" })
 vim.keymap.set("n", "<leader>fp", function()
   local ft = vim.bo.filetype
   local conform = require("conform")
-  local default_formatters = conform.list_formatters_for_buffer(0)
+local default_formatters = conform.list_formatters(0)
   local extras = {
     python = { "yapf", "ruff_format" },
   }
@@ -273,18 +251,10 @@ vim.keymap.set("n", "<leader>o", function()
   })
 end, { desc = "Open File with Default Application" })
 
-vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.dotfiles/nvim/.config/nvim/lua/theprimeagen/packer.lua<CR>",
-  { desc = "Edit Packer Config (Old)" }); -- Note: Path seems specific
-vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>", { desc = "Cellular Automaton Rain" });
-
-vim.keymap.set("n", "<leader><leader>", function()
-  vim.cmd("so")
-end, { desc = "Source Current File" })
-
 -- Key mapping to toggle tiny-inline-diagnostic
 vim.keymap.set("n", "<leader>l", "<cmd>TinyInlineDiag toggle<cr>", { desc = "Toggle Inline Diagnostics" })
 
-vim.api.nvim_set_keymap('n', 'fw', ":HopWord<CR>", { noremap = true, desc = "Hop Word" })
+vim.keymap.set('n', 'fw', ":HopWord<CR>", { desc = "Hop Word" })
 
 
 
@@ -300,16 +270,3 @@ vim.keymap.set("n", "<leader>cl", function()
 end, { noremap = true, desc = "Toggle Conceal Level" })
 
 
-local latex_keymap = vim.keymap
-
-latex_keymap.set("n", "<localleader>ll", "<cmd>VimtexCompile<CR>", { desc = "Vimtex - Compile" })
-latex_keymap.set("n", "<localleader>lv", "<cmd>VimtexView<CR>", { desc = "Vimtex - View PDF" })
-latex_keymap.set("n", "<localleader>le", "<cmd>VimtexErrors<CR>", { desc = "Vimtex - View Errors" })
-latex_keymap.set("n", "<localleader>lk", "<cmd>VimtexStop<CR>", { desc = "Vimtex - Stop Compilation" })
-latex_keymap.set("n", "<localleader>li", "<cmd>VimtexInfo<CR>", { desc = "Vimtex - Show Info" })
-latex_keymap.set("n", "<localleader>ls", "<cmd>VimtexTocOpen<CR>", { desc = "Vimtex - Open TOC" })
-latex_keymap.set("n", "<localleader>lt", "<cmd>VimtexTocToggle<CR>", { desc = "Vimtex - Toggle TOC" })
-latex_keymap.set("n", "<localleader>lc", "<cmd>VimtexClean<CR>", { desc = "Vimtex - Clean Aux Files" })
-latex_keymap.set("n", "<localleader>lC", "<cmd>VimtexClean!<CR>", { desc = "Vimtex - Clean Full" })
-latex_keymap.set("n", "<localleader>lm", "<cmd>VimtexImaps<CR>", { desc = "Vimtex - List Imaps" })
-latex_keymap.set("n", "<localleader>lq", "<cmd>VimtexLog<CR>", { desc = "Vimtex - Show Log" })

@@ -1,31 +1,24 @@
 return {
   "nvim-treesitter/nvim-treesitter",
-  branch = "main", -- Use the new rewrite
   lazy = false,
   config = function()
+    -- Compiler preference for parser compilation
     require('nvim-treesitter.install').compilers = { "gcc-15", "cc", "clang" }
-    -- 1. Install Parsers Manually
-    -- The "ensure_installed" option is gone. You must explicitly call install.
+
+    -- Install parsers not bundled with Neovim 0.12
+    -- (Common ones like lua, vim, python, c, markdown are already included)
     require("nvim-treesitter").install({
-      "c", "lua", "vim", "vimdoc", "query",
-      "markdown", "markdown_inline", "python",
-      "latex", "bibtex"
+      "bibtex",
     })
 
+    -- Disable treesitter for LaTeX so VimTeX handles syntax
     vim.api.nvim_create_autocmd("FileType", {
       callback = function(args)
-        -- DISABLE treesitter for latex to let VimTeX handle syntax
-        if vim.bo[args.buf].filetype == "latex" or vim.bo[args.buf].filetype == "tex" then
+        local ft = vim.bo[args.buf].filetype
+        if ft == "latex" or ft == "tex" then
           return
         end
-
-        -- Enable native Highlighting for everything else
-        local ok = pcall(vim.treesitter.start, args.buf)
-
-        -- Enable native Indentation
-        if ok then
-          vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-        end
+        pcall(vim.treesitter.start, args.buf)
       end,
     })
   end,
